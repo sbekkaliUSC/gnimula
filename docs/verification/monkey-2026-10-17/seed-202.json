@@ -1,0 +1,87 @@
+{
+  "startedAt": "2026-10-17T08:02:56.495091+00:00",
+  "url": "https://gnimula.stream",
+  "seed": 202,
+  "requestedSteps": 180,
+  "localAssets": false,
+  "passed": false,
+  "failure": "server error during chaos run",
+  "finishedAt": "2026-10-17T08:03:56.792838+00:00",
+  "completedStep": 180,
+  "actions": {
+    "canvas": 32,
+    "place": 3,
+    "viewport": 10,
+    "button": 68,
+    "keyboard": 27,
+    "input": 26,
+    "not-completed": 14
+  },
+  "checkpoints": [
+    {
+      "step": 0,
+      "revision": 0,
+      "documentSha256": "d77c696ebe5f145382ffefa740dadf587bebb8c78ff718c3c55c434e38f3e8bf",
+      "components": 6,
+      "shapes": 6,
+      "wires": 8,
+      "eventsRead": 3
+    },
+    {
+      "step": 45,
+      "revision": 0,
+      "documentSha256": "d77c696ebe5f145382ffefa740dadf587bebb8c78ff718c3c55c434e38f3e8bf",
+      "components": 6,
+      "shapes": 6,
+      "wires": 8,
+      "eventsRead": 24
+    },
+    {
+      "step": 90,
+      "revision": 5,
+      "documentSha256": "36e1e3cdfffec4cdddeff876b5027c714aa9d543cbe2772111cead07ab284fa7",
+      "components": 8,
+      "shapes": 6,
+      "wires": 8,
+      "eventsRead": 57
+    },
+    {
+      "step": 135,
+      "revision": 7,
+      "documentSha256": "bc4696d017a380d676de245dd96c50c6678170ec00136585013b8ab328109e8d",
+      "components": 8,
+      "shapes": 6,
+      "wires": 8,
+      "eventsRead": 82
+    },
+    {
+      "step": 180,
+      "revision": 0,
+      "documentSha256": "9f37245fc2ad60271071e7be5ddbdd9de4ae8f065e71240938e5c1136275d12b",
+      "components": 6,
+      "shapes": 6,
+      "wires": 9,
+      "eventsRead": 3
+    }
+  ],
+  "javascriptErrors": [],
+  "httpErrors": [
+    {
+      "step": 65,
+      "path": "/api/library/discover",
+      "status": 502,
+      "detail": "The public provider is temporarily unavailable. Retry this source shortly.",
+      "qaBudget": false
+    }
+  ],
+  "notifications": [
+    {
+      "step": 65,
+      "text": "The public provider is temporarily unavailable. Retry this source shortly. Retry search SKY130 collection"
+    }
+  ],
+  "paidRequests": {},
+  "blockedByQABudget": {},
+  "disposableGuestRemoved": true,
+  "candidate": "cd584357"
+}

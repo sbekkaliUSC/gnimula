@@ -1,0 +1,105 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: SKY130 op amp · variant 1 — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "SKY130 op amp · variant 1" [selected]
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 23
+  - button "VDD voltage"
+  - button "VSS voltage"
+  - button "I__MB1 current"
+  - button "VSIG voltage"
+  - button "VREF_IN voltage"
+  - button "XMM8 nmos"
+  - button "XMM7 nmos"
+  - button "XMM3 nmos"
+  - button "XMM0 nmos"
+  - button "XMM4 nmos"
+  - button "XMM6 pmos"
+  - button "XMM5 pmos"
+  - button "XMM1 pmos"
+  - button "XMM2 pmos"
+  - button "XMM2_1 nmos"
+  - button "XMM10 nmos"
+  - button "XMM1_1 pmos"
+  - button "XMM0_1 pmos"
+  - button "RR1 resistor"
+  - button "RRF resistor"
+  - button "XMM0_2 nmos"
+  - button "CL capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: SKY130 op amp · variant 1 Generated netlist r0 GENERATED FROM YOUR SCHEMATIC
+  - heading "SPICE netlist" [level=2]
+  - button "Export .cir"
+  - text: Gnimula generated circuit * SKY130 1.8V tt models provisioned by Gnimula Vc7e82feb8766b40f9 n1 0 DC 1.8 AC 0 SIN(1.8 0 10000) Vc78a64805f5be4e5b n2 0 DC 0 AC 0 SIN(0 0 10000) Ic2d57c93dfa1543d8 n3 n2 DC 0.00007059228 Vc35c765c6b7e64501 in 0 DC 0.9 AC 1 SIN(0.9 0 10000) Vcf6de3a95fdc544a0 n4 0 DC 0.9 AC 0 SIN(0.9 0 10000) XMceaff0d8878274c2f n5 n5 n2 n2 sky130_fd_pr__nfet_01v8 W=9.5168 L=0.436045 XMceb2ad99e781e4824 out n5 n2 n2 sky130_fd_pr__nfet_01v8 W=9.5168 L=0.436045 XMc09ce75cc84f94180 n6 in n7 n2 sky130_fd_pr__nfet_01v8 W=9.5168 L=0.436045 XMcf5d897b225e342fd n8 n4 n7 n2 sky130_fd_pr__nfet_01v8 W=9.5168 L=0.436045 XMceede6f3d4f8247bd n7 n9 n2 n2 sky130_fd_pr__nfet_01v8 W=19.0336 L=0.436045 XMcec687e9cf1624938 n5 n8 n1 n1 sky130_fd_pr__pfet_01v8 W=9.5168 L=0.436045 XMcf2f0ff979e084dd7 out n6 n1 n1 sky130_fd_pr__pfet_01v8 W=9.5168 L=0.436045 XMcadedaec076514989 n6 n6 n1 n1 sky130_fd_pr__pfet_01v8 W=9.5168 L=0.436045 XMc89076726b0c64fac n8 n8 n1 n1 sky130_fd_pr__pfet_01v8 W=9.5168 L=0.436045 XMc18546b33ef514870 n9 n9 n2 n2 sky130_fd_pr__nfet_01v8 W=9.5168 L=0.436045 XMc065085815dd3450d n3 n10 n2 n2 sky130_fd_pr__nfet_01v8 W=9.5168 L=0.436045 XMcedc2cc0e57664f67 n9 n3 n1 n1 sky130_fd_pr__pfet_01v8 W=9.5168 L=0.436045 XMcc3d418ecc9f04570 n3 n3 n1 n1 sky130_fd_pr__pfet_01v8 W=9.5168 L=0.436045 Rce257922d2446469f n11 n2 10000 Rce2b35d8bf90d48a8 n1 n10 10000 XMcd8ee159d34f04cd2 n10 n10 n11 n2 sky130_fd_pr__nfet_01v8 W=9.5168 L=0.436045 Cc90e2b537078945c7 out 0 3.382419e-14 .model GN NMOS (LEVEL=1 VTO=0.7 KP=120u LAMBDA=0.01) .model GP PMOS (LEVEL=1 VTO=-0.7 KP=50u LAMBDA=0.01) .end
+  - paragraph: Connectivity is derived from terminal connections. MOS bodies use their explicit body terminal when present, otherwise they are tied to source.
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: SKY130 1.8 V typical models No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Improve this public SKY130 amplifier and verify gain and bias with the installed transistor models.
+  - combobox "PDK reference":
+    - option "Generic MOS"
+    - option "SKY130 reference" [selected]
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - text: SKY130 1.8 V typical models are installed for the tagged devices in this circuit.
+  - button "1 attached references"
+  - text: analogtobi_1824_s015.json
+  - button "Remove analogtobi_1824_s015.json"
+  - article: "You r0 I am a student opening this public SKY130 op amp for the first time. Explain the circuit and the exact simulation setup currently being used: supply, input bias and AC drive, output probe, load, analysis range and installed model corner. Explain what the measured result says, and suggest one modest load-capacitance change I can make to learn its effect. Do not change the design."
+  - article: Gnimula r0 The SKY130 op amp circuit is a complex analog circuit with multiple MOSFETs and resistors. The current simulation setup uses a supply voltage of 1.8V, with the input biased at 0.9V and an AC drive of 1V. The output is probed at node 'out' and there is a load capacitor of 3.382419e-14 F. The analysis range is from 1 Hz to 10 GHz with 100 points. The installed model corner is the typical corner of the SKY130 1.8V NFET/PFET models. The measured result shows a gain of around 31.47 dB across the frequency range. To learn the effect of load capacitance, you can try changing the value of the load capacitor 'c_90e2b537078945c7' to 1e-12 F.
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes"
+    - option "Ask · explain only" [selected]
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "2 actions syncing"
+  - text: SPICE

@@ -1,0 +1,101 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: RC low-pass filter — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "RC low-pass filter" [selected]
+    - option "analogtobi_0123"
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 4
+  - button "VIN voltage"
+  - button "R1 resistor"
+  - button "C1 capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: RC low-pass filter Schematic r0
+  - button "Select & move"
+  - button "Pan canvas"
+  - button "Wire terminals (W)"
+  - button "⊣ NMOS"
+  - button "⊢ PMOS"
+  - button "▱ R"
+  - button "Ⅱ C"
+  - button "⊕ V"
+  - button "↑ I"
+  - button "⏚ GND"
+  - button "Zoom out"
+  - text: 120%
+  - button "Zoom in"
+  - button "Focus selected device" [disabled]
+  - button "Reset view"
+  - img: VIN 0 V R1 1 kΩ C1 10 nF
+  - text: SCHEMATIC 20-unit grid 0, 0 120%
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: Generic educational models No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Explore this low-pass filter. Compare the measured corner frequency with 1/(2πRC).
+  - combobox "PDK reference":
+    - option "Generic MOS" [selected]
+    - option "SKY130 reference"
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - button "Open circuit library"
+  - group: rc.cir
+  - button "Remove rc.cir"
+  - heading "Work with your circuit." [level=3]
+  - paragraph: Explain the result you want, ask about the selected device, or request an edit. Attach a testbench or reference design to give the assistant context.
+  - button "Explain this circuit"
+  - button "Try a precise edit"
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes"
+    - option "Ask · explain only" [selected]
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "3 actions syncing"
+  - text: Schematic

@@ -1,0 +1,117 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: RC low-pass filter — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "RC low-pass filter" [selected]
+    - option "analogtobi_0123"
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 4
+  - button "VIN voltage"
+  - button "R1 resistor"
+  - button "C1 capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: RC low-pass filter Schematic r1
+  - button "Select & move"
+  - button "Pan canvas"
+  - button "Wire terminals (W)"
+  - button "⊣ NMOS"
+  - button "⊢ PMOS"
+  - button "▱ R"
+  - button "Ⅱ C"
+  - button "⊕ V"
+  - button "↑ I"
+  - button "⏚ GND"
+  - button "Zoom out"
+  - text: 250%
+  - button "Zoom in"
+  - button "Focus selected device"
+  - button "Reset view"
+  - img: VIN 0 V R1 2 kΩ C1 10 nF
+  - text: SCHEMATIC 20-unit grid 0, 0 250%
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: Generic educational models No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - heading "R1" [level=3]
+  - paragraph: Component
+  - text: Reference
+  - textbox "Reference": R1
+  - text: Resistance (Ω)
+  - spinbutton "Resistance (Ω)": "2000"
+  - text: X
+  - spinbutton "X": "360"
+  - text: "Y"
+  - spinbutton "Y": "160"
+  - button "Duplicate"
+  - button "Rotate (R)"
+  - button "Delete selected object"
+  - button "Suggest from selection"
+  - heading "SIMULATION" [level=4]
+  - text: Analysis
+  - combobox "Analysis type":
+    - option "AC frequency sweep" [selected]
+    - option "DC voltage sweep"
+    - option "Transient"
+  - text: Start frequency (Hz)
+  - spinbutton "Start frequency (Hz)": "10"
+  - text: Stop frequency (Hz)
+  - spinbutton "Stop frequency (Hz)": "1000000"
+  - text: Input source
+  - combobox "Input source":
+    - option "VIN.p" [selected]
+  - text: Output terminal
+  - combobox "Output terminal":
+    - option "VIN.p"
+    - option "VIN.n"
+    - option "R1.p"
+    - option "R1.n" [selected]
+    - option "C1.p"
+    - option "C1.n"
+    - option "G1.0"
+  - button "Run analysis"
+  - text: You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Schematic

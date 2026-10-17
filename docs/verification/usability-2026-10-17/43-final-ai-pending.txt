@@ -1,0 +1,116 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: SKY130 op amp · variant 1 — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation" [disabled]
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "ocb_sky130_101_00176"
+    - option "SKY130 op amp · variant 1" [selected]
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 23
+  - button "VDD voltage"
+  - button "VSS voltage"
+  - button "I__MB1 current"
+  - button "VSIG voltage"
+  - button "VREF_IN voltage"
+  - button "XMM8 nmos"
+  - button "XMM7 nmos"
+  - button "XMM3 nmos"
+  - button "XMM0 nmos"
+  - button "XMM4 nmos"
+  - button "XMM6 pmos"
+  - button "XMM5 pmos"
+  - button "XMM1 pmos"
+  - button "XMM2 pmos"
+  - button "XMM2_1 nmos"
+  - button "XMM10 nmos"
+  - button "XMM1_1 pmos"
+  - button "XMM0_1 pmos"
+  - button "RR1 resistor"
+  - button "RRF resistor"
+  - button "XMM0_2 nmos"
+  - button "CL capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: SKY130 op amp · variant 1 Analysis r1 MEASURED RESPONSE
+  - heading "AC frequency sweep" [level=2]
+  - button "Show phase"
+  - img "Gain (dB) plot": 36.7 1 24.1 100 11.6 10 k -0.994 1 M -13.6 100 M -26.1 10 G Frequency (Hz) Gain (dB)
+  - text: Operating output
+  - strong: 810 mV
+  - text: Samples
+  - strong: "1001"
+  - text: Solver time
+  - strong: 3404 ms
+  - text: Design revision
+  - strong: r1
+  - paragraph: SKY130 1.8 V NFET/PFET · typical corner (generic models only for any untagged MOS)
+  - group: ngspice output
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: SKY130 1.8 V typical models No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Improve this public SKY130 amplifier and verify gain and bias with the installed transistor models.
+  - combobox "PDK reference":
+    - option "Generic MOS"
+    - option "SKY130 reference" [selected]
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - text: SKY130 1.8 V typical models are installed for the tagged devices in this circuit.
+  - button "Open circuit library"
+  - group: analogtobi_1824_s015.json
+  - button "Remove analogtobi_1824_s015.json"
+  - article: "You r0 I am a student opening this public SKY130 op amp for the first time. Explain the circuit and the exact simulation setup currently being used: supply, input bias and AC drive, output probe, load, analysis range and installed model corner. Explain what the measured result says, and suggest one modest load-capacitance change I can make to learn its effect. Do not change the design."
+  - article: Gnimula r0 The SKY130 op amp circuit is a complex analog circuit with multiple MOSFETs and resistors. The current simulation setup uses a supply voltage of 1.8V, with the input biased at 0.9V and an AC drive of 1V. The output is probed at node 'out' and there is a load capacitor of 3.382419e-14 F. The analysis range is from 1 Hz to 10 GHz with 100 points. The installed model corner is the typical corner of the SKY130 1.8V NFET/PFET models. The measured result shows a gain of around 31.47 dB across the frequency range. To learn the effect of load capacitance, you can try changing the value of the load capacitor 'c_90e2b537078945c7' to 1e-12 F.
+  - text: Reading your design and references…
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes"
+    - option "Ask · explain only" [selected]
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Simulation

@@ -1,0 +1,45 @@
+# Local credentials and sessions
+.env
+.env.*
+!.env.example
+*.cookies.txt
+cookies.txt
+secrets/
+
+# JavaScript build and dependencies
+node_modules/
+dist/
+.next/
+coverage/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Local runtime data and model artifacts
+runtime/
+data/private/
+data/raw/
+models/
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.log
+
+# Local editor and OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Deployment emulator and transient build artifacts
+.wrangler/
+.dev.vars
+.dev.vars.*
+*.tsbuildinfo

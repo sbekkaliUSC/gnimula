@@ -1,0 +1,26 @@
+{
+  "repository": "google/skywater-pdk-libs-sky130_fd_pr",
+  "revision": "f62031a1be9aefe902d6d54cddd6f59b57627436",
+  "license": "Apache-2.0",
+  "order": [
+    "models/all.spice",
+    "models/parameters/lod.spice",
+    "cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.corner.spice",
+    "cells/nfet_01v8/sky130_fd_pr__nfet_01v8__mismatch.corner.spice",
+    "cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice",
+    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.corner.spice",
+    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__mismatch.corner.spice",
+    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.pm3.spice"
+  ],
+  "files": {
+    "models/all.spice": "5739aa5c696842bff5e4cd2774fb27a25dc64c92a7086632763e06647bccb0de",
+    "models/parameters/lod.spice": "6200b50c14eebb68d8009ca68e452d4c045e2d25d7438ee417c155883527fd7c",
+    "cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.corner.spice": "0c03b2e5727c414942f1d2b27e19a68724fb84be90b2c73b361ad41779311130",
+    "cells/nfet_01v8/sky130_fd_pr__nfet_01v8__mismatch.corner.spice": "24a3b29d7d7f26f99098811c31eb5497950a3aed520ab83768a96f35467fe818",
+    "cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice": "3d706d50cf2e57175aea78bcf27e4ee07d9f750b154a4b06e6090531364a831b",
+    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.corner.spice": "641d251a08bf9ddcfc67ba4bd4698ae1978d09447eb6ebf90055fdf3d21917ab",
+    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__mismatch.corner.spice": "f4d560668712678ea60641de923fce7691e64acda951949f840986837c31741a",
+    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.pm3.spice": "bf40d8c358fc11998f60f3734208dce44c206b0007a51c7bb5680f55d41a5c55",
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  }
+}

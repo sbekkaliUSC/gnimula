@@ -1,0 +1,276 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: ocb_sky130_101_00176 — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "ocb_sky130_101_00176" [selected]
+    - option "SKY130 op amp · variant 1"
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 32
+  - button "VDD voltage"
+  - button "VSS voltage"
+  - button "VSIG voltage"
+  - button "XM_CS0 nmos"
+  - button "XM_LD0 pmos"
+  - button "I_TAIL0 current"
+  - button "XM_MB0 pmos"
+  - button "I_MB0 current"
+  - button "C0 capacitor"
+  - button "XM_CS1 nmos"
+  - button "XM_LD1 pmos"
+  - button "I_TAIL1 current"
+  - button "XM_MB1 pmos"
+  - button "I_MB1 current"
+  - button "C1 capacitor"
+  - button "XM_CS2 nmos"
+  - button "XM_LD2 pmos"
+  - button "I_TAIL2 current"
+  - button "XM_MB2 pmos"
+  - button "I_MB2 current"
+  - button "C2 capacitor"
+  - button "XM_CS3 nmos"
+  - button "XM_LD3 pmos"
+  - button "I_TAIL3 current"
+  - button "XM_MB3 pmos"
+  - button "I_MB3 current"
+  - button "C3 capacitor"
+  - button "R4 resistor"
+  - button "R5 resistor"
+  - button "C6 capacitor"
+  - button "CL capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: ocb_sky130_101_00176 Circuit library r0 CIRCUIT LIBRARY
+  - heading "Find your next circuit." [level=2]
+  - paragraph: Search public circuit datasets and repositories. Open supported designs directly with connections, models and a testbench, or start with a prepared example.
+  - tablist "Library sections":
+    - tab "Online circuits" [selected]
+    - tab "Starter circuits"
+    - tab "Circuit tools"
+  - text: Source
+  - combobox "Online source":
+    - option "Hugging Face" [selected]
+    - option "GitHub"
+  - text: Collection
+  - combobox "Circuit collection":
+    - option "SKY130 analog circuits" [selected]
+    - option "LTspice circuit records"
+    - option "CircuitFormer records"
+    - option "Find more sources…"
+  - button "Find sources"
+  - textbox "Search online circuits": amplifier
+  - button "Search"
+  - link "pphilip/analog-circuits-sky130":
+    - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+  - text: Searches text in this dataset. Parameter variants may share a topology. Partition
+  - combobox "Dataset partition":
+    - option "failed · with_testbench (2,183)"
+    - option "test · with_testbench (19,402)"
+    - option "train · with_testbench (89,708)" [selected]
+    - option "validation · with_testbench (19,116)"
+  - text: "Search matches circuit identifiers, topology, upstream source and PDK metadata, not full netlist text. Index snapshot: 2026-10-17T08:08:54.957639+00:00; circuit records are fetched from Hugging Face before use. Records include parameter variants; matching records are not all unique topologies. Only successfully prepared records can be opened."
+  - strong: 51,133 matching circuit metadata records in this split
+  - text: 130,409 records across this representation’s partitions. Alternate representations are not additional circuits. Ready means importer checks passed; run the testbench to measure behavior.
+  - checkbox "Ready on this page"
+  - text: Ready on this page
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00176" [level=3]
+    - paragraph: operational amplifier · 31 components · prepared AC testbench
+    - text: 31 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=0
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00146" [level=3]
+    - paragraph: operational amplifier · 28 components · prepared AC testbench
+    - text: 28 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=1
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00065" [level=3]
+    - paragraph: operational amplifier · 27 components · prepared AC testbench
+    - text: 27 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=2
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00084" [level=3]
+    - paragraph: operational amplifier · 33 components · prepared AC testbench
+    - text: 33 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=3
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00165" [level=3]
+    - paragraph: operational amplifier · 40 components · prepared AC testbench
+    - text: 40 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=4
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00104" [level=3]
+    - paragraph: operational amplifier · 32 components · prepared AC testbench
+    - text: 32 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=5
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00196" [level=3]
+    - paragraph: operational amplifier · 27 components · prepared AC testbench
+    - text: 27 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=6
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00085" [level=3]
+    - paragraph: operational amplifier · 33 components · prepared AC testbench
+    - text: 33 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=7
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00118" [level=3]
+    - paragraph: operational amplifier · 29 components · prepared AC testbench
+    - text: 29 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=8
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00133" [level=3]
+    - paragraph: operational amplifier · 33 components · prepared AC testbench
+    - text: 33 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=9
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00142" [level=3]
+    - paragraph: operational amplifier · 38 components · prepared AC testbench
+    - text: 38 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=10
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "ocb_sky130_101_00140" [level=3]
+    - paragraph: operational amplifier · 40 components · prepared AC testbench
+    - text: 40 components · operational_amplifier
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=11
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - button "Previous" [disabled]
+  - text: 1–12 of 51,133
+  - button "Next"
+  - group: Have a public circuit link?
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Explore and improve this public SKY130 circuit. Use the prepared testbench as the source of truth; verify behavior with fresh simulation.
+  - combobox "PDK reference":
+    - option "Generic MOS"
+    - option "SKY130 reference" [selected]
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - text: SKY130 1.8 V typical models are installed for the tagged devices in this circuit.
+  - button "Open circuit library"
+  - group: ocb_sky130_101_00176.json
+  - button "Remove ocb_sky130_101_00176.json"
+  - article: You r0 I am a student and would like to take this imported SKY130 amplifier from simulation through physical layout to tapeout. The Layout view is empty and says concept layout and arbitrary grid units. What can Gnimula actually do today, and what still requires external tools or foundry review? Please be explicit about schematic-to-layout generation, real PDK devices and units, DRC, LVS, parasitic extraction, GDSII export, and manufacturing signoff. Do not edit anything or imply the current project is tapeout-ready.
+  - article: Gnimula r0 Gnimula can assist with editing the schematic, updating the netlist, and proposing changes to improve the circuit. However, schematic-to-layout generation, DRC, LVS, parasitic extraction, and manufacturing signoff require external tools or foundry review. Gnimula can help prepare the circuit for these steps, but actual layout creation, verification, and tapeout preparation need to be done using specialized software and in accordance with the foundry's requirements.
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes" [selected]
+    - option "Ask · explain only"
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Library

@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-10-17T07:29:48.423818+00:00",
+  "url": "https://gnimula.stream",
+  "checks": [
+    "Pre-release guest retains training disabled",
+    "New guest starts enabled with disclosure; no deletion control or banner",
+    "Opt-out persists after reload and session refresh",
+    "Export still works and reflects disabled training"
+  ],
+  "javascriptErrors": [],
+  "disposableGuestsRemoved": true
+}

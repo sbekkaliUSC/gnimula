@@ -1,0 +1,123 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: ocb_sky130_101_00176 — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "ocb_sky130_101_00176" [selected]
+    - option "SKY130 op amp · variant 1"
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: LAYERS 0
+  - checkbox "active" [checked]
+  - text: active
+  - checkbox "poly" [checked]
+  - text: poly
+  - checkbox "metal1" [checked]
+  - text: metal1
+  - checkbox "metal2" [checked]
+  - text: metal2
+  - checkbox "contact" [checked]
+  - text: contact
+  - checkbox "via1" [checked]
+  - text: via1 START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: ocb_sky130_101_00176 Concept layout r0
+  - button "Select & move"
+  - button "Pan canvas"
+  - button "Draw rectangle"
+  - combobox "Drawing layer":
+    - option "active"
+    - option "poly"
+    - option "metal1" [selected]
+    - option "metal2"
+    - option "contact"
+    - option "via1"
+  - button "Zoom out"
+  - text: 48%
+  - button "Zoom in"
+  - button "Reset view"
+  - img
+  - text: Concept layout · arbitrary grid units 20-unit grid 0, 0 48%
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: Geometry guides · not PDK DRC/LVS No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Explore and improve this public SKY130 circuit. Use the prepared testbench as the source of truth; verify behavior with fresh simulation.
+  - combobox "PDK reference":
+    - option "Generic MOS"
+    - option "SKY130 reference" [selected]
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - text: SKY130 1.8 V typical models are installed for the tagged devices in this circuit.
+  - button "1 attached references"
+  - text: ocb_sky130_101_00176.json
+  - button "Remove ocb_sky130_101_00176.json"
+  - article: You r0 I am a student and would like to take this imported SKY130 amplifier from simulation through physical layout to tapeout. The Layout view is empty and says concept layout and arbitrary grid units. What can Gnimula actually do today, and what still requires external tools or foundry review? Please be explicit about schematic-to-layout generation, real PDK devices and units, DRC, LVS, parasitic extraction, GDSII export, and manufacturing signoff. Do not edit anything or imply the current project is tapeout-ready.
+  - article: Gnimula r0 Gnimula can assist with editing the schematic, updating the netlist, and proposing changes to improve the circuit. However, schematic-to-layout generation, DRC, LVS, parasitic extraction, and manufacturing signoff require external tools or foundry review. Gnimula can help prepare the circuit for these steps, but actual layout creation, verification, and tapeout preparation need to be done using specialized software and in accordance with the foundry's requirements.
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes"
+    - option "Ask · explain only" [selected]
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Layout
+- dialog "settings":
+  - text: GNIMULA WORKBENCH
+  - button "Close dialog"
+  - heading "Settings" [level=1]
+  - navigation "Settings sections":
+    - button "Editor"
+    - button "Data controls"
+  - region "Data controls":
+    - heading "Data controls" [level=2]
+    - strong: Use my data for model training
+    - text: Includes projects, chats, and editor actions. Enabled by default for new guest sessions. You can turn it off.
+    - checkbox "Use my data for model training Includes projects, chats, and editor actions. Enabled by default for new guest sessions. You can turn it off."
+    - paragraph: This preference is saved for your guest session. No training job currently uses these records.
+    - heading "Guest session" [level=3]
+    - paragraph: Your guest session lasts 30 days. Keep this browser's cookie to return. Export a copy before clearing browser data.
+    - button "Export this project & activity"
+  - button "Legal & privacy"

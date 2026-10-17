@@ -1,0 +1,9 @@
+{
+  "repo": "ngspice/ngspice",
+  "revision": "032b1c32c4dbad45ff132bcfac1dbecadbd8abb0",
+  "path": "examples/measure/rc-meas-ac.sp",
+  "content": "RC band pass example circuit\n* This netlist demonstrates the following:\n* global nodes (vdd, gnd)\n\n* .measure statements for delay and an example ternary operator\n\n* You can run the example circuit with this command:\n*\n* ngspice rc-meas-ac.sp\n\n\n* global nodes\n.global vdd gnd\n\n* autostop -- stop simulation early if .measure statements done\n*.option autostop\n\nvin in gnd  dc 0 ac 1\n\nR1 in mid1 1k\nc1 mid1 gnd 1n\nC2 mid1 out 500p\nR2 out gnd 1k\n\n.ac DEC 10 1k 10MEG\n\n.meas ac vout_at FIND v(out) AT=1MEG\n.meas ac vout_atr FIND vr(out) AT=1MEG\n.meas ac vout_ati FIND vi(out) AT=1MEG\n.meas ac vout_atm FIND vm(out) AT=1MEG\n.meas ac vout_atp FIND vp(out) AT=1MEG\n.meas ac vout_atd FIND vdb(out) AT=1MEG\n.meas ac vout_max max v(out) from=1k to=10MEG\n.meas ac freq_at when v(out)=0.1\n.meas ac vout_diff trig v(out)  val=0.1   rise=1 targ v(out) val=0.1   fall=1\n.meas ac fixed_diff trig AT = 10k targ v(out) val=0.1   rise=1\n.meas ac vout_avg  avg   v(out)  from=10k to=1MEG\n.meas ac vout_integ integ v(out) from=20k to=500k\n.meas ac freq_at2 when v(out)=0.1 fall=LAST\n.meas ac bw_chk param='(vout_diff < 100k) ? 1 : 0'\n.meas ac bw_chk2 param='(vout_diff > 500k) ? 1 : 0'\n.meas ac vout_rms rms v(out) from=10 to=1G\n\n.control\nrun\n*rusage all\nplot v(out)\nplot ph(v(out))\nplot mag(v(out))\nplot db(v(out))\n.endc\n\n.end\n\n",
+  "sha256": "896eb7c9cf78f0a3b5635842ac9e4b42312f9928e0eb4d9a60a49f00e4b8068c",
+  "url": "https://github.com/ngspice/ngspice/blob/032b1c32c4dbad45ff132bcfac1dbecadbd8abb0/examples/measure/rc-meas-ac.sp",
+  "license": "ngspice source distribution; see original headers and COPYING"
+}

@@ -1,0 +1,178 @@
+- banner:
+  - link "gnimula":
+    - /url: /
+  - navigation:
+    - button "File"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: RC low-pass filter Circuit library r2 CIRCUIT LIBRARY
+  - heading "Find your next circuit." [level=2]
+  - paragraph: Search public circuit datasets and repositories. Open supported designs directly with connections, models and a testbench, or start with a prepared example.
+  - tablist "Library sections":
+    - tab "Online circuits" [selected]
+    - tab "Starter circuits"
+    - tab "Circuit tools"
+  - text: Source
+  - combobox "Online source":
+    - option "Hugging Face" [selected]
+    - option "GitHub"
+  - text: Collection
+  - combobox "Circuit collection":
+    - option "SKY130 analog circuits" [selected]
+    - option "LTspice circuit records"
+    - option "CircuitFormer records"
+    - option "Find more sources…"
+  - button "Find sources"
+  - textbox "Search online circuits"
+  - button "Search"
+  - link "pphilip/analog-circuits-sky130":
+    - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+  - text: Searches text in this dataset. Parameter variants may share a topology.
+  - group: Source details & partitions
+  - strong: 89,708 records in this split
+  - text: 130,409 records across partitions, including parameter variants. Ready means importer checks passed; run the testbench to measure behavior.
+  - checkbox "Ready on this page"
+  - text: Ready on this page
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00176
+    - paragraph: operational amplifier · 31 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=0
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00146
+    - paragraph: operational amplifier · 28 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=1
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00065
+    - paragraph: operational amplifier · 27 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=2
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00084
+    - paragraph: operational amplifier · 33 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=3
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00165
+    - paragraph: operational amplifier · 40 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=4
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00104
+    - paragraph: operational amplifier · 32 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=5
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00196
+    - paragraph: operational amplifier · 27 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=6
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00085
+    - paragraph: operational amplifier · 33 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=7
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00118
+    - paragraph: operational amplifier · 29 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=8
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00133
+    - paragraph: operational amplifier · 33 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=9
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00142
+    - paragraph: operational amplifier · 38 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=10
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Operational amplifier" [level=3]
+    - text: Publisher category · ocb_sky130_101_00140
+    - paragraph: operational amplifier · 40 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=11
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - button "Previous" [disabled]
+  - text: 1–12 of 89,708
+  - button "Next"
+  - group: Have a public circuit link?
+- contentinfo:
+  - text: Saved to cloud
+  - button "2 actions syncing"
+  - text: Library

@@ -1,0 +1,126 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: ocb_sky130_101_00176 — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "ocb_sky130_101_00176" [selected]
+    - option "SKY130 op amp · variant 1"
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 32
+  - button "VDD voltage"
+  - button "VSS voltage"
+  - button "VSIG voltage"
+  - button "XM_CS0 nmos"
+  - button "XM_LD0 pmos"
+  - button "I_TAIL0 current"
+  - button "XM_MB0 pmos"
+  - button "I_MB0 current"
+  - button "C0 capacitor"
+  - button "XM_CS1 nmos"
+  - button "XM_LD1 pmos"
+  - button "I_TAIL1 current"
+  - button "XM_MB1 pmos"
+  - button "I_MB1 current"
+  - button "C1 capacitor"
+  - button "XM_CS2 nmos"
+  - button "XM_LD2 pmos"
+  - button "I_TAIL2 current"
+  - button "XM_MB2 pmos"
+  - button "I_MB2 current"
+  - button "C2 capacitor"
+  - button "XM_CS3 nmos"
+  - button "XM_LD3 pmos"
+  - button "I_TAIL3 current"
+  - button "XM_MB3 pmos"
+  - button "I_MB3 current"
+  - button "C3 capacitor"
+  - button "R4 resistor"
+  - button "R5 resistor"
+  - button "C6 capacitor"
+  - button "CL capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: ocb_sky130_101_00176 Analysis r0 MEASURED RESPONSE
+  - heading "AC frequency sweep" [level=2]
+  - button "Show phase"
+  - img "Gain (dB) plot": "-23.8 1 -49.2 100 -74.6 10 k -99.9 1 M -125 100 M -151 10 G Frequency (Hz) Gain (dB)"
+  - text: Operating output
+  - strong: 184.8 mV
+  - text: Samples
+  - strong: "1001"
+  - text: Solver time
+  - strong: 2045 ms
+  - text: Design revision
+  - strong: r0
+  - paragraph: SKY130 1.8 V NFET/PFET · typical corner (generic models only for any untagged MOS)
+  - group: ngspice output
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: SKY130 1.8 V typical models No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Explore and improve this public SKY130 circuit. Use the prepared testbench as the source of truth; verify behavior with fresh simulation.
+  - combobox "PDK reference":
+    - option "Generic MOS"
+    - option "SKY130 reference" [selected]
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - text: SKY130 1.8 V typical models are installed for the tagged devices in this circuit.
+  - button "1 attached references"
+  - text: ocb_sky130_101_00176.json
+  - button "Remove ocb_sky130_101_00176.json"
+  - heading "Work with your circuit." [level=3]
+  - paragraph: Explain the result you want, ask about the selected device, or request an edit. Attach a testbench or reference design to give the assistant context.
+  - button "Explain this circuit"
+  - button "Try a precise edit"
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes" [selected]
+    - option "Ask · explain only"
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Simulation

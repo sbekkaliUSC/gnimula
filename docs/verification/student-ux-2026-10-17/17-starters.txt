@@ -1,0 +1,183 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: analogtobi_0123 — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "analogtobi_0123" [selected]
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 10
+  - button "VDD voltage"
+  - button "VSS voltage"
+  - button "V__VB1 voltage"
+  - button "VSIG voltage"
+  - button "R1 resistor"
+  - button "R0 resistor"
+  - button "XM0 nmos"
+  - button "C0 capacitor"
+  - button "CL capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: analogtobi_0123 Circuit library r0 CIRCUIT LIBRARY
+  - heading "Find your next circuit." [level=2]
+  - paragraph: Search public circuit datasets and repositories. Open supported designs directly with connections, models and a testbench, or start with a prepared example.
+  - tablist "Library sections":
+    - tab "Online circuits"
+    - tab "Starter circuits" [selected]
+    - tab "Circuit tools"
+  - textbox "Search design library"
+  - combobox "Artifact type":
+    - option "Everything ready to use" [selected]
+    - option "Complete circuits"
+    - option "Testbenches"
+    - option "Input signals"
+    - option "Layout building blocks"
+  - combobox "Library PDK filter":
+    - option "All models" [selected]
+    - option "Generic / passive"
+    - option "SKY130 1.8 V"
+  - combobox "Library provider":
+    - option "All sources" [selected]
+    - option "Gnimula"
+    - option "GitHub"
+    - option "Hugging Face"
+  - text: 9 available · existing projects stay saved
+  - article:
+    - text: Circuit Generic / passive
+    - heading "RC low-pass filter" [level=3]
+    - paragraph: A wired filter with a 15.9 kHz corner. Open it and measure the frequency response.
+    - text: Gnimula · editable schematic + testbench
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit Generic / passive
+    - heading "Common-source amplifier" [level=3]
+    - paragraph: A biased NMOS gain stage with a supply, signal source, load and AC testbench.
+    - text: Gnimula · editable schematic + testbench
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit Generic / passive
+    - heading "NMOS current mirror" [level=3]
+    - paragraph: A matched transistor pair, reference resistor and loaded output, ready for a supply sweep.
+    - text: Gnimula · editable schematic + testbench
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit Generic / passive
+    - heading "RC high-pass filter" [level=3]
+    - paragraph: A 15.9 kHz high-pass filter with its signal source and output probe connected.
+    - text: Gnimula · editable schematic + testbench
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit SKY130 · TT
+    - heading "SKY130 amplifier" [level=3]
+    - paragraph: A 1.8 V NMOS stage using the installed open SKY130 typical transistor model.
+    - text: Gnimula · editable schematic + testbench
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit Generic / passive
+    - heading "ngspice RC band-pass filter" [level=3]
+    - paragraph: Open the official ngspice example as a wired, editable circuit with its AC sweep already set up.
+    - text: GitHub · editable schematic + testbench
+    - link "Source & attribution":
+      - /url: https://github.com/ngspice/ngspice/blob/032b1c32c4dbad45ff132bcfac1dbecadbd8abb0/examples/measure/rc-meas-ac.sp
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit SKY130 · TT
+    - heading "SKY130 op amp · variant 1" [level=3]
+    - paragraph: 31.5 dB at 1 Hz in our prepared testbench. Editable public circuit with models installed.
+    - text: Hugging Face · editable schematic + testbench
+    - group: About this design
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit SKY130 · TT
+    - heading "SKY130 op amp · variant 2" [level=3]
+    - paragraph: 29.8 dB at 1 Hz in our prepared testbench. Editable public circuit with models installed.
+    - text: Hugging Face · editable schematic + testbench
+    - group: About this design
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+    - button "Open circuit"
+    - button "Open & run"
+  - article:
+    - text: Circuit SKY130 · TT
+    - heading "SKY130 op amp · variant 3" [level=3]
+    - paragraph: 31.4 dB at 1 Hz in our prepared testbench. Editable public circuit with models installed.
+    - text: Hugging Face · editable schematic + testbench
+    - group: About this design
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+    - button "Open circuit"
+    - button "Open & run"
+  - group: Have a public circuit link?
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Explore and improve this public SKY130 circuit. Use the prepared testbench as the source of truth; verify behavior with fresh simulation.
+  - combobox "PDK reference":
+    - option "Generic MOS"
+    - option "SKY130 reference" [selected]
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - text: SKY130 1.8 V typical models are installed for the tagged devices in this circuit.
+  - button "Open circuit library"
+  - group: analogtobi_0123.json
+  - button "Remove analogtobi_0123.json"
+  - article: You r0 I searched for a current mirror and opened this example. As a student, explain whether this is actually a current mirror, what the source and installed model are, which input/output and analysis I should use, and what running it will establish. Please do not change the circuit.
+  - article: Gnimula r0 This circuit is not a current mirror. A current mirror is a circuit that replicates a current from one branch to another. The source of this circuit is a prepared testbench from the analogtobi dataset, and the installed model is the SKY130 1.8V typical model. The input is VSIG, and the output is R0.n. The analysis is an AC gain testbench. Running this simulation will establish the AC gain of the circuit, but it will not demonstrate current mirroring functionality.
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes"
+    - option "Ask · explain only" [selected]
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "1 actions syncing"
+  - text: Library

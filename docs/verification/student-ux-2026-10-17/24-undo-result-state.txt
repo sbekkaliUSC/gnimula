@@ -1,0 +1,102 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: RC low-pass filter — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "RC low-pass filter" [selected]
+    - option "analogtobi_0123"
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 4
+  - button "VIN voltage"
+  - button "R1 resistor"
+  - button "C1 capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: RC low-pass filter Analysis r2 Circuit changed since this result. Run again to measure revision 2. MEASURED RESPONSE
+  - heading "AC frequency sweep" [level=2]
+  - button "Show phase"
+  - img "Gain (dB) plot": 4.20 10 -5.88 100 -16.0 1 k -26.0 10 k -36.1 100 k -46.2 1 M Frequency (Hz) Gain (dB)
+  - text: Operating output
+  - strong: 0 pV
+  - text: Samples
+  - strong: "201"
+  - text: Solver time
+  - strong: 38 ms
+  - text: Design revision
+  - strong: r1
+  - paragraph: Generic Level-1 MOS (educational; no foundry PDK)
+  - group: ngspice output
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: Generic educational models No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - heading "Design properties" [level=3]
+  - text: Project name
+  - textbox "Project name": RC low-pass filter
+  - heading "SIMULATION" [level=4]
+  - text: Analysis
+  - combobox "Analysis type":
+    - option "AC frequency sweep" [selected]
+    - option "DC voltage sweep"
+    - option "Transient"
+  - text: Start frequency (Hz)
+  - spinbutton "Start frequency (Hz)": "10"
+  - text: Stop frequency (Hz)
+  - spinbutton "Stop frequency (Hz)": "1000000"
+  - text: Input source
+  - combobox "Input source":
+    - option "VIN.p" [selected]
+  - text: Output terminal
+  - combobox "Output terminal":
+    - option "VIN.p"
+    - option "VIN.n"
+    - option "R1.p"
+    - option "R1.n" [selected]
+    - option "C1.p"
+    - option "C1.n"
+    - option "G1.0"
+  - button "Run analysis"
+  - text: You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "1 actions syncing"
+  - text: Simulation

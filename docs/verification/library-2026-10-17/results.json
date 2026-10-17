@@ -1,0 +1,148 @@
+{
+  "deployment": "a53e45ff-f4fa-49a5-a0dd-2bcb9b03962c",
+  "typescriptTestsPassed": 16,
+  "pythonNumericalTestsPassed": 8,
+  "deploymentContainerCircuits": [
+    {
+      "id": "rc",
+      "model": "Generic Level-1 MOS (educational; no foundry PDK)",
+      "samples": 201,
+      "first": [
+        10.0,
+        -1.71452555e-06,
+        -0.000628318448
+      ],
+      "bias": 0.0
+    },
+    {
+      "id": "amplifier",
+      "model": "Generic Level-1 MOS (educational; no foundry PDK)",
+      "samples": 281,
+      "first": [
+        10.0,
+        16.3604144,
+        3.14158648
+      ],
+      "bias": 1.45852771
+    },
+    {
+      "id": "mirror",
+      "model": "Generic Level-1 MOS (educational; no foundry PDK)",
+      "samples": 71,
+      "first": [
+        0.5,
+        0.499999996
+      ],
+      "bias": 1.67522803
+    },
+    {
+      "id": "highpass",
+      "model": "Generic Level-1 MOS (educational; no foundry PDK)",
+      "samples": 201,
+      "first": [
+        10.0,
+        -64.0364043,
+        1.57016801
+      ],
+      "bias": 0.0
+    },
+    {
+      "id": "sky130-amplifier",
+      "model": "SKY130 1.8 V NFET/PFET \u00b7 typical corner (generic models only for any untagged MOS)",
+      "samples": 281,
+      "first": [
+        10.0,
+        10.9148363,
+        3.14158652
+      ],
+      "bias": 1.43786072
+    },
+    {
+      "id": "ngspice-bandpass",
+      "model": "Generic Level-1 MOS (educational; no foundry PDK)",
+      "samples": 41,
+      "first": [
+        1000.0,
+        -50.0575169,
+        1.55823037
+      ],
+      "bias": 0.0
+    },
+    {
+      "id": "sky130-row-55000",
+      "model": "SKY130 1.8 V NFET/PFET \u00b7 typical corner (generic models only for any untagged MOS)",
+      "samples": 1001,
+      "first": [
+        1.0,
+        31.4656586,
+        -1.09975096e-08
+      ],
+      "bias": 0.810043517
+    },
+    {
+      "id": "sky130-row-55001",
+      "model": "SKY130 1.8 V NFET/PFET \u00b7 typical corner (generic models only for any untagged MOS)",
+      "samples": 1001,
+      "first": [
+        1.0,
+        29.8143092,
+        -2.20145281e-06
+      ],
+      "bias": 0.805962852
+    },
+    {
+      "id": "sky130-row-55002",
+      "model": "SKY130 1.8 V NFET/PFET \u00b7 typical corner (generic models only for any untagged MOS)",
+      "samples": 1001,
+      "first": [
+        1.0,
+        31.3746153,
+        -8.17227811e-07
+      ],
+      "bias": 0.824253048
+    }
+  ],
+  "hostedLibrary": {
+    "passed": true,
+    "checks": [
+      "privacy link without banner",
+      "training preference persistence",
+      "14 direct-use items",
+      "filters",
+      "GitHub open and run",
+      "band-pass numeric transfer function",
+      "previous project preserved",
+      "testbench undo",
+      "layout tool",
+      "SKY130 public model simulation",
+      "body terminals and current sources",
+      "goal and provenance",
+      "reload",
+      "public URL automatic preparation",
+      "invalid source creates no partial project",
+      "mobile library and chat",
+      "guest isolation"
+    ],
+    "browserErrors": []
+  },
+  "hostedAssistant": {
+    "passed": true,
+    "checks": [
+      "goal persistence",
+      "real model parameter edit",
+      "apply/undo",
+      "ask has no edits",
+      "chat reload",
+      "GitHub search",
+      "HF browse/splits/rows",
+      "type filters",
+      "reference persistence",
+      "RC import and hosted simulation",
+      "PDK rejection",
+      "guest isolation",
+      "export context",
+      "mobile chat"
+    ],
+    "browserErrors": []
+  }
+}

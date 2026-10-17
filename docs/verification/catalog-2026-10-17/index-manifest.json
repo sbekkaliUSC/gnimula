@@ -1,0 +1,72 @@
+{
+  "provider": "huggingface",
+  "repo": "pphilip/analog-circuits-sky130",
+  "config": "with_testbench",
+  "retrievedAt": "2026-10-17T08:08:54.957639+00:00",
+  "files": [
+    {
+      "url": "https://huggingface.co/datasets/pphilip/analog-circuits-sky130/resolve/refs%2Fconvert%2Fparquet/with_testbench/failed/0000.parquet",
+      "split": "failed",
+      "filename": "0000.parquet",
+      "bytes": 895153,
+      "sha256": "2cbff215b1aedc8fddfd9db804c15c5a076466d2a909caec7771e43e996c5d6f",
+      "rows": 2183
+    },
+    {
+      "url": "https://huggingface.co/datasets/pphilip/analog-circuits-sky130/resolve/refs%2Fconvert%2Fparquet/with_testbench/test/0000.parquet",
+      "split": "test",
+      "filename": "0000.parquet",
+      "bytes": 14454268,
+      "sha256": "ca0371c0181c6bce95f0f8bb60de518bf6c3d8f9dc28a549c52ec97a232b20cf",
+      "rows": 19402
+    },
+    {
+      "url": "https://huggingface.co/datasets/pphilip/analog-circuits-sky130/resolve/refs%2Fconvert%2Fparquet/with_testbench/train/0000.parquet",
+      "split": "train",
+      "filename": "0000.parquet",
+      "bytes": 69347445,
+      "sha256": "fff742dff5b261bc5928ae44131bba6b5d34b5a303c97606e913c579f732cacd",
+      "rows": 89708
+    },
+    {
+      "url": "https://huggingface.co/datasets/pphilip/analog-circuits-sky130/resolve/refs%2Fconvert%2Fparquet/with_testbench/validation/0000.parquet",
+      "split": "validation",
+      "filename": "0000.parquet",
+      "bytes": 14259264,
+      "sha256": "f333989acc78a6ac18671e7fa97b0a9234a867105fd762e319d8317e7f3d4c1a",
+      "rows": 19116
+    }
+  ],
+  "splits": [
+    {
+      "split": "failed",
+      "num_rows": 2183
+    },
+    {
+      "split": "test",
+      "num_rows": 19402
+    },
+    {
+      "split": "train",
+      "num_rows": 89708
+    },
+    {
+      "split": "validation",
+      "num_rows": 19116
+    }
+  ],
+  "indexedFields": [
+    "circuit_id",
+    "topology",
+    "source_dataset",
+    "pdk"
+  ],
+  "contains": "public source metadata only, no netlists or user records",
+  "recordCount": 130409,
+  "sourceRevision": "parquet-sha256:a9bc34fd21ef781b6c252fbcfcbb41d629e0227d36a27c761da7789b5e1d64de",
+  "validation": {
+    "\"amplifier\"": 51133,
+    "\"current\" AND \"mirror\"": 1197,
+    "\"differential\"": 378
+  }
+}

@@ -1,0 +1,7 @@
+.git
+node_modules
+runtime
+.env*
+dist
+docs
+frontend

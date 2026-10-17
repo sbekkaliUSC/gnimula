@@ -1,0 +1,124 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: Common-source amplifier — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "SKY130 op amp · variant 1"
+    - option "Common-source amplifier" [selected]
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 6
+  - button "VDD voltage"
+  - button "RD resistor"
+  - button "M1 nmos"
+  - button "VIN voltage"
+  - button "CL capacitor"
+  - button "GND ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: Common-source amplifier Schematic r0
+  - button "Select & move"
+  - button "Pan canvas"
+  - button "Wire terminals (W)"
+  - button "⊣ NMOS"
+  - button "⊢ PMOS"
+  - button "▱ R"
+  - button "Ⅱ C"
+  - button "⊕ V"
+  - button "↑ I"
+  - button "⏚ GND"
+  - button "Zoom out"
+  - text: 48%
+  - button "Zoom in"
+  - button "Reset view"
+  - img: VDD 3.3 V RD 10 kΩ M1 10/1 µm VIN 1.25 V CL 10 pF
+  - text: SCHEMATIC 20-unit grid 0, 0 48%
+  - button "PROBLEMS 1"
+  - button "ACTIVITY"
+  - text: Generic educational models
+  - 'button "△ Generic Level-1 MOS models: educational results, not a foundry PDK."'
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - heading "CL" [level=3]
+  - paragraph: Component
+  - text: Reference
+  - textbox "Reference": CL
+  - text: Capacitance (F)
+  - spinbutton "Capacitance (F)": "1e-11"
+  - text: X
+  - spinbutton "X": "700"
+  - text: "Y"
+  - spinbutton "Y": "360"
+  - button "Duplicate"
+  - button "Rotate (R)"
+  - button "Delete selected object"
+  - button "Suggest from selection"
+  - heading "SIMULATION" [level=4]
+  - text: Analysis
+  - combobox "Analysis type":
+    - option "AC frequency sweep" [selected]
+    - option "DC voltage sweep"
+    - option "Transient"
+  - text: Start frequency (Hz)
+  - spinbutton "Start frequency (Hz)": "10"
+  - text: Stop frequency (Hz)
+  - spinbutton "Stop frequency (Hz)": "100000000"
+  - text: Input source
+  - combobox "Input source":
+    - option "VDD.p"
+    - option "VIN.p" [selected]
+  - text: Output terminal
+  - combobox "Output terminal":
+    - option "VDD.p"
+    - option "VDD.n"
+    - option "RD.p"
+    - option "RD.n"
+    - option "M1.g"
+    - option "M1.d" [selected]
+    - option "M1.s"
+    - option "VIN.p"
+    - option "VIN.n"
+    - option "CL.p"
+    - option "CL.n"
+    - option "GND.0"
+  - button "Run analysis"
+  - text: You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "2 actions syncing"
+  - text: Schematic

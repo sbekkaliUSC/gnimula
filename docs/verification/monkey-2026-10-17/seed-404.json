@@ -1,0 +1,83 @@
+{
+  "startedAt": "2026-10-17T08:06:29.151431+00:00",
+  "url": "https://gnimula.stream",
+  "seed": 404,
+  "requestedSteps": 180,
+  "localAssets": false,
+  "harnessSha256": "e08fd2095d7feb8d2ddb511feb340676b6649d9c5b90e23f451d2bf2ed28078c",
+  "candidate": "cd584357",
+  "passed": true,
+  "finishedAt": "2026-10-17T08:07:15.919859+00:00",
+  "completedStep": 180,
+  "actions": {
+    "button": 88,
+    "place": 18,
+    "not-completed": 2,
+    "keyboard": 28,
+    "canvas": 21,
+    "viewport": 7,
+    "input": 16
+  },
+  "checkpoints": [
+    {
+      "step": 0,
+      "revision": 0,
+      "documentSha256": "99f6a1edaa063121e5e431b402dfa386bc1d764e1182240e0ea017bd4c17ed95",
+      "components": 6,
+      "shapes": 6,
+      "wires": 8,
+      "eventsRead": 3
+    },
+    {
+      "step": 45,
+      "revision": 4,
+      "documentSha256": "1be00a751a5786320eeaccf09b7a79d7ebad8621e8d6214668e131be7fb326d7",
+      "components": 7,
+      "shapes": 8,
+      "wires": 8,
+      "eventsRead": 42
+    },
+    {
+      "step": 90,
+      "revision": 15,
+      "documentSha256": "b22df04a3ad5dd417b2f78917a664c50f31120f51274655a4c6a168868913344",
+      "components": 16,
+      "shapes": 9,
+      "wires": 8,
+      "eventsRead": 96
+    },
+    {
+      "step": 135,
+      "revision": 22,
+      "documentSha256": "d10d261cfd21486aff6f0b65f917009331c4ecb1cec68141bf7bde5aec10217f",
+      "components": 8,
+      "shapes": 7,
+      "wires": 8,
+      "eventsRead": 140
+    },
+    {
+      "step": 180,
+      "revision": 26,
+      "documentSha256": "5b8c07ad599d6b6a53119f34708132031ea65e3e2e1ca7e6ff2d12dadde12523",
+      "components": 10,
+      "shapes": 7,
+      "wires": 8,
+      "eventsRead": 173
+    }
+  ],
+  "javascriptErrors": [],
+  "httpErrors": [
+    {
+      "step": 133,
+      "path": "/api/library/discover",
+      "status": 400,
+      "query": "provider=huggingface&repo=touhid314%2Fcktformer-dataset&name=CircuitFormer+records&config=default&split=train&q=&offset=0&length=12",
+      "detail": "That configuration/split does not exist in this dataset.",
+      "qaBudget": false
+    }
+  ],
+  "notifications": [],
+  "paidRequests": {},
+  "blockedByQABudget": {},
+  "disposableGuestRemoved": true
+}

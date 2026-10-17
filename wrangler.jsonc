@@ -1,0 +1,74 @@
+{
+  "name": "gnimula",
+  "main": "backend/worker.ts",
+  "compatibility_date": "2026-10-16",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": true
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "gnimula-main",
+      "database_id": "59687eeb-d113-450c-9b66-fd8714484591",
+      "migrations_dir": "backend/migrations"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "ARTIFACTS",
+      "bucket_name": "gnimula-artifacts"
+    }
+  ],
+  "ai": {
+    "binding": "AI"
+  },
+  "containers": [
+    {
+      "class_name": "Simulator",
+      "image": "./backend/simulator/Dockerfile",
+      "image_build_context": ".",
+      "max_instances": 6000,
+      "instance_type": "basic"
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SIMULATOR",
+        "class_name": "Simulator"
+      }
+    ]
+  },
+  "exports": {
+    "Simulator": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    }
+  },
+  "routes": [
+    {
+      "pattern": "gnimula.stream",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.gnimula.stream",
+      "custom_domain": true
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "17 7 * * *"
+    ]
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  }
+}

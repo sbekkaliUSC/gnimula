@@ -1,0 +1,17 @@
+{
+  "time": "2026-10-17T08:57:20.033458+00:00",
+  "candidate_assets": false,
+  "checks": [
+    "Wheel and Ctrl-wheel/pinch events zoom around an off-center pointer without page zoom",
+    "Space+drag pans over devices and wire-tool pins; middle drag pans over wires; no accidental wire starts",
+    "Shift-scroll and arrows pan; +/- zoom reverses without drift",
+    "Z/right-drag box zoom works; 3px jitter is ignored; Escape/blur clear transient modes",
+    "Chat typing and dialog shortcuts do not navigate or edit the circuit",
+    "Selection focus and concept-layout navigation work",
+    "Saved document/revision unchanged; viewport events persisted; no AI/simulation calls or JS exceptions",
+    "Normal device drag still edits after panning; undo restores that edit even after more navigation",
+    "Pointer anchor holds in a narrow letterboxed canvas"
+  ],
+  "navigation_events": 23,
+  "errors": []
+}

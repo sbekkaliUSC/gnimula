@@ -1,0 +1,117 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: Common-source amplifier — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "Common-source amplifier" [selected]
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 6
+  - button "VDD voltage"
+  - button "RD resistor"
+  - button "M1 nmos"
+  - button "VIN voltage"
+  - button "CL capacitor"
+  - button "GND ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: Common-source amplifier Schematic r0
+  - button "Select & move"
+  - button "Pan canvas"
+  - button "Wire terminals (W)"
+  - button "⊣ NMOS"
+  - button "⊢ PMOS"
+  - button "▱ R"
+  - button "Ⅱ C"
+  - button "⊕ V"
+  - button "↑ I"
+  - button "⏚ GND"
+  - button "Zoom out"
+  - text: 110%
+  - button "Zoom in"
+  - button "Reset view"
+  - img: VDD 3.3 V RD 10 kΩ M1 10/1 µm VIN 1.25 V CL 10 pF
+  - text: SCHEMATIC 20-unit grid 0, 0 110%
+  - button "PROBLEMS 1"
+  - button "ACTIVITY"
+  - text: Generic educational models
+  - 'button "△ Generic Level-1 MOS models: educational results, not a foundry PDK."'
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL"
+  - combobox "PDK reference":
+    - option "Generic MOS" [selected]
+    - option "SKY130 reference"
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - button "Add design references"
+  - heading "Work with your circuit." [level=3]
+  - paragraph: Explain the result you want, ask about the selected device, or request an edit. Attach a testbench or reference design to give the assistant context.
+  - button "Explain this circuit"
+  - button "Try a precise edit"
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes" [selected]
+    - option "Ask · explain only"
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Schematic
+- dialog "settings":
+  - text: GNIMULA WORKBENCH
+  - button "Close dialog"
+  - heading "Settings" [level=1]
+  - navigation "Settings sections":
+    - button "Editor"
+    - button "Data controls"
+  - region "Editor settings":
+    - heading "Editor" [level=2]
+    - paragraph: Control assistance in this workbench.
+    - strong: Autocomplete as I work
+    - text: Suggest a next edit after changes to the circuit or layout.
+    - checkbox "Autocomplete as I work Suggest a next edit after changes to the circuit or layout." [checked]
+    - strong: Use project memory
+    - text: Use this project's saved corrections when suggesting edits.
+    - checkbox "Use project memory Use this project's saved corrections when suggesting edits." [checked]
+    - paragraph: These switches apply to this open workbench. Manage saved corrections in Memory.
+  - button "Legal & privacy"

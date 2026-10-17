@@ -1,0 +1,2 @@
+# Optional browser integration checks; runtime service itself uses standard Python.
+playwright==1.55.0

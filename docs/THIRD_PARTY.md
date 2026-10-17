@@ -1,0 +1,47 @@
+# Public dependencies and example provenance
+
+Gnimula's circuit editor, service integration, examples, and event flow were
+written for this project. Selected public circuit records and model sources are attributed below. No private PDK is
+bundled. `backend/shared/circuit.ts` defines the independently authored amplifier,
+current mirror, concept rectangles, and elementary Level-1 model parameters.
+These model values are illustrative, not foundry-characterized.
+
+| Dependency | License / reference |
+| --- | --- |
+| React / React DOM | MIT — https://github.com/facebook/react |
+| Lucide React icons | ISC — https://github.com/lucide-icons/lucide |
+| Vite | MIT — https://github.com/vitejs/vite |
+| TypeScript | Apache-2.0 — https://github.com/microsoft/TypeScript |
+| Wrangler / Workers SDK | MIT / Apache-2.0 — https://github.com/cloudflare/workers-sdk |
+| Cloudflare Containers SDK | MIT / Apache-2.0 — https://github.com/cloudflare/containers |
+| ngspice | BSD-style project notices — https://ngspice.sourceforge.io/developer.html |
+| Python container base | PSF / component notices — https://github.com/docker-library/python |
+| Meta Llama 3.3 via Workers AI | Hosted inference under provider/model terms — https://developers.cloudflare.com/workers-ai/models/llama-3.3-70b-instruct-fp8-fast/ |
+
+The simulator image retains installed Debian package notices, including ngspice.
+Model weights are hosted by Cloudflare and are not redistributed in this repo.
+Review exact dependency license files when producing a distributable release.
+
+## Public reference discovery
+
+The Library links to public repositories and dataset cards. Their contents remain
+subject to their upstream licenses; metadata saying “see source” is not a license
+clearance. Attached files are private project data. Three public dataset rows and one public SPICE example are retained with provenance; no bulk dataset archive or complete PDK kit
+is bundled into the public source. Original built-in examples are authored for
+Gnimula; the repository-wide source license remains to be selected.
+
+Public integration references:
+- https://docs.github.com/en/rest/repos/contents
+- https://docs.github.com/en/rest/search/search
+- https://huggingface.co/docs/hub/en/api
+- https://huggingface.co/docs/dataset-viewer/en/rows
+- https://huggingface.co/docs/dataset-viewer/en/search
+
+
+## Prepared public circuits and installed SKY130 models
+
+- SkyWater `google/skywater-pdk-libs-sky130_fd_pr`, Apache-2.0: the simulator build installs a pinned, checksum-verified 1.8 V typical NFET/PFET subset. `backend/simulator/sky130-lock.json` records exact paths, revision and hashes. The image retains the upstream headers, LICENSE and manifest. No model code is copied from another private application.
+- `pphilip/analog-circuits-sky130`, Apache-2.0 according to its public dataset card: three public source records and attribution are retained in `backend/data/sky130-circuits.json`. The prepared circuit uses the supplied testbench, with single-input AC adaptation documented separately.
+- `ngspice/ngspice` official `examples/measure/rc-meas-ac.sp`: pinned source, content hash and origin retained in `backend/data/ngspice-bandpass.json`; the pinned upstream COPYING is retained in `backend/data/licenses/ngspice-COPYING.txt`. Apache-2.0 text for the public dataset/model integration is also retained in that directory.
+
+Public examples are source material, not visitor records. A visitor's edits and traces stay in that guest's project storage.

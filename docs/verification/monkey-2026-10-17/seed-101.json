@@ -1,0 +1,73 @@
+{
+  "startedAt": "2026-10-17T08:01:35.870608+00:00",
+  "url": "https://gnimula.stream",
+  "seed": 101,
+  "requestedSteps": 180,
+  "localAssets": false,
+  "passed": true,
+  "finishedAt": "2026-10-17T08:02:39.902029+00:00",
+  "completedStep": 180,
+  "actions": {
+    "input": 13,
+    "canvas": 23,
+    "keyboard": 32,
+    "button": 90,
+    "viewport": 7,
+    "not-completed": 11,
+    "place": 4
+  },
+  "checkpoints": [
+    {
+      "step": 0,
+      "revision": 0,
+      "documentSha256": "edea6844b2a51508517be15c111c25d2b46eff032246a921109f461c0b706729",
+      "components": 6,
+      "shapes": 6,
+      "wires": 8,
+      "eventsRead": 3
+    },
+    {
+      "step": 45,
+      "revision": 1,
+      "documentSha256": "ca05fee17be2c7521c3193ba65e5088021573509c237cb7e8bdc3c076b890be5",
+      "components": 6,
+      "shapes": 6,
+      "wires": 8,
+      "eventsRead": 25
+    },
+    {
+      "step": 90,
+      "revision": 2,
+      "documentSha256": "348a587cf651127060c93c3a8ed35781b1863f9c9c52d6c2c395a3ab7e6179df",
+      "components": 6,
+      "shapes": 7,
+      "wires": 8,
+      "eventsRead": 53
+    },
+    {
+      "step": 135,
+      "revision": 4,
+      "documentSha256": "8d8ef6d4ff752b156cf8a15b9033fb6634fd9dc5207e8e9e88d74449c2c0e805",
+      "components": 6,
+      "shapes": 7,
+      "wires": 8,
+      "eventsRead": 83
+    },
+    {
+      "step": 180,
+      "revision": 8,
+      "documentSha256": "df8f30dde02506c27f5d08e5cfc5c251edcc546dd1bf0f510fbffa2f5ffa9230",
+      "components": 6,
+      "shapes": 7,
+      "wires": 8,
+      "eventsRead": 120
+    }
+  ],
+  "javascriptErrors": [],
+  "httpErrors": [],
+  "notifications": [],
+  "paidRequests": {},
+  "blockedByQABudget": {},
+  "disposableGuestRemoved": true,
+  "candidate": "cd584357"
+}

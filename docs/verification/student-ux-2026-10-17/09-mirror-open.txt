@@ -1,0 +1,107 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: analogtobi_0123 — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "analogtobi_0123" [selected]
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 10
+  - button "VDD voltage"
+  - button "VSS voltage"
+  - button "V__VB1 voltage"
+  - button "VSIG voltage"
+  - button "R1 resistor"
+  - button "R0 resistor"
+  - button "XM0 nmos"
+  - button "C0 capacitor"
+  - button "CL capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: analogtobi_0123 Schematic r0
+  - button "Select & move"
+  - button "Pan canvas"
+  - button "Wire terminals (W)"
+  - button "⊣ NMOS"
+  - button "⊢ PMOS"
+  - button "▱ R"
+  - button "Ⅱ C"
+  - button "⊕ V"
+  - button "↑ I"
+  - button "⏚ GND"
+  - button "Zoom out"
+  - text: 82%
+  - button "Zoom in"
+  - button "Focus selected device" [disabled]
+  - button "Reset view"
+  - img: VDD 1.8 V VSS 0 V V__VB1 0.9 V VSIG 0.9 V R1 10 kΩ R0 10 kΩ XM0 10/0.5 µm C0 1 pF CL 100 pF
+  - text: SCHEMATIC 20-unit grid 0, 0 82%
+  - button "PROBLEMS 0"
+  - button "ACTIVITY"
+  - text: SKY130 1.8 V typical models No issues found by the supported checks.
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL": Explore and improve this public SKY130 circuit. Use the prepared testbench as the source of truth; verify behavior with fresh simulation.
+  - combobox "PDK reference":
+    - option "Generic MOS"
+    - option "SKY130 reference" [selected]
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - text: SKY130 1.8 V typical models are installed for the tagged devices in this circuit.
+  - button "Open circuit library"
+  - group: analogtobi_0123.json
+  - button "Remove analogtobi_0123.json"
+  - heading "Work with your circuit." [level=3]
+  - paragraph: Explain the result you want, ask about the selected device, or request an edit. Attach a testbench or reference design to give the assistant context.
+  - button "Explain this circuit"
+  - button "Try a precise edit"
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes" [selected]
+    - option "Ask · explain only"
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "3 actions syncing"
+  - text: Schematic

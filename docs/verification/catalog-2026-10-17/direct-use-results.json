@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "url": "https://gnimula.stream",
+  "checkedAt": "2026-10-17T08:02:39.832489+00:00",
+  "checks": [
+    "settings data controls without banner",
+    "training preference persistence",
+    "nine starter circuits and five circuit tools",
+    "filters",
+    "GitHub open and run",
+    "band-pass numeric transfer function",
+    "previous project preserved",
+    "testbench undo",
+    "layout tool",
+    "SKY130 public model simulation",
+    "body terminals and current sources",
+    "goal and provenance",
+    "reload",
+    "public URL automatic preparation",
+    "invalid source creates no partial project",
+    "mobile settings, library and chat",
+    "guest isolation"
+  ],
+  "browserErrors": [],
+  "cleanup": [
+    {
+      "status": 200,
+      "removed": true
+    },
+    {
+      "status": 200,
+      "removed": true
+    }
+  ],
+  "bandpass": {
+    "samples": 41,
+    "maxGainErrorDb": 5.951103076995423e-08
+  },
+  "sky130": {
+    "samples": 1001,
+    "lowFrequencyHz": 1,
+    "lowFrequencyGainDb": 31.4656586,
+    "model": "SKY130 1.8 V NFET/PFET \u00b7 typical corner (generic models only for any untagged MOS)"
+  }
+}

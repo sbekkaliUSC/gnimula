@@ -1,0 +1,178 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: RC low-pass filter — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "RC low-pass filter" [selected]
+    - option "analogtobi_0123"
+    - option "Common-source amplifier"
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 4
+  - button "VIN voltage"
+  - button "R1 resistor"
+  - button "C1 capacitor"
+  - button "G1 ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: RC low-pass filter Circuit library r2 CIRCUIT LIBRARY
+  - heading "Find your next circuit." [level=2]
+  - paragraph: Search public circuit datasets and repositories. Open supported designs directly with connections, models and a testbench, or start with a prepared example.
+  - tablist "Library sections":
+    - tab "Online circuits" [selected]
+    - tab "Starter circuits"
+    - tab "Circuit tools"
+  - text: Source
+  - combobox "Online source":
+    - option "Hugging Face" [selected]
+    - option "GitHub"
+  - text: Collection
+  - combobox "Circuit collection":
+    - option "SKY130 analog circuits" [selected]
+    - option "LTspice circuit records"
+    - option "CircuitFormer records"
+    - option "Find more sources…"
+  - button "Find sources"
+  - textbox "Search online circuits": current mirror
+  - button "Search"
+  - link "pphilip/analog-circuits-sky130":
+    - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+  - text: Searches text in this dataset. Parameter variants may share a topology.
+  - group: Source details & partitions
+  - strong: 1,197 matching circuit metadata records in this split
+  - text: 130,409 records across partitions, including parameter variants. Ready means importer checks passed; run the testbench to measure behavior.
+  - checkbox "Ready on this page" [checked]
+  - text: Ready on this page
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Current mirror bias" [level=3]
+    - text: Publisher category · analogtobi_0123
+    - paragraph: current mirror bias · 9 components · prepared AC testbench
+    - paragraph: Publisher topology is "current_mirror_bias", but the prepared testbench contains 1 MOS device. A conventional MOS current mirror requires at least two transistors. The source label is preserved; its topology is not verified or repaired.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42100
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Current mirror bias" [level=3]
+    - text: Publisher category · analogtobi_0129
+    - paragraph: current mirror bias · 12 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42126
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Current mirror bias" [level=3]
+    - text: Publisher category · analogtobi_0134
+    - paragraph: current mirror bias · 12 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42151
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Current mirror bias" [level=3]
+    - text: Publisher category · analogtobi_0136
+    - paragraph: current mirror bias · 14 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42157
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Current mirror bias" [level=3]
+    - text: Publisher category · analogtobi_0138
+    - paragraph: current mirror bias · 10 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42169
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "Current mirror bias" [level=3]
+    - text: Publisher category · analogtobi_0132
+    - paragraph: current mirror bias · 9 components · prepared AC testbench
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42202
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - button "Previous" [disabled]
+  - text: 1–12 of 1,197
+  - button "Next"
+  - group: Have a public circuit link?
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - heading "Design properties" [level=3]
+  - text: Project name
+  - textbox "Project name": RC low-pass filter
+  - heading "SIMULATION" [level=4]
+  - text: Analysis
+  - combobox "Analysis type":
+    - option "AC frequency sweep" [selected]
+    - option "DC voltage sweep"
+    - option "Transient"
+  - text: Start frequency (Hz)
+  - spinbutton "Start frequency (Hz)": "10"
+  - text: Stop frequency (Hz)
+  - spinbutton "Stop frequency (Hz)": "1000000"
+  - text: Input source
+  - combobox "Input source":
+    - option "VIN.p" [selected]
+  - text: Output terminal
+  - combobox "Output terminal":
+    - option "VIN.p"
+    - option "VIN.n"
+    - option "R1.p"
+    - option "R1.n" [selected]
+    - option "C1.p"
+    - option "C1.n"
+    - option "G1.0"
+  - button "Run analysis"
+  - text: You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Library

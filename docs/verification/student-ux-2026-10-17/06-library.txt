@@ -1,0 +1,103 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: Common-source amplifier — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "Common-source amplifier" [selected]
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 6
+  - button "VDD voltage"
+  - button "RD resistor"
+  - button "M1 nmos"
+  - button "VIN voltage"
+  - button "CL capacitor"
+  - button "GND ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: Common-source amplifier Circuit library r0 CIRCUIT LIBRARY
+  - heading "Find your next circuit." [level=2]
+  - paragraph: Search public circuit datasets and repositories. Open supported designs directly with connections, models and a testbench, or start with a prepared example.
+  - tablist "Library sections":
+    - tab "Online circuits" [selected]
+    - tab "Starter circuits"
+    - tab "Circuit tools"
+  - text: Source
+  - combobox "Online source":
+    - option "Hugging Face" [selected]
+    - option "GitHub"
+  - text: Collection
+  - combobox "Circuit collection":
+    - option "SKY130 analog circuits" [selected]
+    - option "LTspice circuit records"
+    - option "CircuitFormer records"
+    - option "Find more sources…"
+  - button "Find sources"
+  - textbox "Search online circuits"
+  - button "Search" [disabled]
+  - link "pphilip/analog-circuits-sky130":
+    - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+  - text: Searches text in this dataset. Parameter variants may share a topology.
+  - status: Searching the source and checking circuit compatibility…
+  - group: Have a public circuit link?
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL"
+  - combobox "PDK reference":
+    - option "Generic MOS" [selected]
+    - option "SKY130 reference"
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - button "Open circuit library"
+  - heading "Work with your circuit." [level=3]
+  - paragraph: Explain the result you want, ask about the selected device, or request an edit. Attach a testbench or reference design to give the assistant context.
+  - button "Explain this circuit"
+  - button "Try a precise edit"
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes" [selected]
+    - option "Ask · explain only"
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "1 actions syncing"
+  - text: Library

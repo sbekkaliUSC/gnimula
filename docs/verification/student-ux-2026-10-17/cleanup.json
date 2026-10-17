@@ -1,0 +1,8 @@
+{
+  "initial_attempt_status": 403,
+  "initial_failure": "Origin header omitted by originally running harness",
+  "recovered_status": 200,
+  "verification": "Coordinator confirmed unique disposable guest match, normal deletion API success, guest absence and associated storage cleanup. Browser closed without navigation.",
+  "source": "Coordinator confirmation, not a second browser-side deletion",
+  "future_harness": "Origin header and non-200 status guard added"
+}

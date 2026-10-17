@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "checks": [
+    "live dataset totals and compatible first page",
+    "dataset pagination",
+    "readable original SPICE testbench",
+    "source fingerprint, previous project and grounded Ask draft",
+    "real SKY130 simulation after catalog open",
+    "direct simulation setup controls",
+    "indexed metadata search over public dataset",
+    "recursive GitHub file search and preparation",
+    "GitHub repository discovery distinguished from circuit counts",
+    "unsupported formats explicitly shown as source-only",
+    "390px catalog navigation without page overflow"
+  ],
+  "browserErrors": [],
+  "sky130Rows": 1001,
+  "sky130InitialGainDb": -140.113129
+}

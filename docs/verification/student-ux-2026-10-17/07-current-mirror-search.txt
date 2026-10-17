@@ -1,0 +1,229 @@
+- banner:
+  - link "gnimula PREVIEW":
+    - /url: /
+  - navigation:
+    - button "File"
+    - button "Edit"
+    - button "View"
+    - button "Help"
+  - text: Common-source amplifier — Gnimula
+  - button "Undo (Ctrl+Z)"
+  - button "Redo (Ctrl+Shift+Z)"
+  - button "Run simulation"
+- complementary:
+  - button "Explorer"
+  - button "Schematic"
+  - button "Layout"
+  - button "Simulation"
+  - button "Library"
+  - button "Chat"
+  - button "History"
+  - button "Settings"
+- complementary:
+  - text: EXPLORER
+  - button "New project"
+  - text: WORKSPACE
+  - combobox "Open project":
+    - option "Common-source amplifier" [selected]
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - text: COMPONENTS 6
+  - button "VDD voltage"
+  - button "RD resistor"
+  - button "M1 nmos"
+  - button "VIN voltage"
+  - button "CL capacitor"
+  - button "GND ground"
+  - text: START SOMETHING NEW
+  - button "Create a circuit"
+  - paragraph: From the first transistor to the next idea.
+- main:
+  - button "schematic.sch"
+  - button "layout.lay"
+  - button "Simulation"
+  - button "netlist.cir"
+  - button "Library"
+  - button "Toggle inspector"
+  - text: Common-source amplifier Circuit library r0 CIRCUIT LIBRARY
+  - heading "Find your next circuit." [level=2]
+  - paragraph: Search public circuit datasets and repositories. Open supported designs directly with connections, models and a testbench, or start with a prepared example.
+  - tablist "Library sections":
+    - tab "Online circuits" [selected]
+    - tab "Starter circuits"
+    - tab "Circuit tools"
+  - text: Source
+  - combobox "Online source":
+    - option "Hugging Face" [selected]
+    - option "GitHub"
+  - text: Collection
+  - combobox "Circuit collection":
+    - option "SKY130 analog circuits" [selected]
+    - option "LTspice circuit records"
+    - option "CircuitFormer records"
+    - option "Find more sources…"
+  - button "Find sources"
+  - textbox "Search online circuits": current mirror
+  - button "Search"
+  - link "pphilip/analog-circuits-sky130":
+    - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130
+  - text: Searches text in this dataset. Parameter variants may share a topology. Partition
+  - combobox "Dataset partition":
+    - option "failed · with_testbench (2,183)"
+    - option "test · with_testbench (19,402)"
+    - option "train · with_testbench (89,708)" [selected]
+    - option "validation · with_testbench (19,116)"
+  - text: "Search matches circuit identifiers, topology, upstream source and PDK metadata, not full netlist text. Index snapshot: 2026-10-17T08:08:54.957639+00:00; circuit records are fetched from Hugging Face before use. Records include parameter variants; matching records are not all unique topologies. Only successfully prepared records can be opened."
+  - strong: 1,197 matching circuit metadata records in this split
+  - text: 130,409 records across this representation’s partitions. Alternate representations are not additional circuits. Ready means importer checks passed; run the testbench to measure behavior.
+  - checkbox "Ready on this page"
+  - text: Ready on this page
+  - article:
+    - text: circuit sky130 Source only
+    - heading "analogtobi_0100" [level=3]
+    - paragraph: current mirror bias
+    - paragraph: Signal source is ambiguous.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=41994
+    - text: This format cannot open in the editor yet.
+  - article:
+    - text: circuit sky130 Source only
+    - heading "analogtobi_0102" [level=3]
+    - paragraph: current mirror bias
+    - paragraph: Signal source is ambiguous.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=41995
+    - text: This format cannot open in the editor yet.
+  - article:
+    - text: circuit sky130 Source only
+    - heading "analogtobi_0104" [level=3]
+    - paragraph: current mirror bias
+    - paragraph: Signal source is ambiguous.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42003
+    - text: This format cannot open in the editor yet.
+  - article:
+    - text: circuit sky130 Source only
+    - heading "analogtobi_0112" [level=3]
+    - paragraph: current mirror bias
+    - paragraph: Signal source is ambiguous.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42017
+    - text: This format cannot open in the editor yet.
+  - article:
+    - text: circuit sky130 Source only
+    - heading "analogtobi_0114" [level=3]
+    - paragraph: current mirror bias
+    - paragraph: Signal source is ambiguous.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42031
+    - text: This format cannot open in the editor yet.
+  - article:
+    - text: circuit sky130 Source only
+    - heading "analogtobi_0116" [level=3]
+    - paragraph: current mirror bias
+    - paragraph: Signal source is ambiguous.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42045
+    - text: This format cannot open in the editor yet.
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "analogtobi_0123" [level=3]
+    - paragraph: current mirror bias · 9 components · prepared AC testbench
+    - text: 9 components · current_mirror_bias
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42100
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "analogtobi_0129" [level=3]
+    - paragraph: current mirror bias · 12 components · prepared AC testbench
+    - text: 12 components · current_mirror_bias
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42126
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "analogtobi_0134" [level=3]
+    - paragraph: current mirror bias · 12 components · prepared AC testbench
+    - text: 12 components · current_mirror_bias
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42151
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "analogtobi_0136" [level=3]
+    - paragraph: current mirror bias · 14 components · prepared AC testbench
+    - text: 14 components · current_mirror_bias
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42157
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "analogtobi_0138" [level=3]
+    - paragraph: current mirror bias · 10 components · prepared AC testbench
+    - text: 10 components · current_mirror_bias
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42169
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - article:
+    - text: circuit sky130 Ready to open
+    - heading "analogtobi_0132" [level=3]
+    - paragraph: current mirror bias · 9 components · prepared AC testbench
+    - text: 9 components · current_mirror_bias
+    - paragraph: Circuit and testbench prepared; electrical performance still needs a fresh simulation.
+    - link "Source & attribution":
+      - /url: https://huggingface.co/datasets/pphilip/analog-circuits-sky130/viewer/with_testbench/train?row=42202
+    - button "Open circuit"
+    - button "Open & run"
+    - button "Open & explain"
+  - button "Previous" [disabled]
+  - text: 1–12 of 1,197
+  - button "Next"
+  - group: Have a public circuit link?
+- complementary:
+  - button "Chat"
+  - button "Assist"
+  - button "Properties"
+  - button "Memory"
+  - text: PROJECT GOAL
+  - textbox "PROJECT GOAL"
+  - combobox "PDK reference":
+    - option "Generic MOS" [selected]
+    - option "SKY130 reference"
+    - option "GF180 reference"
+    - option "IHP-SG13G2 reference"
+    - option "UNSPECIFIED reference"
+  - button "Save goal" [disabled]
+  - button "Open circuit library"
+  - heading "Work with your circuit." [level=3]
+  - paragraph: Explain the result you want, ask about the selected device, or request an edit. Attach a testbench or reference design to give the assistant context.
+  - button "Explain this circuit"
+  - button "Try a precise edit"
+  - textbox "Message Gnimula"
+  - combobox "Assistant mode":
+    - option "Edit · preview changes" [selected]
+    - option "Ask · explain only"
+  - button "Send message" [disabled]
+  - text: Llama 3.3 · current circuit + goal + attached text · Enter to send You stay in control. Every edit is reversible.
+- contentinfo:
+  - text: project Saved to cloud
+  - button "Activity saved"
+  - text: Library

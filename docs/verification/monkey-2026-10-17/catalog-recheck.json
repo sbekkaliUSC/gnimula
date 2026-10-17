@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-10-17T08:12:44.503225+00:00",
+  "url": "https://gnimula.stream",
+  "candidate": "5cf8c136",
+  "passed": true,
+  "checks": [
+    "CircuitFormer discovers an actual provider configuration and shows records",
+    "SKY130 current mirror query returns real matching metadata records and rendered result cards"
+  ],
+  "javascriptErrors": [],
+  "catalogResponses": [
+    {
+      "case": "CircuitFormer preset",
+      "status": 200,
+      "total": 49352,
+      "error": null,
+      "warnings": [],
+      "source": {
+        "provider": "huggingface",
+        "repo": "touhid314/cktformer-dataset",
+        "url": "https://huggingface.co/datasets/touhid314/cktformer-dataset",
+        "config": "default",
+        "split": "validation"
+      }
+    },
+    {
+      "case": "SKY130 current mirror search",
+      "status": 200,
+      "total": 1197,
+      "itemsOnPage": 12,
+      "totalLabel": "matching circuit metadata records in this split",
+      "warnings": [
+        "Search matches circuit identifiers, topology, upstream source and PDK metadata, not full netlist text. Index snapshot: 2026-10-17T08:08:54.957639+00:00; circuit records are fetched from Hugging Face before use.",
+        "Records include parameter variants; matching records are not all unique topologies. Only successfully prepared records can be opened."
+      ],
+      "firstTitles": [
+        "analogtobi_0100",
+        "analogtobi_0102",
+        "analogtobi_0104"
+      ]
+    }
+  ],
+  "disposableGuestRemoved": true
+}

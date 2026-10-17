@@ -1,0 +1,8 @@
+{
+    "folders": [
+        { "name": "Gnimula (hackathon app)", "path": "." }
+    ],
+    "settings": {
+        "git.autoRepositoryDetection": false
+    }
+}
