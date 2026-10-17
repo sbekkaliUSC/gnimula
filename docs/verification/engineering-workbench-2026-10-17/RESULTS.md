@@ -19,10 +19,8 @@ capacitor-name collisions. Physical extraction preserves the schematic's MOS
 connections/types/dimensions and produces actual parasitic capacitances and GDS.
 
 Hosted validation uses `scripts/engineering-qa.py` and disposable guest sessions.
-It checks ordinary Library/Chat/editor interactions, fresh model-composed circuit
-creation, settled functional samples, artifact ownership, reload persistence,
-stale results, proposal dismissal and ordinary parameter edits. The latest
-completed outcomes are recorded below after the final hosted run.
+It checks ordinary Library/Chat/editor interactions, creation from an explicitly supplied independent netlist, settled functional samples, artifact ownership, reload persistence,
+stale results, proposal dismissal and ordinary parameter edits. The final run passed with zero browser errors; see [the recorded checks](hosted-qa.json).
 
 ## Observed model failure
 
@@ -51,3 +49,21 @@ Reported crossing delays use the first following output midpoint crossing after
 a pulsed input midpoint crossing; thresholds come from measured ranges. This is
 a disclosed heuristic, not exhaustive timing characterization. Functional
 assertions in QA use settled measured outputs separately.
+
+## Final hosted run
+
+Worker `c3467aa2-56d1-4414-9f3d-ad4c01ae208f` passed the ordinary UI flow.
+
+| Circuit | MOS | Extracted capacitances | DRC violations | Schematic crossing delay | Extracted crossing delay |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| XOR | 12 | 45 | 0 | 119.8 ps | 221.0 ps |
+| NAND | 4 | 13 | 0 | 65.2 ps | 86.0 ps |
+
+Both circuits passed eight settled functional samples before and after extraction.
+NAND used a supplied independent netlist, not free-form topology invention.
+Reload, downloads, guest isolation, stale-result rejection, proposal dismissal
+and ordinary 40 fF parameter editing passed. All disposable guests were removed.
+[Ordinary Simulation view](xor-comparison.png) · [Ordinary Layout view](xor-layout.png).
+
+Further improvements were stopped at the user’s request. The ordinary UI and
+existing circuit examples remain deployed for the recording.

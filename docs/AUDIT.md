@@ -631,3 +631,13 @@ after the bounded correction. This is a model-quality limitation, not solved by
 syntax constraints. The final generic-tool QA supplies an independent explicit
 NAND netlist through normal Chat; it tests circuit preparation and tool execution,
 not autonomous circuit synthesis. No NAND/XOR runtime shortcut was added.
+
+
+### 2026-10-17 — Recording-ready workbench; improvements stopped
+
+Final hosted QA passed XOR and a supplied independent NAND through ordinary
+Chat/editor tools, with actual functional samples, zero DRC violations, matching
+extraction, reload/ownership/invalidation checks and an ordinary parameter edit.
+No browser errors occurred; disposable guests were removed. Results and screenshots
+are in verification/engineering-workbench-2026-10-17. The user requested stopping
+further improvements for the deadline; no additional product changes were made.
