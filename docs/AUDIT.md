@@ -641,3 +641,11 @@ extraction, reload/ownership/invalidation checks and an ordinary parameter edit.
 No browser errors occurred; disposable guests were removed. Results and screenshots
 are in verification/engineering-workbench-2026-10-17. The user requested stopping
 further improvements for the deadline; no additional product changes were made.
+
+### 2026-10-17 — Use a real component in the precise-edit starter
+
+Replaced the amplifier-specific RD prompt with an existing capacitor (or resistor)
+from the current circuit and an explicit doubled value. The XOR now offers
+`Set CL to 40 fF. Preserve all wiring and other component values.` The shortcut is
+hidden when no supported passive component exists. TypeScript/production build
+passed. This is a small requested recording fix; no other workflow changes.
