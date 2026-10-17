@@ -81,19 +81,18 @@ Container updates are asynchronous after Worker deployment; wait for the new
 protocol and a successful real simulation before marking a rollout verified.
 
 
-## Logic demo deployment and verification
+## Engineering-tool deployment and verification
 
-Apply migration `0005_logic_workflow.sql` before deploying this release. The
-container now builds pinned Magic as well as installing SKY130 models; its health
-and response protocol is 3. The loaded technology file and its hash/provenance are
-under `backend/simulator/technology`. Magic extraction has a 30-second wall limit
-and separate bounded scratch directories; ngspice retains its 12-second limit.
+Apply migration `0006_engineering_tools.sql` before deploying this release.
+Container protocol 4 supports the generic physical/simulation tools. Pinned Magic,
+SKY130 models and technology provenance remain under `backend/simulator/`.
+Magic has a 30-second wall limit; ngspice has a 12-second limit.
 
-Run `python3 scripts/logic-demo-qa.py` against the hosted service with Playwright
-Chromium installed. It creates disposable guests, runs the real model/tool loop,
-checks reload recovery, downloads, ownership and page errors, and removes its
-sessions afterward. It writes screenshots and a report under ignored `runtime/`.
-The unit suite in `tests/logic_test.py` exercises real Magic/ngspice, including
-broken-geometry rejection and measured load sensitivity. README has the container
-command. Do not treat Worker deployment success as container readiness: check
-`wrangler containers list/info` and complete a real hosted loop.
+Run `python3 scripts/engineering-qa.py` against the hosted service with Playwright
+Chromium installed. It uses disposable guests and ordinary Chat/editor views,
+checks real tools, reload, artifacts, isolation and stale-result rejection, then
+removes its sessions. Reports and screenshots go under ignored `runtime/`.
+`tests/engineering_test.py` tests real Magic/ngspice on inverter, XOR and an
+independent NAND, broken geometry and changed load/analysis. README contains the
+container command. Worker activation precedes container rollout; complete a real
+hosted operation before claiming deployment verified.

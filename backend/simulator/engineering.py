@@ -13,7 +13,7 @@ def validate_devices(devices):
     for d in devices:
         if d.get('kind') not in ('nmos','pmos') or any(not NODE.fullmatch(str(d.get(k,''))) for k in ('d','g','s','b')): raise ValueError('Invalid MOS terminals.')
         if any(not isinstance(d.get(k),(float,int)) or not math.isfinite(d[k]) for k in ('w','l')) or not 1<=d['w']<=8 or not .15<=d['l']<=1: raise ValueError('Layout device sizes must be W=1–8 µm and L=0.15–1 µm.')
-        if d['b']!=('vdd' if d['kind']=='pmos' else '0'): raise ValueError('The physical generator requires NMOS bodies at ground and PMOS bodies at VDD.')
+        if d['kind']=='nmos' and d['b']!='0': raise ValueError('The physical generator requires grounded NMOS bodies.')
     return devices
 
 def generate_layout(devices):
@@ -86,47 +86,62 @@ def extract(layout,devices):
         import base64
         return dict(engine='Magic',technology='SKY130A',gridUm=.01,netlist='\n'.join(flat),rawNetlist=spice,devices=len(actual),parasiticCapacitors=len(caps),connectivityMatches=expected==got,missing=[str(x) for x in (expected-got).elements()],unexpected=[str(x) for x in (got-expected).elements()],drcErrors=int(count[1]) if count else None,drcDetails=why[1] if why else '',log=log[-18000:],magic=(folder/'logic.mag').read_text(),gdsBase64=base64.b64encode((folder/'logic.gds').read_bytes()).decode() if (folder/'logic.gds').exists() else '',geometrySha256=hashlib.sha256(json.dumps(layout,sort_keys=True).encode()).hexdigest())
 
-def logic_measurement(payload, simulate):
-    """Run real transient analysis; assess settled values and individual edge delays."""
-    result=simulate({**payload,'samples':10000});rows=result['rows'];kind=payload.get('kind','xor');out_index=3 if kind=='xor' else 2
-    def nearest(t):return min(rows,key=lambda r:abs(r[0]-t))
-    truth=[]
-    for ns in [10,30,50,70,90,110,130,150]:
-        r=nearest(ns*1e-9);a=int(r[1]>.9);b=int(r[2]>.9) if kind=='xor' else 0;expected=a^b if kind=='xor' else 1-a;v=r[out_index]
-        truth.append(dict(timeNs=ns,a=a,b=b if kind=='xor' else None,expected=expected,voltage=v,passed=v>1.44 if expected else v<.36))
-    def crosses(index):
+def measure(payload, simulate):
+    result=simulate({**payload,'samples':10000});rows=result['rows']
+    if result['mode']!='tran':return result
+    probes=payload.get('probes',[payload['output']]);out_index=probes.index(payload['output'])+1
+    ranges=[(min(r[i] for r in rows),max(r[i] for r in rows)) for i in range(1,len(rows[0]))]
+    result['voltageRanges']=[dict(net=n,minV=lo,maxV=hi) for n,(lo,hi) in zip(probes,ranges)]
+    def crosses(index,threshold):
         edges=[]
         for p,r in zip(rows,rows[1:]):
-            if (p[index]<.9<=r[index]) or (p[index]>.9>=r[index]):
-                edges.append((p[0]+(.9-p[index])/(r[index]-p[index])*(r[0]-p[0]),'rise' if r[index]>p[index] else 'fall'))
+            if (p[index]<threshold<=r[index]) or (p[index]>threshold>=r[index]):
+                edges.append((p[0]+(threshold-p[index])/(r[index]-p[index])*(r[0]-p[0]),'rise' if r[index]>p[index] else 'fall'))
         return edges
-    outputs=crosses(out_index);delays=[]
-    for index in ([1,2] if kind=='xor' else [1]):
-        for t,direction in crosses(index):
-            future=[(ot,od) for ot,od in outputs if t<=ot<t+5e-9]
-            if future:
-                ot,od=future[0];delays.append(dict(input='A' if index==1 else 'B',inputEdge=direction,outputEdge=od,delayPs=(ot-t)*1e12,timeNs=t*1e9))
-    result['truthTable']=truth;result['truthPassed']=all(t['passed'] for t in truth);result['delays']=delays;result['worstDelayPs']=max((x['delayPs'] for x in delays),default=None);result['totalSamples']=len(rows)
-    # Keep switching transitions at high resolution, decimate only quiet regions.
+    delays=[];out_range=ranges[out_index-1];out_threshold=sum(out_range)/2
+    if out_range[1]-out_range[0]>.1:
+        outputs=crosses(out_index,out_threshold)
+        for net in payload.get('edgeInputs',[]):
+            if net not in probes or net==payload['output']:continue
+            index=probes.index(net)+1;lo,hi=ranges[index-1]
+            if hi-lo<.1:continue
+            inputs=crosses(index,(lo+hi)/2)
+            for k,(t,direction) in enumerate(inputs):
+                end=inputs[k+1][0] if k+1<len(inputs) else rows[-1][0]
+                window=min((end-t)/2,float(payload['analysis']['stop'])*.05)
+                future=[(ot,od) for ot,od in outputs if t<=ot<t+window]
+                if future:
+                    ot,od=future[0];delays.append(dict(input=net,inputEdge=direction,outputEdge=od,delayPs=(ot-t)*1e12,timeNs=t*1e9,inputThresholdV=(lo+hi)/2,outputThresholdV=out_threshold))
+    result['delays']=delays;result['worstDelayPs']=max((x['delayPs'] for x in delays),default=None)
+    result['measurementMethod']='First following output midpoint crossing after a pulsed input midpoint crossing; midpoints use measured voltage ranges. Unmatched edges are omitted.'
+    result['totalSamples']=len(rows)
     stride=max(1,math.ceil(len(rows)/1200));keep={0,len(rows)-1}
     for i in range(1,len(rows)):
         if i%stride==0 or any(abs(rows[i][j]-rows[i-1][j])>.025 for j in range(1,len(rows[i]))):keep.update((i-1,i))
     result['rows']=[rows[i] for i in sorted(keep)];return result
 
 def run_physical(payload,simulate):
-    action=payload.get('action');devices=validate_devices(payload.get('devices'))
-    if action=='layout':return {'layout':generate_layout(devices)}
-    if action=='verify':return {'extraction':extract(payload.get('layout',{}),devices)}
-    if action=='prelayout':return {'measurement':logic_measurement(payload,simulate)}
-    if action=='postlayout':
-        # Always extract the actual submitted geometry. Never trust a caller's
-        # cached LVS flag or a supplied extracted SPICE string.
+    action=payload.get('action')
+    if action=='simulate':return {'measurement':measure(payload,simulate)}
+    devices=validate_devices(payload.get('devices'))
+    if action=='generate_layout':return {'layout':generate_layout(devices)}
+    if action=='verify_layout':return {'extraction':extract(payload.get('layout',{}),devices)}
+    if action=='simulate_extracted':
         e=extract(payload.get('layout',{}),devices)
         if not e['connectivityMatches']:raise ValueError('Extracted transistor connectivity does not match the schematic. Resolve layout opens/shorts before post-layout simulation.')
+        if e['drcErrors']!=0:raise ValueError('Resolve reported layout design-rule violations before post-layout simulation.')
         original=payload.get('netlist','');from server import validate_netlist
         validate_netlist(original)
         remaining=[l for l in original.splitlines()[1:] if l and l[0].upper() not in ('M','X') and l!='.end']
-        netlist='Gnimula generated circuit\n'+e['netlist']+'\n'+'\n'.join(remaining)+'\n.end\n'
-        result=logic_measurement({**payload,'netlist':netlist},simulate)
+        # Magic's C0/X0 identifiers may collide with the user's external devices.
+        # Rename extracted instances only; preserve every electrical node name.
+        used={line.split()[0].lower() for line in remaining if line.strip()}
+        extracted=[]
+        for i,line in enumerate(e['netlist'].splitlines()):
+            name,tail=line.split(maxsplit=1);candidate=name[0]+'_layout_'+str(i)
+            while candidate.lower() in used:candidate+='x'
+            used.add(candidate.lower());extracted.append(candidate+' '+tail)
+        netlist='Gnimula generated circuit\n'+'\n'.join(extracted)+'\n'+'\n'.join(remaining)+'\n.end\n'
+        result=measure({**payload,'netlist':netlist},simulate)
         return {'measurement':result,'extraction':e,'extractedTestbench':netlist}
     raise ValueError('Unknown physical-design action.')

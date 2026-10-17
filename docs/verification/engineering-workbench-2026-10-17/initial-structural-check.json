@@ -1,0 +1,199 @@
+{
+  "checks": [
+    "Library XOR uses ordinary Chat and editor tools without a dedicated screen.",
+    "Reload retains actual results; artifacts are available only to their owner.",
+    "Real model composes a new NAND netlist and uses the same tools with different nets and timing.",
+    "A single operation is not expanded into a fixed flow; dismissed plans stay dismissed on reload.",
+    "Geometry edits invalidate extraction and reject stale artifacts/tool requests."
+  ],
+  "pageErrors": [],
+  "circuits": {
+    "xor": {
+      "preDelayPs": 119.83261441294718,
+      "postDelayPs": 221.02581311346705,
+      "devices": 12,
+      "capacitances": 45,
+      "drcErrors": 0,
+      "timeline": [
+        {
+          "id": "tool_acd51a1c26b34a42",
+          "action": "simulate",
+          "reason": "Simulate the current schematic, then generate, verify, and simulate its layout to compare waveforms.",
+          "summary": "Schematic tran simulation completed: 10050 measured points. Largest matched input/output midpoint-crossing delay: 119.8 ps.",
+          "at": 1792269993330,
+          "revision": 0,
+          "actor": "model"
+        },
+        {
+          "id": "tool_cf37f084f8ee43f5",
+          "action": "generate_layout",
+          "reason": "Simulate the current schematic, then generate, verify, and simulate its layout to compare waveforms.",
+          "summary": "Generated 305 physical rectangles from current MOS connectivity and dimensions. Run layout verification to check the result.",
+          "at": 1792269994888,
+          "revision": 1,
+          "actor": "model"
+        },
+        {
+          "id": "tool_d8bca28d527b49eb",
+          "action": "verify_layout",
+          "reason": "Simulate the current schematic, then generate, verify, and simulate its layout to compare waveforms.",
+          "summary": "Magic extracted 12 MOS devices and 45 capacitances. Connectivity and dimensions match the schematic. DRC: 0 violations.",
+          "at": 1792269997551,
+          "revision": 1,
+          "actor": "model"
+        },
+        {
+          "id": "tool_44ef97d63c9e46a8",
+          "action": "simulate_extracted",
+          "reason": "Simulate the current schematic, then generate, verify, and simulate its layout to compare waveforms.",
+          "summary": "Extracted-layout tran simulation completed: 10050 measured points. Largest matched input/output midpoint-crossing delay: 221.0 ps.",
+          "at": 1792270010385,
+          "revision": 1,
+          "actor": "model"
+        }
+      ],
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "proposal": {
+        "id": "proposal_4345b1c9f41c4288",
+        "candidateId": "agent-edit",
+        "title": "Simulate and compare schematic and extracted layout",
+        "description": "Simulate the current schematic, then generate, verify, and simulate its layout to compare waveforms.",
+        "reason": "Simulate the current schematic, then generate, verify, and simulate its layout to compare waveforms.",
+        "operations": [],
+        "toolPlan": {
+          "calls": [
+            {
+              "action": "simulate"
+            },
+            {
+              "action": "generate_layout"
+            },
+            {
+              "action": "verify_layout"
+            },
+            {
+              "action": "simulate_extracted"
+            }
+          ],
+          "next": 0,
+          "expectedRevision": 0
+        },
+        "memoryIds": [],
+        "revision": 0,
+        "contextVersion": 1,
+        "engine": "workers-ai",
+        "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "context": {
+          "mode": "edit",
+          "goal": "Inspect the circuit, measure its response and compare schematic and extracted-layout simulations.",
+          "pdk": "sky130",
+          "referenceIds": [
+            "ref_ca1858bd31e64ad2"
+          ],
+          "selection": []
+        },
+        "createdAt": 1792269988981
+      }
+    },
+    "nand": {
+      "preDelayPs": 156.14951870785544,
+      "postDelayPs": 166.7613317253336,
+      "devices": 4,
+      "capacitances": 8,
+      "drcErrors": 0,
+      "timeline": [
+        {
+          "id": "tool_863627a8a1ad4ed8",
+          "action": "create_circuit",
+          "reason": "Create a CMOS NAND circuit and run a series of simulations and layout verifications.",
+          "summary": "Created CMOS NAND with 8 devices from the proposed netlist. Electrical behavior is not yet verified.",
+          "at": 1792270029220,
+          "revision": 1,
+          "actor": "model"
+        },
+        {
+          "id": "tool_4332f6fc7c9241f9",
+          "action": "simulate",
+          "reason": "Create a CMOS NAND circuit and run a series of simulations and layout verifications.",
+          "summary": "Schematic tran simulation completed: 10019 measured points. Largest matched input/output midpoint-crossing delay: 156.1 ps.",
+          "at": 1792270036193,
+          "revision": 1,
+          "actor": "model"
+        },
+        {
+          "id": "tool_d09f5ed695664dbd",
+          "action": "generate_layout",
+          "reason": "Create a CMOS NAND circuit and run a series of simulations and layout verifications.",
+          "summary": "Generated 103 physical rectangles from current MOS connectivity and dimensions. Run layout verification to check the result.",
+          "at": 1792270037222,
+          "revision": 2,
+          "actor": "model"
+        },
+        {
+          "id": "tool_53d2927f10714eea",
+          "action": "verify_layout",
+          "reason": "Create a CMOS NAND circuit and run a series of simulations and layout verifications.",
+          "summary": "Magic extracted 4 MOS devices and 8 capacitances. Connectivity and dimensions match the schematic. DRC: 0 violations.",
+          "at": 1792270042043,
+          "revision": 2,
+          "actor": "model"
+        },
+        {
+          "id": "tool_6de80b35fa664e98",
+          "action": "simulate_extracted",
+          "reason": "Create a CMOS NAND circuit and run a series of simulations and layout verifications.",
+          "summary": "Extracted-layout tran simulation completed: 10019 measured points. Largest matched input/output midpoint-crossing delay: 166.8 ps.",
+          "at": 1792270051869,
+          "revision": 2,
+          "actor": "model"
+        }
+      ],
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "proposal": {
+        "id": "proposal_39fed48e04ec4b78",
+        "candidateId": "agent-edit",
+        "title": "CMOS NAND Circuit Creation and Simulation",
+        "description": "Create a CMOS NAND circuit and run a series of simulations and layout verifications.",
+        "reason": "Create a CMOS NAND circuit and run a series of simulations and layout verifications.",
+        "operations": [],
+        "toolPlan": {
+          "calls": [
+            {
+              "action": "create_circuit",
+              "name": "CMOS NAND",
+              "netlist": "CMOS NAND circuit\n* SKY130 1.8V typical MOS models\nXmp1 z u vdd vdd sky130_fd_pr__pfet_01v8 W=2 L=0.15\nXmp2 z u vdd vdd sky130_fd_pr__pfet_01v8 W=2 L=0.15\nXmn1 z u gnd gnd sky130_fd_pr__nfet_01v8 W=2 L=0.15\nXmn2 gnd v gnd gnd sky130_fd_pr__nfet_01v8 W=2 L=0.15\nCload z gnd 20f\nVvdd vdd gnd DC 1.8\nVu u gnd PULSE(0 1.8 10n 0.1n 0.1n 10n 20n)\nVv v gnd PULSE(0 1.8 20n 0.1n 0.1n 20n 40n)\n.tran 0.1n 80n\n.print tran v(z)\n.end",
+              "replaceExisting": true
+            },
+            {
+              "action": "simulate"
+            },
+            {
+              "action": "generate_layout"
+            },
+            {
+              "action": "verify_layout"
+            },
+            {
+              "action": "simulate_extracted"
+            }
+          ],
+          "next": 0,
+          "expectedRevision": 0
+        },
+        "memoryIds": [],
+        "revision": 0,
+        "contextVersion": 0,
+        "engine": "workers-ai",
+        "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+        "context": {
+          "mode": "edit",
+          "goal": "",
+          "pdk": "generic",
+          "referenceIds": [],
+          "selection": []
+        },
+        "createdAt": 1792270028404
+      }
+    }
+  }
+}

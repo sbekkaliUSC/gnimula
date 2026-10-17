@@ -47,7 +47,7 @@ Public integration references:
 Public examples are source material, not visitor records. A visitor's edits and traces stay in that guest's project storage.
 
 
-## Physical logic demonstration
+## Physical layout tools
 
 - Magic VLSI, permissive upstream LICENSE, pinned commit
   `bed8d4ff84333767aa923d469d339cd05c56a00a` from

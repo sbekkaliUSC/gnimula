@@ -215,39 +215,42 @@ keeps new source projects from using an old image silently during that interval;
 the UI receives a retryable service response until the image supports them.
 
 
-## AI-driven physical logic flow
+## Shared engineering tools
 
-`LogicDemo` calls the owner-checked `/api/projects/:id/logic` route. Llama 3.3
-selects one allowed tool from the saved stage and explains that decision:
-`build_schematic`, `prelayout`, `layout`, `verify`, `postlayout`. The user requests
-one step or the whole loop; leaving the page stops scheduling further steps.
-Already completed steps persist. A per-project lease and revision checks prevent
-concurrent tools from overwriting edits. Model failure leaves the design unchanged.
+Ordinary Chat proposes validated tools alongside the existing edit-operation
+schema. A tool proposal contains ordered calls and a revision/context snapshot;
+it does not run until accepted. `create_circuit` imports a declarative netlist
+composed by the model. `simulate`, `generate_layout`, `verify_layout`, and
+`simulate_extracted` operate on the current document. The same backend powers
+the normal editor toolbar. There is no dedicated circuit screen, saved stage
+machine, template selection tool, or mandatory progression.
 
-`logic-demo.ts` authors the canonical 2T inverter and 12T static complementary XOR,
-with explicit bodies, net identities, public SKY130 model names and input vectors.
-The Python physical generator derives diffusion/poly, contacts, taps, wells,
-M1 terminal corridors and M2 net tracks from those current terminal connections
-and sizes. It is a deterministic generator, not an AI polygon stream. Each grid
-unit is 10 nm. The resulting shapes are editable native document rectangles.
+`engineering.ts` derives probes, stimuli, analysis, device identities, connections
+and W/L from the document. The Python generator derives diffusion/poly, contacts,
+taps, wells, M1 terminal corridors and M2 net tracks from that data. Each physical
+grid unit is 10 nm. The generated shapes are editable document rectangles. The
+inverter and XOR live in `examples/` as ordinary library data. Independent NAND
+regressions exercise the same code with different names, connectivity and timing.
 
-A pinned Magic build runs the retained public SKY130 technology file against
-these rectangles, producing `.mag`, GDS, an extracted SPICE deck and DRC output.
-The bounded checker compares flat MOS type, gate, body, unordered drain/source,
-width and length against the schematic. This is not a general hierarchical LVS
-engine. Post-layout simulation always re-extracts the submitted geometry, rejects
-connectivity mismatch, and replaces schematic transistor lines with the extracted
-devices/capacitors while retaining the same external stimulus and load.
+Pinned Magic runs the public SKY130 technology against these rectangles, producing
+Magic source, GDS, extracted SPICE and DRC output. The bounded checker compares
+flat MOS type, gate, body, unordered drain/source, W and L. Extracted simulation
+rejects mismatches and DRC violations, replaces schematic MOS lines with actual
+extracted devices/capacitances, and retains external stimuli, load and analysis.
+There is no hardcoded truth function or circuit-specific testbench in the tools.
+Transient measurements report voltage ranges and matched input/output midpoint
+crossings, with the heuristic disclosed. This is not exhaustive timing analysis.
 
-ngspice measures all truth combinations and 50%-VDD edge delays. Schematic and
-post-layout waveforms are both retained. Geometry and electrical fingerprints
-invalidate dependent results after edits; device movement without electrical
-change does not invalidate measurements. The comparison testbench is fixed to
-1.8 V and 0–160 ns; incompatible edits receive a specific restore message.
+D1 `engineering_workflows` stores fingerprints, tool outcomes and measurements.
+Electrical/analysis changes invalidate measurements; geometry changes invalidate
+extraction. A project lease, proposal lease and optimistic revision checks prevent
+concurrent calls from overwriting newer work. Proposal cursors allow reload and
+explicit continuation; a failed check stops subsequent tools. Each created design
+or generated layout is an ordinary revision, with undo and durable snapshots.
+Chat, events and runs record actual outcomes. Private R2 artifacts use owner-checked
+routes. Protocol 4 is required. Extraction includes capacitance and junction
+geometry, not distributed wire resistance or manufacturing signoff.
 
-D1 `logic_workflows` stores stage, fingerprints, tool reasons/results and plots.
-Generated edits become normal saved revisions; chat, events and runs also record
-tool outcomes. Private R2 stores `.mag`, GDS and extracted SPICE with owner-checked
-download routes. Protocol 3 is required before physical work reaches the container.
-Extraction includes geometric capacitance and device junction geometry, not
-extracted distributed wire resistance or foundry signoff.
+Migration 0006 creates a separate state table so a prior Worker can serve traffic
+until rollout. Historical logic-workflow records are not interpreted as current
+engineering results. Their project documents remain accessible.

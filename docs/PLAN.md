@@ -162,12 +162,13 @@ remain later interoperability work; associated SPICE selection is not a claim of
 native geometry conversion or verified equivalence.
 
 
-## Current demo priority — 2026-10-17
+## Current workflow priority — 2026-10-17
 
-Prioritize the transistor-level XOR homework from schematic through measured
-post-layout response. The delivered bounded flow includes a 12T static CMOS XOR,
-2T inverter, AI-selected tools, deterministic physical generation, real Magic
-DRC/extraction, ngspice before/after comparison and physical exports. Broad native
-source conversion remains subsequent work. Optimize for a reliable, inspectable
-end-to-end demonstration before adding unrelated features. This demo does not
-establish optimal layout area, process portability or manufacturing signoff.
+The founder's recording scenario is separate from application behavior. The app
+must support working from the current circuit through editing, simulation,
+physical generation, checks and extracted simulation in its normal workbench.
+No homework screen, XOR action, recording mode or fixed progression belongs in
+the product. Ordinary library examples may include inverter and XOR designs.
+Chat chooses generic tools based on user intent; the user can invoke those tools
+directly too. Test unrelated circuits and changed testbenches through the same
+execution path. Broad native-source conversion remains subsequent work.

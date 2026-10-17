@@ -161,9 +161,10 @@ an event. Public conversion caches contain only fetched public source material,
 not guest goals, chat, private projects or behavioral records.
 
 
-Logic demo stores the model-selected tool, brief reason, actual tool result,
-revision and model identifier in `logic_workflows`, chat and server events.
-Generated document edits have revision snapshots; actual measurements are runs.
-Private physical artifacts follow project ownership and guest retention. The
-work log describes model decisions and measured outcomes, not private reasoning
-traces or proof of unmeasured engineering claims.
+Ordinary Chat stores model-proposed engineering calls, model identity, revision,
+context and execution cursor in proposals. Accepted calls record actual outcomes
+in `engineering_workflows`, chat, runs and `engineering.tool.completed` events.
+The actor distinguishes model-proposed calls from direct toolbar operations.
+Generated document edits retain ordinary revision snapshots. Private artifacts
+follow project ownership and guest retention. These records describe proposals
+and measured outcomes, not private reasoning traces or unmeasured success.

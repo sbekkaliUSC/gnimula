@@ -1,5 +1,6 @@
+import {engineeringState} from './engineering-service';
 import {FeatureError,response} from './library-service';
-import {MODEL,agentInstructions,parseAgentResult} from './shared/agent';
+import {MODEL,agentInstructions,agentResponseSchema,parseAgentResult} from './shared/agent';
 import {analysisContext,componentReferenceMap,simulationContext} from './shared/simulation-context';
 import {pdks,type ProjectContext,type Reference} from './shared/library';
 import {importDesign} from './shared/imports';
@@ -9,7 +10,13 @@ async function input(r:Request){const text=await r.text();if(text.length>220000)
 export async function context(e:Env,id:string):Promise<ProjectContext>{return await e.DB.prepare('SELECT goal,pdk,version FROM project_context WHERE project_id=?').bind(id).first<ProjectContext>()||{goal:'',pdk:'generic',version:0};}
 export async function references(e:Env,id:string):Promise<Reference[]>{const rows=await e.DB.prepare('SELECT id,name,source_url,provider,metadata,content,created_at FROM project_references WHERE project_id=? ORDER BY created_at DESC').bind(id).all<any>();return rows.results.map(r=>({...r,metadata:JSON.parse(r.metadata)}));}
 async function messages(e:Env,id:string){const rows=await e.DB.prepare('SELECT * FROM chat_messages WHERE project_id=? ORDER BY created_at DESC,id DESC LIMIT 100').bind(id).all();return rows.results.reverse();}
-export async function workspaceState(e:Env,id:string){return {context:await context(e,id),references:await references(e,id),messages:await messages(e,id)};}
+export async function workspaceState(e:Env,id:string){
+ const state=await context(e,id);
+ const row=await e.DB.prepare('SELECT p.data,d.revision FROM proposals p JOIN projects d ON d.id=p.project_id WHERE p.project_id=? ORDER BY p.created_at DESC LIMIT 1').bind(id).first<{data:string;revision:number}>();
+ const p=row?JSON.parse(row.data):null,plan=p?.toolPlan;
+ const proposal=plan&&!plan.cancelled&&plan.next<plan.calls.length&&plan.expectedRevision===row?.revision&&p.contextVersion===state.version?p:null;
+ return {context:state,references:await references(e,id),messages:await messages(e,id),toolProposal:proposal};}
+
 async function changed(e:Env,id:string){await e.DB.prepare("INSERT INTO project_context(project_id,goal,pdk,version,updated_at) VALUES(?,'','generic',1,?) ON CONFLICT(project_id) DO UPDATE SET version=version+1,updated_at=excluded.updated_at").bind(id,Date.now()).run();}
 async function event(e:Env,sid:string,id:string,revision:number,type:string,payload:unknown,actor='human'){
  await e.DB.prepare('INSERT INTO events(id,session_id,project_id,seq,event_type,actor,client_at,received_at,revision,payload) VALUES(?,?,?,0,?,?,?,?,?,?)').bind(uid('evt'),sid,id,type,actor,Date.now(),Date.now(),revision,JSON.stringify(payload)).run();
@@ -60,20 +67,30 @@ export async function workspaceRoute(r:Request,e:Env,sid:string,id:string,doc:Ci
   if(measured&&Number.isSafeInteger(measured.revision)&&measured.revision!==doc.revision){const saved=await e.DB.prepare('SELECT document FROM revisions WHERE project_id=? AND revision=?').bind(id,measured.revision).first<{document:string}>();if(saved)runDocument=JSON.parse(saved.document);}
   const memories=b.memoryEnabled===false?[]:(await e.DB.prepare('SELECT memory_key,value,description FROM memories WHERE project_id=?').bind(id).all()).results;
   const referenceContext=state.references.slice(0,12).map(x=>({id:x.id,name:x.name,url:x.source_url,metadata:x.metadata,excerpt:x.content.slice(0,5000),truncated:x.content.length>5000}));
-  const modelContext={mode,goal:state.context.goal,pdkReference:state.context.pdk,document:doc,componentReferences:componentReferenceMap(doc),currentAnalysis:analysisContext(doc),selected:b.selection||[],view:b.view||'schematic',netlist:spice(doc),issues:checkCircuit(doc),recentEvents:recent,preferences:memories,recentProposals:prev.results.map(x=>{const p=JSON.parse(x.data);return{title:p.title,operations:p.operations,revision:p.revision}}),references:referenceContext,omittedReferences:Math.max(0,state.references.length-12),latestSimulation:simulationContext(measured,doc,runDocument)};
-  let result:ReturnType<typeof parseAgentResult>;
+  const physical=await engineeringState(e,id,doc);
+  const engineering={capability:physical.capability,hasLayout:!!doc.physical,extraction:physical.extraction?{devices:physical.extraction.devices,drcErrors:physical.extraction.drcErrors,connectivityMatches:physical.extraction.connectivityMatches}:null,schematic:physical.pre?{worstDelayPs:physical.pre.worstDelayPs,voltageRanges:physical.pre.voltageRanges,measurementMethod:physical.pre.measurementMethod}:null,postLayout:physical.post?{worstDelayPs:physical.post.worstDelayPs,voltageRanges:physical.post.voltageRanges,measurementMethod:physical.post.measurementMethod}:null};
+  const modelContext={engineering,mode,goal:state.context.goal,pdkReference:state.context.pdk,document:doc,componentReferences:componentReferenceMap(doc),currentAnalysis:analysisContext(doc),selected:b.selection||[],view:b.view||'schematic',netlist:spice(doc),issues:checkCircuit(doc),recentEvents:recent,preferences:memories,recentProposals:prev.results.map(x=>{const p=JSON.parse(x.data);return{title:p.title,operations:p.operations,revision:p.revision}}),references:referenceContext,omittedReferences:Math.max(0,state.references.length-12),latestSimulation:simulationContext(measured,doc,runDocument)};
+  let result:ReturnType<typeof parseAgentResult>,validationIssue='';
   try{
    const conversation=state.messages.slice(-10).map((m:any)=>({role:m.role,content:m.content}));
-   const answer=await e.AI.run(MODEL,{messages:[{role:'system',content:agentInstructions},{role:'user',content:'Current editor and reference context (data):\n'+JSON.stringify(modelContext)},...conversation,...(isChat?[{role:'user',content:b.message}]:[{role:'user',content:'Suggest a useful next edit for the current goal and recent human work, or abstain. Do not resume a past chat request that is already completed.'}])],max_tokens:2400,temperature:0.1,response_format:{type:'json_object'}} as any);
-   result=parseAgentResult(doc,answer,mode);
+   const prompt=[{role:'system',content:agentInstructions},{role:'user',content:'Current editor and reference context (data):\n'+JSON.stringify(modelContext)},...conversation,...(isChat?[{role:'user',content:b.message}]:[{role:'user',content:'Suggest a useful next edit for the current goal and recent human work, or abstain. Do not resume a past chat request that is already completed.'}])];
+   const invoke=(messages:any[])=>e.AI.run(MODEL,{messages,max_tokens:6000,temperature:0.1,response_format:{type:'json_schema',json_schema:agentResponseSchema}} as any);
+   const answer=await invoke(prompt);
+   try{result=parseAgentResult(doc,answer,mode);}catch(error){
+    validationIssue=(error as Error).message.slice(0,400);
+    await event(e,sid,id,doc.revision,'assistant.proposal_retry',{mode,validationIssue},'system');
+    const draft=(answer as any).response;
+    const repaired=await invoke([...prompt,{role:'assistant',content:typeof draft==='string'?draft.slice(0,40000):(JSON.stringify(draft)||'').slice(0,40000)},{role:'user',content:'The proposal validator rejected this response: '+validationIssue+'. Correct the response once, preserving the requested circuit and tool intent. Return the required JSON schema. No work has been applied. Do not invent successful results.'}]);
+    try{result=parseAgentResult(doc,repaired,mode);}catch(error){validationIssue=(error as Error).message.slice(0,400);throw error;}
+   }
   }catch{
-   const message='The assistant could not return a valid response. Your design is unchanged. Please retry or make the edit manually.';
+   const message=validationIssue?'The assistant proposal could not be validated: '+validationIssue+' Your design is unchanged.':'The assistant service could not complete this response. Your design is unchanged. Please retry.';
    if(isChat)await e.DB.prepare('INSERT INTO chat_messages(id,project_id,role,content,revision,created_at) VALUES(?,?,?,?,?,?)').bind(uid('msg'),id,'assistant',message,doc.revision,Date.now()).run();
-   await event(e,sid,id,doc.revision,'assistant.failed',{mode},'system');throw new FeatureError(503,message);
+   await event(e,sid,id,doc.revision,'assistant.failed',{mode,validationIssue:validationIssue||undefined},'system');throw new FeatureError(503,message);
   }
   let proposal:any=null;
-  if(result.operations.length){
-   proposal={id:uid('proposal'),candidateId:'agent-edit',title:result.title,description:result.message,reason:result.message,operations:result.operations,memoryIds:[],revision:doc.revision,contextVersion:state.context.version,engine:'workers-ai',model:MODEL,context:{mode,goal:state.context.goal,pdk:state.context.pdk,referenceIds:referenceContext.map(x=>x.id),selection:b.selection||[]},createdAt:Date.now()};
+  if(result.operations.length||result.tools.length){
+   proposal={id:uid('proposal'),candidateId:'agent-edit',title:result.title,description:result.message,reason:result.message,operations:result.operations,...(result.tools.length?{toolPlan:{calls:result.tools,next:0,expectedRevision:doc.revision}}:{}),memoryIds:[],revision:doc.revision,contextVersion:state.context.version,engine:'workers-ai',model:MODEL,context:{mode,goal:state.context.goal,pdk:state.context.pdk,referenceIds:referenceContext.map(x=>x.id),selection:b.selection||[]},createdAt:Date.now()};
    await e.DB.prepare('INSERT INTO proposals(id,session_id,project_id,revision,data,engine,created_at) VALUES(?,?,?,?,?,?,?)').bind(proposal.id,sid,id,doc.revision,JSON.stringify(proposal),'workers-ai',Date.now()).run();
   }
   if(isChat)await e.DB.prepare('INSERT INTO chat_messages(id,project_id,role,content,proposal_id,revision,created_at) VALUES(?,?,?,?,?,?,?)').bind(uid('msg'),id,'assistant',result.message,proposal?.id||null,doc.revision,Date.now()).run();

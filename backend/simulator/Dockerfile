@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends ngspice tk libc
 COPY --from=magic-build /usr/local /usr/local
 COPY --from=magic-build /src/magic/LICENSE /app/licenses/Magic-LICENSE
 WORKDIR /app
-COPY backend/simulator/server.py backend/simulator/logic.py /app/
+COPY backend/simulator/server.py backend/simulator/engineering.py /app/
 COPY backend/simulator/technology /app/technology
 COPY backend/simulator/install_models.py backend/simulator/sky130-lock.json /app/
 RUN python /app/install_models.py /app/models

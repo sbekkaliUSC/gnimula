@@ -1,11 +1,11 @@
-import {logicCircuit,logicTitle} from './logic-demo';
+import {logicCircuit,logicTitle} from '../../examples/mos-logic';
 import {importDesign,rcExample} from './imports';
 import {starter,checkCircuit,netMap,uid,validateCircuit,type Circuit} from './circuit';
 
 export interface ReadyItem {id:string;name:string;description:string;kind:'circuit'|'testbench'|'stimulus'|'layout';pdk:string;provider:string;goal:string;sourceUrl?:string;license?:string;details?:string[]}
 export interface PreparedCircuit {item:ReadyItem;document:Circuit;notes:string[];reference:{name:string;content:string;url:string;provider:string;metadata:Record<string,unknown>}}
 export const readyItems:ReadyItem[]=[
- ...(['xor','inverter'] as const).map(id=>({id,name:logicTitle(id),description:'Transistor-level SKY130 logic with a complete truth-table transient testbench. Continue through physical layout and extracted simulation in the Demo tab.',kind:'circuit' as const,pdk:'sky130',provider:'Gnimula',goal:'Demonstrate MOS logic from schematic through verified physical layout and post-layout simulation.'})),
+ ...(['xor','inverter'] as const).map(id=>({id,name:logicTitle(id),description:'Transistor-level SKY130 circuit with input vectors, an output load and a transient testbench.',kind:'circuit' as const,pdk:'sky130',provider:'Gnimula',goal:'Inspect the circuit, measure its response and compare schematic and extracted-layout simulations.'})),
  {id:'rc',name:'RC low-pass filter',description:'A wired filter with a 15.9 kHz corner. Open it and measure the frequency response.',kind:'circuit',pdk:'generic',provider:'Gnimula',goal:'Explore this low-pass filter. Compare the measured corner frequency with 1/(2πRC).'},
  {id:'amplifier',name:'Common-source amplifier',description:'A biased NMOS gain stage with a supply, signal source, load and AC testbench.',kind:'circuit',pdk:'generic',provider:'Gnimula',goal:'Improve amplifier gain while preserving its topology and checking bias with simulation.'},
  {id:'mirror',name:'NMOS current mirror',description:'A matched transistor pair, reference resistor and loaded output, ready for a supply sweep.',kind:'circuit',pdk:'generic',provider:'Gnimula',goal:'Explore current-mirror behavior by tuning device ratios and the output load.'},

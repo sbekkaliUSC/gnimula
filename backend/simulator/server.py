@@ -141,8 +141,8 @@ class Handler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
-        body = json.dumps({'ok':True,'engine':'ngspice','protocol':3}).encode()
-        self.send_response(200); self.send_header('X-Gnimula-Simulator-Protocol','3'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
+        body = json.dumps({'ok':True,'engine':'ngspice','protocol':4}).encode()
+        self.send_response(200); self.send_header('X-Gnimula-Simulator-Protocol','4'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
 
     def do_POST(self):
         acquired = SLOTS.acquire(blocking=False)
@@ -154,7 +154,7 @@ class Handler(BaseHTTPRequestHandler):
                 raise ValueError('Invalid request size.')
             payload = json.loads(self.rfile.read(length))
             if self.path.startswith('/physical'):
-                from logic import run_physical
+                from engineering import run_physical
                 result=run_physical(payload,simulate)
             else:result = simulate(payload)
             status = 200
@@ -167,7 +167,7 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             SLOTS.release()
         body = json.dumps(result, allow_nan=False).encode()
-        self.send_response(status); self.send_header('X-Gnimula-Simulator-Protocol','3'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
+        self.send_response(status); self.send_header('X-Gnimula-Simulator-Protocol','4'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
 
 
 if __name__ == '__main__':

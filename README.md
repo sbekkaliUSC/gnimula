@@ -1,35 +1,34 @@
 # Gnimula
 
-A browser circuit-design workbench with an AI-driven schematic-to-layout demo, goal-aware chat, autocomplete, and a searchable public circuit library.
+A browser circuit-design workbench with goal-aware chat, shared engineering tools, autocomplete, and a searchable public circuit library.
 
 **Try it: [gnimula.stream](https://gnimula.stream)**
 
 Open a circuit, place and connect devices, measure its response, and continue
 edits with a previewed suggestion informed by your goal and attached references. The familiar dark workbench includes
-schematic, concept-layout, simulation, properties, history, and generated SPICE
+schematic, layout, simulation, properties, history, and generated SPICE
 views. Nothing needs to be installed by visitors.
 
-## Run the XOR homework demo
+## Work from a circuit and a goal
 
-Open **[the Logic demo](https://gnimula.stream/?demo=xor)** and click **Start AI XOR demo**.
-The assistant builds a 12-transistor static CMOS XOR, runs the schematic,
-generates a SKY130 physical layout, checks/extracts it with Magic, then runs
-ngspice on the extracted devices and capacitances. A two-transistor inverter is
-available on the same start screen. Existing projects stay saved.
+Open a circuit from **Library**, edit it directly, or start a blank project and
+ask **Chat** to create one. In Edit mode the assistant can propose a netlist,
+schematic simulation, physical layout generation, verification, or extracted
+simulation. Review the proposed tools and click **Run tools**. Each operation
+uses the current project and appears in its normal Schematic, Layout, Simulation
+or Netlist view. Stop between tools, inspect results, edit, or undo as needed.
 
-Use **Run next AI step** to narrate each stage, or **Continue demo** to finish the
-sequence. **Stop after this step** pauses between tools. Reload retains completed
-stages; continue manually after reopening. Inspect Schematic, Layout, Waveforms,
-and Extracted SPICE, then zoom the first switching edge to compare measured delay.
-Generated GDS, Magic source and extracted SPICE are downloadable after extraction.
+The Layout toolbar exposes the same generation, verification and post-layout
+simulation tools directly. Simulation compares schematic and extracted waveforms
+using the project's actual stimuli, probes and analysis range. Netlist offers
+schematic/extracted views; GDS, Magic source and extracted SPICE are available
+after extraction. Geometry edits invalidate extraction; electrical or analysis
+edits invalidate measurements. Reload retains results and unfinished tool proposals.
 
-The AI selects validated tools and explains its choices; deterministic code builds
-the chosen topology and physical rectangles. Simulation and checks supply the
-results. This is a bounded working design flow, not autonomous general-purpose
-analog synthesis. The fixed testbench uses 1.8 V, 160 ns and all truth combinations;
-transistor widths and output load can be changed. Geometry edits invalidate
-extraction; electrical edits invalidate the baseline. The layout prioritizes
-checkable connectivity, not optimized area or speed.
+Physical generation currently supports small flat SKY130 MOS circuits with
+external voltage sources and load capacitors. It derives geometry from device
+connections and dimensions. The library's inverter and XOR are ordinary circuit
+examples; the tools do not select a topology or enforce a circuit-specific sequence.
 
 ## What works
 
@@ -48,7 +47,7 @@ checkable connectivity, not optimized area or speed.
 - Preserve named subcircuit ports, hierarchy, model cards and pulse/PWL stimuli.
   An editable circuit can open while missing simulation setup remains visible.
   **Sources** shows originals, dependencies and setup; add public model files there.
-- Choose among eleven starter circuits: seven independent examples, an official
+- Choose among thirteen starter circuits: nine independent examples, an official
   ngspice band-pass example from GitHub, and three public SKY130 op-amp records
   from Hugging Face. Search and filter these prepared designs by source or model.
 - Apply AC/DC testbenches, a sine input or concept-layout contact/via blocks directly
@@ -71,8 +70,7 @@ checkable connectivity, not optimized area or speed.
   holds the privacy explanation, preview terms and dependency notices.
 
 This is an early workbench, not a foundry signoff tool. Simulation supports generic Level-1 MOS and a pinned
-SKY130 typical MOS/BJT subset and supported source model cards. Ordinary layout
-projects use a concept canvas. Logic-demo projects instead use physical 10 nm
+SKY130 typical MOS/BJT subset and supported source model cards. Manually drawn layouts use a concept canvas. Generated physical layouts use 10 nm
 coordinates, the public SKY130 Magic technology, DRC, exact flat MOS
 connectivity/type/dimension comparison, extraction and GDS export. Post-layout
 simulation includes geometric capacitances and junction geometry; distributed
@@ -97,12 +95,12 @@ ambition remains a target, not a measured result.
 The assistant is Llama 3.3 70B on Workers AI. It receives structured circuit data,
 connectivity, recent actions, messages, goals, preferences and reference excerpts.
 It does not receive a live screenshot, execute arbitrary tools, browse autonomously,
-or retrain its weights. In Logic demo it selects from five bounded engineering tools and records their actual results. The Library searches public circuit records and repository files. The preparation
+or retrain its weights. In Edit mode it can propose five bounded engineering tools and records their actual results. The Library searches public circuit records and repository files. The preparation
 agent may rank actual electrical-source candidates for unsupported native files;
 it does not invent a netlist or silently replace a design. Hierarchical SPICE is
 supported. Native GDS/Xschem geometry conversion and full PDK installation remain
 unimplemented; associated electrical files can be selected inside preparation.
-PDK context alone does not change device models or enable foundry checks; the logic flow explicitly installs and invokes its documented SKY130 toolchain.
+PDK context alone does not change device models or enable foundry checks; physical generation explicitly installs and invokes its documented SKY130 toolchain.
 
 ## Development
 
@@ -150,7 +148,7 @@ for implementation, [action data](docs/ACTION_DATA.md) for collection/retention,
 | --- | --- |
 | `frontend/` | React workbench, SVG editors, plots, local draft/event sync |
 | `backend/` | Worker API, circuit model, D1 schema, Python ngspice service |
-| `examples/` | Independently authored circuits and demonstration tasks |
+| `examples/` | Independently authored circuit examples |
 | `tests/` | Circuit and numerical simulator checks |
 | `scripts/` | Cloudflare provisioning and deployment support |
 | `docs/` | Product direction, implementation, operations, audit |

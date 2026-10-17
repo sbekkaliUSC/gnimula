@@ -1,4 +1,4 @@
-import {logicRoute} from './logic-service';
+import {engineeringState,runEngineeringTool,runProposedTool} from './engineering-service';
 import {prepareModels} from './source-service';
 import {Preparation,jobView,type PreparationRow} from './preparation';
 export {Preparation};
@@ -20,7 +20,7 @@ const cookie=(r:Request)=>r.headers.get('Cookie')?.split(';').map(x=>x.trim()).f
 const memoryRow=(r:Record<string,unknown>):Memory=>({id:String(r.id),key:String(r.memory_key),value:JSON.parse(String(r.value)),description:String(r.description),sourceEventId:r.source_event_id?String(r.source_event_id):undefined,createdAt:Number(r.created_at)});
 async function body<T=Record<string,unknown>>(r:Request):Promise<T>{const t=await r.text();if(t.length>220000)throw new HttpError(413,'Request is too large.');try{return JSON.parse(t)}catch{throw new HttpError(400,'Invalid JSON.')}}
 async function session(r:Request,e:Env):Promise<Session>{const token=cookie(r);if(!token||token.length>100)throw new HttpError(401,'Your guest session has expired. Reload to start a new one.');const row=await e.DB.prepare('SELECT id,training_opt_in,expires_at FROM sessions WHERE token_hash=? AND expires_at>?').bind(await hash(token),Date.now()).first<Session>();if(!row)throw new HttpError(401,'Your guest session has expired. Reload to start a new one.');return row}
-async function quota(e:Env,key:string,max:number,period=3600000){const now=Date.now(),bucket=key+':'+Math.floor(now/period);const r=await e.DB.prepare('INSERT INTO quotas(bucket,count,expires_at) VALUES(?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=count+1 RETURNING count').bind(bucket,now+period*2).first<{count:number}>();if(!r||r.count>max)throw new HttpError(429,'Demo usage limit reached. Please try again later.');}
+async function quota(e:Env,key:string,max:number,period=3600000){const now=Date.now(),bucket=key+':'+Math.floor(now/period);const r=await e.DB.prepare('INSERT INTO quotas(bucket,count,expires_at) VALUES(?,1,?) ON CONFLICT(bucket) DO UPDATE SET count=count+1 RETURNING count').bind(bucket,now+period*2).first<{count:number}>();if(!r||r.count>max)throw new HttpError(429,'Request limit reached. Please try again later.');}
 async function project(e:Env,s:Session,id:string){const row=await e.DB.prepare('SELECT * FROM projects WHERE id=? AND session_id=?').bind(id,s.id).first<ProjectRow>();if(!row)throw new HttpError(404,'Project not found.');return row}
 async function memories(e:Env,id:string){const r=await e.DB.prepare('SELECT * FROM memories WHERE project_id=? ORDER BY created_at DESC').bind(id).all<Record<string,unknown>>();return r.results.map(memoryRow)}
 async function serverEvent(e:Env,s:Session,p:string,type:string,revision:number,payload:unknown,actor='system'){await e.DB.prepare('INSERT INTO events(id,session_id,project_id,seq,event_type,actor,client_at,received_at,revision,payload) VALUES(?,?,?,0,?,?,?,?,?,?)').bind(uid('evt'),s.id,p,type,actor,Date.now(),Date.now(),revision,JSON.stringify(payload)).run()}
@@ -77,11 +77,11 @@ async function api(r:Request,e:Env,ctx:ExecutionContext):Promise<Response>{
  }
  if(path==='/api/projects'&&r.method==='GET'){const list=await e.DB.prepare('SELECT id,name,revision,created_at,updated_at FROM projects WHERE session_id=? ORDER BY updated_at DESC').bind(s.id).all();return json({projects:list.results});}
  if(path==='/api/projects'&&r.method==='POST'){
-  const count=await e.DB.prepare('SELECT count(*) AS n FROM projects WHERE session_id=?').bind(s.id).first<{n:number}>();if((count?.n||0)>=15)throw new HttpError(400,'The demo supports 15 projects per guest.');
-  const b=await body(r);let prepared;if(b.libraryId)prepared=prepareItem(String(b.libraryId));else if(b.catalogSelection){await quota(e,'library:'+s.id,60,60000);prepared=await prepareCatalogSelection(b.catalogSelection);}else if(b.sourceUrl){await quota(e,'library:'+s.id,60,60000);prepared=await prepareLink(String(b.sourceUrl));}const d=prepared?.document||(b.document?b.document:String(b.template).startsWith('logic-')?{...starter('blank'),name:b.template==='logic-inverter'?'Inverter demo':'XOR demo',logicKind:b.template==='logic-inverter'?'inverter':'xor'}:starter(String(b.template||'amplifier')));validateCircuit(d);d.revision=0;
+  const count=await e.DB.prepare('SELECT count(*) AS n FROM projects WHERE session_id=?').bind(s.id).first<{n:number}>();if((count?.n||0)>=15)throw new HttpError(400,'Each guest can save up to 15 projects.');
+  const b=await body(r);let prepared;if(b.libraryId)prepared=prepareItem(String(b.libraryId));else if(b.catalogSelection){await quota(e,'library:'+s.id,60,60000);prepared=await prepareCatalogSelection(b.catalogSelection);}else if(b.sourceUrl){await quota(e,'library:'+s.id,60,60000);prepared=await prepareLink(String(b.sourceUrl));}const d=prepared?.document||(b.document?b.document:starter(String(b.template||'amplifier')));validateCircuit(d);d.revision=0;
   const id=uid('project'),now=Date.now(),text=JSON.stringify(d);
   const statements=[e.DB.prepare('INSERT INTO projects(id,session_id,name,revision,document,created_at,updated_at) VALUES(?,?,?,?,?,?,?)').bind(id,s.id,d.name,0,text,now,now),e.DB.prepare('INSERT INTO revisions(project_id,revision,document,created_at) VALUES(?,?,?,?)').bind(id,0,text,now)];
-  if(d.logicKind&&!prepared)statements.push(e.DB.prepare('INSERT INTO project_context(project_id,goal,pdk,version,updated_at) VALUES(?,?,?,1,?)').bind(id,'Complete this transistor-level logic design from schematic to measured post-layout simulation. Preserve the intended truth table.','sky130',now));
+
   if(prepared){const ref=prepared.reference,rid=uid('ref'),metadata=JSON.stringify({...ref.metadata,contentSha256:await hash(ref.content),attachedAt:now});
    statements.push(e.DB.prepare('INSERT INTO project_context(project_id,goal,pdk,version,updated_at) VALUES(?,?,?,1,?)').bind(id,prepared.item.goal,prepared.item.pdk,now));
    statements.push(e.DB.prepare('INSERT INTO project_references(id,project_id,name,source_url,provider,metadata,content,artifact_key,created_at) VALUES(?,?,?,?,?,?,?,?,?)').bind(rid,id,ref.name,ref.url,ref.provider,metadata,ref.content,'',now));
@@ -89,22 +89,40 @@ async function api(r:Request,e:Env,ctx:ExecutionContext):Promise<Response>{
   await e.DB.batch(statements);
   const p=await project(e,s,id);ctx.waitUntil(archive(e,s,p));await serverEvent(e,s,id,'project.created',0,{template:b.template||'import',libraryId:prepared?.item.id,preparation:prepared?.notes});return json({id,document:d,memories:[]},201);
  }
- const match=path.match(/^\/api\/projects\/([a-zA-Z0-9_-]+)(?:\/(events|memories|suggest|apply|simulate|runs|export|revisions|context|chat|references|import-preview|logic|logic-artifact))?(?:\/([a-zA-Z0-9_-]+))?$/);
+ const match=path.match(/^\/api\/projects\/([a-zA-Z0-9_-]+)(?:\/(events|memories|suggest|apply|simulate|runs|export|revisions|context|chat|references|import-preview|engineering|artifact|tools))?(?:\/([a-zA-Z0-9_-]+))?$/);
  if(!match)throw new HttpError(404,'Not found.');
  const [,id,route,itemId]=match,p=await project(e,s,id),doc: Circuit=JSON.parse(p.document);
- if(route==='logic'){
-  if(r.method==='POST')await quota(e,'logic:'+s.id,30,60000);
-  return logicRoute(r,e,s.id,id,doc,async payload=>{
-   const target=e.LOCAL_SIMULATOR?new URL('/physical',e.LOCAL_SIMULATOR).href:'http://simulator/physical';
-   const request=new Request(target,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-   let response:Response;try{response=e.LOCAL_SIMULATOR?await fetch(request):await getContainer(e.SIMULATOR,s.id).fetch(request);}catch{throw new HttpError(503,'The physical-design service is starting. Retry this step shortly.');}
-   if(Number(response.headers.get('X-Gnimula-Simulator-Protocol'))<3)throw new HttpError(503,'The physical-design tools are still deploying. Retry shortly.');
-   const result:any=await response.json();if(!response.ok)throw new HttpError(422,result.error||'Physical-design tool failed.');return result;
-  });
+ const physical=async(payload:unknown)=>{
+  const target=e.LOCAL_SIMULATOR?new URL('/physical',e.LOCAL_SIMULATOR).href:'http://simulator/physical';
+  const request=new Request(target,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  let result:Response;try{result=e.LOCAL_SIMULATOR?await fetch(request):await getContainer(e.SIMULATOR,s.id).fetch(request);}catch{throw new HttpError(503,'The engineering service is starting. Retry shortly.');}
+  const protocol=Number(result.headers.get('X-Gnimula-Simulator-Protocol'));
+  if(protocol<4){
+   // Repeated retries otherwise keep an old guest container awake indefinitely.
+   // The response has completed; restart only that obsolete guest service.
+   if(protocol>0&&!e.LOCAL_SIMULATOR)await getContainer(e.SIMULATOR,s.id).stop().catch(()=>{});
+   throw new HttpError(503,'The engineering tools are updating. Retry shortly.');
+  }
+  const value:any=await result.json();if(!result.ok)throw new HttpError(422,value.error||'Engineering tool failed.');return value;
+ };
+ if(route==='engineering'){
+  if(r.method==='GET')return json({workflow:await engineeringState(e,id,doc)});
+  if(r.method!=='POST')throw new HttpError(405,'Unsupported engineering operation.');
+  await quota(e,'engineering:'+s.id,30,60000);const b=await body<any>(r);if(b.revision!==doc.revision)throw new HttpError(409,'Save the current revision before running tools.');
+  if(!b.tool||!['simulate','generate_layout','verify_layout','simulate_extracted'].includes(b.tool.action))throw new HttpError(400,'Choose a supported engineering tool.');
+  return json(await runEngineeringTool(e,s.id,id,doc,b.tool,physical));
  }
- if(route==='logic-artifact'&&r.method==='GET'){
-  const row=await e.DB.prepare('SELECT data FROM logic_workflows WHERE project_id=?').bind(id).first<{data:string}>();const state=row?JSON.parse(row.data):null;
-  const file=({gds:'layout.gds',magic:'layout.mag',spice:'extracted.spice'} as Record<string,string>)[itemId];if(!file||!state?.extraction?.artifactPrefix?.startsWith(s.id+'/projects/'+id+'/'))throw new HttpError(404,'Run physical extraction first.');
+ if(route==='tools'&&r.method==='DELETE'){
+  const b=await body<any>(r),row=await e.DB.prepare('SELECT data FROM proposals WHERE id=? AND project_id=? AND session_id=?').bind(String(b.proposalId),id,s.id).first<{data:string}>();if(!row)throw new HttpError(404,'Proposal not found.');
+  const proposal=JSON.parse(row.data);if(proposal.toolPlan){proposal.toolPlan.cancelled=true;await e.DB.prepare('UPDATE proposals SET data=? WHERE id=? AND data=?').bind(JSON.stringify(proposal),String(b.proposalId),row.data).run();}return json({dismissed:true});
+ }
+ if(route==='tools'&&r.method==='POST'){
+  await quota(e,'engineering:'+s.id,30,60000);const b=await body<any>(r);if(b.revision!==doc.revision)throw new HttpError(409,'Save the current revision before running tools.');
+  return json(await runProposedTool(e,s.id,id,doc,String(b.proposalId),(await context(e,id)).version,physical));
+ }
+ if(route==='artifact'&&r.method==='GET'){
+  const state=await engineeringState(e,id,doc),file=({gds:'layout.gds',magic:'layout.mag',spice:'extracted.spice'} as Record<string,string>)[itemId];
+  if(!file||!state.extraction?.artifactPrefix?.startsWith(s.id+'/projects/'+id+'/'))throw new HttpError(404,'Run layout extraction for the current revision first.');
   const object=await e.ARTIFACTS.get(state.extraction.artifactPrefix+file);if(!object)throw new HttpError(404,'Artifact unavailable.');return new Response(object.body,{headers:{'Content-Type':itemId==='gds'?'application/octet-stream':'text/plain','Content-Disposition':`attachment; filename="${file}"`}});
  }
 
@@ -134,7 +152,7 @@ async function api(r:Request,e:Env,ctx:ExecutionContext):Promise<Response>{
  }
  if(route==='memories'&&r.method==='DELETE'&&itemId){await e.DB.prepare('DELETE FROM memories WHERE id=? AND project_id=? AND session_id=?').bind(itemId,id,s.id).run();await serverEvent(e,s,id,'memory.deleted',doc.revision,{id:itemId},'human');return json({memories:await memories(e,id)});}
  if(route==='apply'&&r.method==='POST'){
-  const b=await body<{proposalId:string}>(r),row=await e.DB.prepare('SELECT data,revision FROM proposals WHERE id=? AND project_id=? AND session_id=?').bind(b.proposalId,id,s.id).first<{data:string;revision:number}>();if(!row)throw new HttpError(404,'Completion not found.');if(row.revision!==doc.revision)throw new HttpError(409,'The design changed. Ask for a fresh completion.');const proposal=JSON.parse(row.data);if(proposal.contextVersion!==undefined&&proposal.contextVersion!==(await context(e,id)).version)throw new HttpError(409,'The goal or references changed. Request a fresh edit.');const next=applyOperations(doc,proposal.operations),text=JSON.stringify(next),now=Date.now();
+  const b=await body<{proposalId:string}>(r),row=await e.DB.prepare('SELECT data,revision FROM proposals WHERE id=? AND project_id=? AND session_id=?').bind(b.proposalId,id,s.id).first<{data:string;revision:number}>();if(!row)throw new HttpError(404,'Completion not found.');if(row.revision!==doc.revision)throw new HttpError(409,'The design changed. Ask for a fresh completion.');const proposal=JSON.parse(row.data);if(proposal.toolPlan)throw new HttpError(400,'Run the proposed tools using the tools endpoint.');if(proposal.contextVersion!==undefined&&proposal.contextVersion!==(await context(e,id)).version)throw new HttpError(409,'The goal or references changed. Request a fresh edit.');const next=applyOperations(doc,proposal.operations),text=JSON.stringify(next),now=Date.now();
   const updated=await e.DB.prepare('UPDATE projects SET document=?,revision=?,updated_at=? WHERE id=? AND session_id=? AND revision=? RETURNING id').bind(text,next.revision,now,id,s.id,doc.revision).first();if(!updated)throw new HttpError(409,'Another edit arrived before this completion.');
   await e.DB.prepare('INSERT OR IGNORE INTO revisions(project_id,revision,document,created_at) VALUES(?,?,?,?)').bind(id,next.revision,text,now).run();await serverEvent(e,s,id,'suggestion.accepted',next.revision,{proposalId:b.proposalId,operations:proposal.operations},'human');ctx.waitUntil(archive(e,s,{...p,revision:next.revision,document:text,updated_at:now}));return json({document:next});
  }

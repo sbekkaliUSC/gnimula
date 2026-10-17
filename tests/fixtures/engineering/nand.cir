@@ -1,0 +1,12 @@
+Independent NAND
+VCC rail 0 1.8
+VU u 0 PULSE(0 1.8 10n 100p 100p 10n 20n)
+VV v 0 PULSE(0 1.8 20n 100p 100p 20n 40n)
+XP1 z u rail rail sky130_fd_pr__pfet_01v8 W=2 L=0.15
+XP2 z v rail rail sky130_fd_pr__pfet_01v8 W=2 L=0.15
+XN1 z u middle 0 sky130_fd_pr__nfet_01v8 W=2 L=0.15
+XN2 middle v 0 0 sky130_fd_pr__nfet_01v8 W=2 L=0.15
+CL z 0 20f
+.tran 10p 80n
+.print tran v(z)
+.end

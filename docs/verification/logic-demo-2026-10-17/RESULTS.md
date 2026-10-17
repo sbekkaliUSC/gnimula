@@ -1,3 +1,6 @@
+> Historical release evidence. The dedicated screen and links described below
+> were superseded by ordinary Chat/editor engineering tools later on 2026-10-17.
+
 # AI-driven MOS logic demo — 2026-10-17
 
 Available at **https://gnimula.stream/?demo=xor**. Click **Start AI XOR demo**.

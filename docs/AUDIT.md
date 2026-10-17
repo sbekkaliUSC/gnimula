@@ -566,3 +566,68 @@ numerical suite has 13 passing Python tests; 55 Node tests, TypeScript and build
 pass. Development changes are pushed separately from the inspected public source
 snapshot. The demo is bounded to the documented physical/testbench flow; broad
 native-format interoperability remains outside this deadline-focused release.
+
+
+### 2026-10-17 — Separate recording scenario from application behavior
+
+Removed the dedicated logic screen, circuit template routing and fixed stage
+machine. Ordinary Chat now proposes validated engineering tools against the
+current project; the existing editor exposes the same operations and results.
+The model can compose a declarative circuit netlist, rather than selecting a
+hardcoded XOR. Library inverter/XOR examples remain ordinary circuit data.
+Physical generation uses actual connections/W/L; simulations use actual probes,
+stimuli, load and analysis. Generic midpoint measurements replace a runtime XOR
+truth function and fixed voltage/duration assumptions. New state and protocol 4
+allow safe rollout alongside prior records.
+
+Local validation: 57 Node tests; TypeScript and production build; 13 actual
+Magic/ngspice Python checks passed. An independently authored four-MOS NAND with
+u/v/z/rail nets and an 80 ns analysis passes the same extraction/simulation tools
+as the inverter and XOR. Broken geometry is rejected and changed loads/timing
+are measured. Hosted validation is pending deployment; prior demo evidence is
+historical and does not validate the new integration.
+
+A follow-up generalization check found that Magic's generated C0 identifiers can
+collide with an external user capacitor. Extracted instances now receive unique
+names while nodes and external devices stay unchanged. A collision regression
+passes; the actual numerical suite now has 14 passing checks. Added the hosted
+ordinary-workbench QA script. The first deployment is active while its container
+rolls out; hosted validation remains in progress.
+
+Hosted rollout checks showed a retry loop can keep a guest's old protocol-3
+container awake. On an explicit obsolete-protocol response the Worker now stops
+only that guest container so the next retry starts the updated image. Fresh
+guests already generate physical layouts successfully. The Simulation view also
+renders extracted transient traces when no schematic baseline has been run.
+
+The first hosted structural check completed on XOR and a model-created circuit
+named NAND, but visual inspection and netlist review exposed a functional error:
+the purported NAND behaved as an inverter. Its second PMOS reused the first input
+and one NMOS had source/drain shorted. Matching extraction only proved faithful
+layout reproduction of that erroneous schematic. Retained this initial evidence,
+added actual settled-sample functional assertions to hosted QA, and strengthened
+the general netlist instructions about series/parallel connections, input roles
+and measured behavior. These are generic checks; no circuit-specific runtime
+checker, screen or tool path was introduced. Corrected hosted validation follows.
+
+A subsequent model-created circuit request failed validation before any edit.
+The previous catch combined provider/validation errors, so the exact cause was
+not observable. Invalid proposals now get one correction attempt with the actual
+validator error; persistent errors are reported to that guest and recorded in
+session-owned events. Provider failures remain separate and leave the design
+unchanged. Hosted QA checks behavior, with at most one explicit user correction
+if a syntactically valid generated circuit implements the wrong function.
+
+Tool validation now names invalid actions/fields so a correction can target the
+actual schema error. Requests also supply a JSON schema for response shape and
+allowed tool names, using the provider's documented
+[JSON-schema mode](https://developers.cloudflare.com/workers-ai/features/json-mode/).
+Runtime validation remains mandatory; formatting constraints do not establish
+circuit correctness. Existing edit operations remain supported in the schema.
+
+The schema-constrained hosted run completed XOR functionality, but free-form
+NAND invention still failed: `XMP2 has 3 nodes but its subcircuit declares 4 ports`
+after the bounded correction. This is a model-quality limitation, not solved by
+syntax constraints. The final generic-tool QA supplies an independent explicit
+NAND netlist through normal Chat; it tests circuit preparation and tool execution,
+not autonomous circuit synthesis. No NAND/XOR runtime shortcut was added.
