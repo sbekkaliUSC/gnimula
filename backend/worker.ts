@@ -77,7 +77,6 @@ async function api(r:Request,e:Env,ctx:ExecutionContext):Promise<Response>{
  }
  if(path==='/api/projects'&&r.method==='GET'){const list=await e.DB.prepare('SELECT id,name,revision,created_at,updated_at FROM projects WHERE session_id=? ORDER BY updated_at DESC').bind(s.id).all();return json({projects:list.results});}
  if(path==='/api/projects'&&r.method==='POST'){
-  const count=await e.DB.prepare('SELECT count(*) AS n FROM projects WHERE session_id=?').bind(s.id).first<{n:number}>();if((count?.n||0)>=15)throw new HttpError(400,'Each guest can save up to 15 projects.');
   const b=await body(r);let prepared;if(b.libraryId)prepared=prepareItem(String(b.libraryId));else if(b.catalogSelection){await quota(e,'library:'+s.id,60,60000);prepared=await prepareCatalogSelection(b.catalogSelection);}else if(b.sourceUrl){await quota(e,'library:'+s.id,60,60000);prepared=await prepareLink(String(b.sourceUrl));}const d=prepared?.document||(b.document?b.document:starter(String(b.template||'amplifier')));validateCircuit(d);d.revision=0;
   const id=uid('project'),now=Date.now(),text=JSON.stringify(d);
   const statements=[e.DB.prepare('INSERT INTO projects(id,session_id,name,revision,document,created_at,updated_at) VALUES(?,?,?,?,?,?,?)').bind(id,s.id,d.name,0,text,now,now),e.DB.prepare('INSERT INTO revisions(project_id,revision,document,created_at) VALUES(?,?,?,?)').bind(id,0,text,now)];

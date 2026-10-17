@@ -649,3 +649,12 @@ from the current circuit and an explicit doubled value. The XOR now offers
 `Set CL to 40 fF. Preserve all wiring and other component values.` The shortcut is
 hidden when no supported passive component exists. TypeScript/production build
 passed. This is a small requested recording fix; no other workflow changes.
+
+### 2026-10-17 — Remove the guest project-count limit
+
+Removed the 15-project cap from direct creation and durable source-preparation
+publication. TypeScript/production build passed. Deployed Worker
+`bbcbb2df-821d-40f4-868c-9d87dd3c8655`; a disposable hosted guest successfully
+created and listed 16 projects. The verification guest and its projects were
+removed afterward. Updated operations documentation to reflect no per-guest
+project-count limit.

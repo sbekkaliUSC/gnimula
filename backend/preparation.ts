@@ -39,8 +39,6 @@ export class Preparation {
     await update('publishing',{message:'Circuit validated. Saving the project and original sources.',cacheHit,files:bundle.files.length+1});
    }else if(job.stage==='publishing'){
     const prepared=validatePrepared(await read<PreparedCircuit>('prepared.json')),idProject='project_'+id.slice(5),now=Date.now(),d=prepared.document;d.revision=0;
-    const count=await this.env.DB.prepare('SELECT count(*) AS n FROM projects WHERE session_id=?').bind(job.session_id).first<{n:number}>();
-    if((count?.n||0)>=15)throw new FeatureError(400,'This guest already has 15 projects. Open an existing project or start a new guest session.');
     const text=JSON.stringify(d),ref=prepared.reference,original=await this.env.ARTIFACTS.get(prefix+'original.json'),additional=original?await original.json<SourceFile>():null,issues=checkCircuit(d).filter(i=>i.level==='error').map(i=>i.message),detail={...JSON.parse(job.detail),message:issues.length?'Circuit opened for editing. Simulation has setup items to resolve.':'Circuit and testbench prepared. Run simulation to measure behavior.',notes:prepared.notes,issues,source:ref.url};
     const statements=[
      this.env.DB.prepare('INSERT OR IGNORE INTO projects(id,session_id,name,revision,document,created_at,updated_at) VALUES(?,?,?,0,?,?,?)').bind(idProject,job.session_id,d.name,text,now,now),

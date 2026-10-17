@@ -34,7 +34,7 @@ usage costs. No automatic instance resizing or account quota increase is implied
 
 New guest creation and autocomplete have burst controls. They do not impose a
 site-wide daily visitor or inference allowance. Projects currently have size
-bounds (120 devices, 400 wires, 500 shapes) and a 15-project guest limit.
+bounds (120 devices, 400 wires, 500 shapes). There is no per-guest project-count limit.
 
 ## Recovery and retention
 
