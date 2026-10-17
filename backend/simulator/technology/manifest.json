@@ -1,0 +1,10 @@
+{
+  "technology": "sky130A",
+  "version": "1.0.588-62-g1689ac3",
+  "license": "Apache-2.0",
+  "source": "https://github.com/RTimothyEdwards/open_pdks",
+  "distribution": "hpretl/iic-osic-tools@sha256:b87b3f1af9ba72d9486466ea777cf4248e96e20d9dba76d67259bc185db3859c",
+  "distributionPath": "/foss/pdks/sky130A/libs.tech/magic/sky130A.tech",
+  "sha256": "55fdebfa329544c1cb1e22a3817461603f1dea9a41638b26af8c7751b3e0cc6a",
+  "modifications": []
+}

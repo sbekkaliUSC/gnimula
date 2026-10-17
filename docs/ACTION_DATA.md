@@ -159,3 +159,11 @@ structure and original source reference. Model attachments use
 recovered from the saved revision, rather than truncating a large model deck into
 an event. Public conversion caches contain only fetched public source material,
 not guest goals, chat, private projects or behavioral records.
+
+
+Logic demo stores the model-selected tool, brief reason, actual tool result,
+revision and model identifier in `logic_workflows`, chat and server events.
+Generated document edits have revision snapshots; actual measurements are runs.
+Private physical artifacts follow project ownership and guest retention. The
+work log describes model decisions and measured outcomes, not private reasoning
+traces or proof of unmeasured engineering claims.

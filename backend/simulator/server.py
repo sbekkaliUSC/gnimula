@@ -53,7 +53,7 @@ def validate_netlist(netlist):
     return '\n'.join(line for line in lines if line != '.end')
 
 
-def read_table(path):
+def read_table(path, max_rows=1500):
     if not path.exists():
         return [], []
     lines = path.read_text().strip().splitlines()
@@ -68,8 +68,8 @@ def read_table(path):
                 rows.append(row)
         except ValueError:
             pass
-    if len(rows) > 1500:
-        rows = rows[::math.ceil(len(rows)/1500)]
+    if len(rows) > max_rows:
+        rows = rows[::math.ceil(len(rows)/max_rows)]
     return names, rows
 
 
@@ -106,8 +106,11 @@ def simulate(payload):
     elif mode == 'tran':
         if not 1e-9 <= hi <= 1:
             raise ValueError('Transient stop time must be between 1 ns and 1 s.')
-        command = f'tran {hi / 600} {hi}\nwrdata sweep.dat v({output})'
-        labels = ['Time (s)', 'Output (V)']
+        probes=payload.get('probes',[output])
+        if not isinstance(probes,list) or not 1<=len(probes)<=5 or any(not isinstance(p,str) or not SAFE_NODE.fullmatch(p) for p in probes):raise ValueError('Invalid measurement probes.')
+        samples=max(600,min(10000,int(payload.get('samples',600))))
+        command = f'tran {hi / samples} {hi}\nwrdata sweep.dat '+ ' '.join(f'v({p})' for p in probes)
+        labels = ['Time (s)']+[f'{p.upper()} (V)' for p in probes]
     else:
         raise ValueError('Unsupported analysis type.')
     control = f'''\n.control
@@ -125,7 +128,7 @@ quit
         folder = Path(tmp)
         (folder/'circuit.cir').write_text(base + control)
         result = subprocess.run(['ngspice', '-n', '-b', 'circuit.cir'], cwd=tmp, capture_output=True, text=True, timeout=12, preexec_fn=limits, env={'PATH': os.environ.get('PATH', '/usr/bin:/bin'), 'HOME':tmp, 'LC_ALL':'C'})
-        _, rows = read_table(folder/'sweep.dat')
+        _, rows = read_table(folder/'sweep.dat',max_rows=12000 if payload.get('samples',0)>600 else 1500)
         _, operating = read_table(folder/'operating.dat')
         log = (result.stdout + result.stderr)[-10000:]
         if not rows:
@@ -138,8 +141,8 @@ class Handler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
-        body = json.dumps({'ok':True,'engine':'ngspice','protocol':2}).encode()
-        self.send_response(200); self.send_header('X-Gnimula-Simulator-Protocol','2'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
+        body = json.dumps({'ok':True,'engine':'ngspice','protocol':3}).encode()
+        self.send_response(200); self.send_header('X-Gnimula-Simulator-Protocol','3'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
 
     def do_POST(self):
         acquired = SLOTS.acquire(blocking=False)
@@ -150,7 +153,10 @@ class Handler(BaseHTTPRequestHandler):
             if length < 1 or length > 180000:
                 raise ValueError('Invalid request size.')
             payload = json.loads(self.rfile.read(length))
-            result = simulate(payload)
+            if self.path.startswith('/physical'):
+                from logic import run_physical
+                result=run_physical(payload,simulate)
+            else:result = simulate(payload)
             status = 200
         except (ValueError, KeyError, TypeError, json.JSONDecodeError) as e:
             result, status = {'error':str(e)}, 400
@@ -161,7 +167,7 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             SLOTS.release()
         body = json.dumps(result, allow_nan=False).encode()
-        self.send_response(status); self.send_header('X-Gnimula-Simulator-Protocol','2'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
+        self.send_response(status); self.send_header('X-Gnimula-Simulator-Protocol','3'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
 
 
 if __name__ == '__main__':

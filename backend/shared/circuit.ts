@@ -1,19 +1,19 @@
 import {validateDevice,validateDefinitions,knownModels,modelForLine,spiceIdentifier,type DeviceSpec} from './spice-data';
 export type Kind = 'nmos' | 'pmos' | 'resistor' | 'capacitor' | 'voltage' | 'current' | 'ground' | 'device';
-export type Layer = 'active' | 'poly' | 'metal1' | 'metal2' | 'contact' | 'via1';
+export type Layer = 'active' | 'poly' | 'metal1' | 'metal2' | 'contact' | 'via1' | 'nwell' | 'ndiff' | 'pdiff' | 'li' | 'mcon' | 'ndcontact' | 'pdcontact' | 'polycont' | 'psubdiff' | 'nsubdiff' | 'psubdiffcont' | 'nsubdiffcont';
 export interface Component { id: string; ref: string; kind: Kind; x: number; y: number; rotation: number; value: number; w: number; l: number; dc: number; ac: number; frequency: number; amplitude: number; device?: DeviceSpec; waveform?: string; bulk?: boolean; deviceModel?: 'sky130_fd_pr__nfet_01v8' | 'sky130_fd_pr__pfet_01v8'; }
 export interface Pin { component: string; pin: string }
 export interface Wire { id: string; from: Pin; to: Pin }
 export interface Shape { id: string; layer: Layer; x: number; y: number; width: number; height: number; net: string }
 export interface Analysis { mode: 'ac' | 'tran' | 'dc'; start: number; stop: number; points: number; input: string; output: string }
-export interface Circuit { schema: 1; name: string; revision: number; components: Component[]; wires: Wire[]; shapes: Shape[]; analysis: Analysis; definitions?:string[]; nodeNames?:Record<string,string>; preparationIssues?:string[] }
+export interface Circuit { schema: 1; name: string; revision: number; components: Component[]; wires: Wire[]; shapes: Shape[]; analysis: Analysis; definitions?:string[]; nodeNames?:Record<string,string>; preparationIssues?:string[]; logicKind?:'xor'|'inverter'; physical?:{process:'sky130A';gridUm:number;labels:{net:string;x:number;y:number;layer:string}[];generator:string} }
 export interface Memory { id: string; key: string; value: number | string; description: string; sourceEventId?: string; createdAt?: number }
 export interface ActionEvent { id: string; seq: number; type: string; at: number; revision: number; actor: 'human' | 'model' | 'system'; payload: Record<string, unknown> }
 export type Operation = { type: 'add_component'; component: Component } | { type: 'update_component'; id: string; changes: Partial<Component> } | { type: 'add_wire'; wire: Wire } | { type: 'add_shape'; shape: Shape } | { type: 'update_shape'; id: string; changes: Partial<Shape> } | {type:'delete_component'|'delete_wire'|'delete_shape';id:string} | {type:'update_analysis';changes:Partial<Analysis>};
 export interface Candidate { id: string; title: string; description: string; operations: Operation[]; memoryIds: string[] }
 export const kinds: Kind[] = ['nmos','pmos','resistor','capacitor','voltage','current','ground','device'];
-export const layers: Layer[] = ['active','poly','metal1','metal2','contact','via1'];
-export const layerColors: Record<Layer,string> = { active:'#75c677',poly:'#df7979',metal1:'#6e9fe9',metal2:'#dcbe67',contact:'#d4c4e8',via1:'#d6e1f2' };
+export const layers: Layer[] = ['active','poly','metal1','metal2','contact','via1','nwell','ndiff','pdiff','li','mcon','ndcontact','pdcontact','polycont','psubdiff','nsubdiff','psubdiffcont','nsubdiffcont'];
+export const layerColors: Record<Layer,string> = { active:'#75c677',poly:'#df7979',metal1:'#6e9fe9',metal2:'#dcbe67',contact:'#d4c4e8',via1:'#d6e1f2',nwell:'#9272be',ndiff:'#75c677',pdiff:'#d0b770',li:'#68b9b8',mcon:'#eeeeee',ndcontact:'#d4c4e8',pdcontact:'#d4c4e8',polycont:'#eeeeee',psubdiff:'#97aa70',nsubdiff:'#779fc2',psubdiffcont:'#d4c4e8',nsubdiffcont:'#d4c4e8' };
 export const uid = (prefix = 'id') => `${prefix}_${crypto.randomUUID().replaceAll('-','').slice(0,16)}`;
 export const snap = (n: number, grid = 20) => Math.round(n / grid) * grid;
 export const pinKey = (p: Pin) => `${p.component}.${p.pin}`;
@@ -46,6 +46,8 @@ function finite(value:unknown,min:number,max:number):value is number{return type
 export function validateCircuit(value: unknown): asserts value is Circuit {
  const d=value as Circuit;
  if(!d||d.schema!==1||typeof d.name!=='string'||d.name.length>100||!finite(d.revision,0,1e9)||!Number.isInteger(d.revision)||!Array.isArray(d.components)||d.components.length>120||!Array.isArray(d.wires)||d.wires.length>400||!Array.isArray(d.shapes)||d.shapes.length>500)throw new Error('Invalid project document or project is too large.');
+ if(d.logicKind!==undefined&&!['xor','inverter'].includes(d.logicKind))throw new Error('Invalid logic example.');
+ if(d.physical&&(d.physical.process!=='sky130A'||d.physical.gridUm!==.01||d.physical.generator!=='mos-corridors-v1'||!Array.isArray(d.physical.labels)||d.physical.labels.length>100||d.physical.labels.some(p=>!spiceIdentifier.test(p.net)||p.layer!=='metal2'||!finite(p.x,-20000,20000)||!finite(p.y,-20000,20000))))throw new Error('Invalid physical layout metadata.');
  const ids=new Set<string>(), refs=new Set<string>();
  const checkId=(id:string)=>{if(typeof id!=='string'||!/^[-a-zA-Z0-9_]{1,64}$/.test(id)||ids.has(id))throw new Error('Invalid or duplicate object ID.');ids.add(id)};
  if(d.definitions)validateDefinitions(d.definitions);if(d.preparationIssues&&(!Array.isArray(d.preparationIssues)||d.preparationIssues.length>100||d.preparationIssues.some(x=>typeof x!=='string'||x.length>1000)))throw new Error('Invalid preparation issues.');
@@ -92,7 +94,7 @@ export function spice(d:Circuit):string{
  const rows=['Gnimula generated circuit',sky?'* SKY130 1.8V tt models provisioned by Gnimula':'* Generic educational MOS models, SI units'];
  for(const c of d.components){if(c.kind==='ground')continue;const name=spiceReference(c,d);
  if(c.kind==='device'&&c.device)rows.push(`${c.ref} ${c.device.terminals.map(p=>node(c,p)).join(' ')} ${c.device.parameters}`);
- else if(c.kind==='nmos'||c.kind==='pmos')rows.push(`${c.deviceModel?'X'+name:name} ${node(c,'d')} ${node(c,'g')} ${node(c,'s')} ${node(c,c.bulk?'b':'s')} ${c.deviceModel||(c.kind==='nmos'?'GN':'GP')} W=${c.w}${sky?'':'u'} L=${c.l}${sky?'':'u'}`);
+ else if(c.kind==='nmos'||c.kind==='pmos')rows.push(`${c.deviceModel&&!name.startsWith('X')?'X'+name:name} ${node(c,'d')} ${node(c,'g')} ${node(c,'s')} ${node(c,c.bulk?'b':'s')} ${c.deviceModel||(c.kind==='nmos'?'GN':'GP')} W=${c.w}${sky?'':'u'} L=${c.l}${sky?'':'u'}`);
  else if(c.kind==='current')rows.push(`${name} ${node(c,'p')} ${node(c,'n')} DC ${c.dc}${c.waveform?' '+c.waveform:''}`);
  else if(c.kind==='voltage')rows.push(`${name} ${node(c,'p')} ${node(c,'n')} DC ${c.dc} AC ${c.ac} ${c.waveform||`SIN(${c.dc} ${c.amplitude} ${c.frequency})`}`);
  else rows.push(`${name} ${node(c,'p')} ${node(c,'n')} ${c.value}`);

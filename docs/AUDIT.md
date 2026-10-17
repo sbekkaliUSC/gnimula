@@ -486,3 +486,83 @@ The release supports broader declarative electrical sources and associated-file
 recovery, not universal native-layout conversion. Development commits are pushed
 to the private origin; the inspected tracked tree is published separately using
 the source publication script.
+
+### 2026-10-17 — MOS logic demo foundation
+
+Prioritized the requested schematic-to-post-layout demo. Added independently
+constructed two-transistor inverter and 12-transistor static CMOS XOR examples,
+with explicit SKY130 bodies, pulse vectors and a 20 fF load. Added a bounded
+physical generator and real Magic extraction using a pinned public SKY130
+technology file; model and technology provenance/licenses stay with the source.
+The layout is generated from current schematic terminal connectivity and sizes.
+
+Local container checks passed for both circuits: zero Magic DRC violations,
+extracted MOS connectivity/types/W/L matching the schematic, and eight settled
+truth samples passing before and after extraction. XOR extraction produced 45
+parasitic capacitors; measured worst delay changed from 118.3 ps to 220.2 ps.
+Inverter delay changed from 80.6 ps to 92.7 ps. These are typical-corner results
+for the supplied testbench, not a foundry signoff or performance claim about
+another process. Extraction includes geometric capacitance, not distributed wire
+resistance. TypeScript and 54 Node tests pass.
+
+Added a persisted, revision-checked agent tool controller for building the
+schematic, measuring, generating layout, checking/extracting and post-layout
+simulation. UI integration and hosted agent verification are still in progress.
+
+### 2026-10-17 — Guided logic demo workbench
+
+Added Logic demo with an AI task field, one-step or end-to-end execution, saved
+stage progress, schematic/layout previews, measured truth table and switching-edge
+waveform comparison. The agent invokes bounded tools and its decisions and tool
+results are persisted in the work log and chat. Generated layout and schematic
+changes are ordinary saved revisions. Geometry edits invalidate extraction;
+electrical edits invalidate the baseline and subsequent physical work.
+
+TypeScript, 54 Node tests and the production frontend build pass. Hosted schema
+migration and deployment follow; no hosted agent completion is claimed yet.
+
+### 2026-10-17 — Hosted physical loop and edit invalidation
+
+Hosted XOR validation passed on Worker `115a4ebe-dfa0-45af-8451-5ec74ace77e3`
+after the container image provisioned: all five real Workers AI tool selections,
+12 extracted MOS devices, 45 parasitic capacitors, zero loaded Magic DRC
+violations, matching connectivity/dimensions, and eight passing settled samples
+covering all four input combinations. Schematic/extracted worst delays were
+118.3304/220.2230 ps. Reload recovery, artifact downloads and guest isolation
+passed without browser errors. The initial browser attempt encountered the
+asynchronous container rollout; the successful run required no retries.
+
+Added physical regression checks for both built-ins, broken geometry rejection
+and load sensitivity. All 13 Python checks pass inside the production simulator
+image, alongside 55 Node tests, TypeScript and frontend build. Fixed workflow
+refresh after edits so old success results disappear and rechecking becomes
+available without reload. The comparison now rejects incompatible supply,
+stimulus or analysis edits instead of applying fixed thresholds silently. Physical
+canvas units and editing snap now reflect the 10 nm coordinate system. The final
+hosted edit/inverter check follows deployment of these refinements.
+
+The next hosted XOR run also completed all engineering stages. Its extended QA
+stopped on an ambiguous test selector shared by the navigation icon and preview
+tab; scoped that selector to the preview tabs. Added a typed 422 response for
+invalid comparison testbenches so the browser receives the specific recovery
+message rather than a generic server error. TypeScript and production build pass.
+
+
+### 2026-10-17 — Logic demo release verified
+
+Final hosted validation passed on Worker
+`125d5fee-e60b-485f-890d-2f0e61108e30` (implementation `94e9cd2`). Both XOR and
+inverter completed all five real model/tool calls. Browser editing invalidated
+stale extraction without reload; electrical edits invalidated the baseline;
+stale revision requests failed. Reload, artifact download and guest-isolation
+checks passed with zero browser errors and no rollout retries. The inverter's
+measured delays were 80.6407 ps schematic and 92.6657 ps extracted, with two
+matching MOS devices and zero loaded Magic DRC violations. All disposable
+sessions were removed.
+
+Saved [release evidence and demo instructions](verification/logic-demo-2026-10-17/RESULTS.md),
+including measured outputs, model tool decisions and screenshots. The final
+numerical suite has 13 passing Python tests; 55 Node tests, TypeScript and build
+pass. Development changes are pushed separately from the inspected public source
+snapshot. The demo is bounded to the documented physical/testbench flow; broad
+native-format interoperability remains outside this deadline-focused release.

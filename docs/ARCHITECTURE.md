@@ -86,13 +86,13 @@ New guest sessions start with training enabled; existing preferences are preserv
 The UI has no whole-session deletion action. The authenticated session-deletion
 API remains available, and expired guest records still undergo scheduled cleanup. See [action data](ACTION_DATA.md) and [operations](OPERATIONS.md).
 
-Supported checks are circuit connectivity and limited concept-layout geometry.
-There is no PDK DRC/LVS, layout extraction, GDS, or established design-time speedup.
-The product ambition remains broader than this first working release.
+Ordinary projects have connectivity and concept-layout geometry checks. The
+bounded logic flow below adds real SKY130 Magic DRC/extraction and GDS export.
+Full foundry signoff and an established design-time speedup remain unproven.
 
 ## Ready-to-use library and source preparation
 
-The main Library contains nine prepared circuits and five tools. Circuit actions
+The main Library contains eleven prepared circuits and five tools. Circuit actions
 open a new project, its goal and source reference in one D1 transaction; existing
 projects are saved before switching. **Open & run** also requests a fresh simulation.
 The original source, hashes, model/row revisions and preparation notes are retained.
@@ -213,3 +213,41 @@ files are pinned and checksum verified, including MOS/BJT typical dependencies.
 Worker activation precedes container image rollout. A simulator protocol header
 keeps new source projects from using an old image silently during that interval;
 the UI receives a retryable service response until the image supports them.
+
+
+## AI-driven physical logic flow
+
+`LogicDemo` calls the owner-checked `/api/projects/:id/logic` route. Llama 3.3
+selects one allowed tool from the saved stage and explains that decision:
+`build_schematic`, `prelayout`, `layout`, `verify`, `postlayout`. The user requests
+one step or the whole loop; leaving the page stops scheduling further steps.
+Already completed steps persist. A per-project lease and revision checks prevent
+concurrent tools from overwriting edits. Model failure leaves the design unchanged.
+
+`logic-demo.ts` authors the canonical 2T inverter and 12T static complementary XOR,
+with explicit bodies, net identities, public SKY130 model names and input vectors.
+The Python physical generator derives diffusion/poly, contacts, taps, wells,
+M1 terminal corridors and M2 net tracks from those current terminal connections
+and sizes. It is a deterministic generator, not an AI polygon stream. Each grid
+unit is 10 nm. The resulting shapes are editable native document rectangles.
+
+A pinned Magic build runs the retained public SKY130 technology file against
+these rectangles, producing `.mag`, GDS, an extracted SPICE deck and DRC output.
+The bounded checker compares flat MOS type, gate, body, unordered drain/source,
+width and length against the schematic. This is not a general hierarchical LVS
+engine. Post-layout simulation always re-extracts the submitted geometry, rejects
+connectivity mismatch, and replaces schematic transistor lines with the extracted
+devices/capacitors while retaining the same external stimulus and load.
+
+ngspice measures all truth combinations and 50%-VDD edge delays. Schematic and
+post-layout waveforms are both retained. Geometry and electrical fingerprints
+invalidate dependent results after edits; device movement without electrical
+change does not invalidate measurements. The comparison testbench is fixed to
+1.8 V and 0–160 ns; incompatible edits receive a specific restore message.
+
+D1 `logic_workflows` stores stage, fingerprints, tool reasons/results and plots.
+Generated edits become normal saved revisions; chat, events and runs also record
+tool outcomes. Private R2 stores `.mag`, GDS and extracted SPICE with owner-checked
+download routes. Protocol 3 is required before physical work reaches the container.
+Extraction includes geometric capacitance and device junction geometry, not
+extracted distributed wire resistance or foundry signoff.

@@ -1,9 +1,11 @@
+import {logicCircuit,logicTitle} from './logic-demo';
 import {importDesign,rcExample} from './imports';
 import {starter,checkCircuit,netMap,uid,validateCircuit,type Circuit} from './circuit';
 
 export interface ReadyItem {id:string;name:string;description:string;kind:'circuit'|'testbench'|'stimulus'|'layout';pdk:string;provider:string;goal:string;sourceUrl?:string;license?:string;details?:string[]}
 export interface PreparedCircuit {item:ReadyItem;document:Circuit;notes:string[];reference:{name:string;content:string;url:string;provider:string;metadata:Record<string,unknown>}}
 export const readyItems:ReadyItem[]=[
+ ...(['xor','inverter'] as const).map(id=>({id,name:logicTitle(id),description:'Transistor-level SKY130 logic with a complete truth-table transient testbench. Continue through physical layout and extracted simulation in the Demo tab.',kind:'circuit' as const,pdk:'sky130',provider:'Gnimula',goal:'Demonstrate MOS logic from schematic through verified physical layout and post-layout simulation.'})),
  {id:'rc',name:'RC low-pass filter',description:'A wired filter with a 15.9 kHz corner. Open it and measure the frequency response.',kind:'circuit',pdk:'generic',provider:'Gnimula',goal:'Explore this low-pass filter. Compare the measured corner frequency with 1/(2πRC).'},
  {id:'amplifier',name:'Common-source amplifier',description:'A biased NMOS gain stage with a supply, signal source, load and AC testbench.',kind:'circuit',pdk:'generic',provider:'Gnimula',goal:'Improve amplifier gain while preserving its topology and checking bias with simulation.'},
  {id:'mirror',name:'NMOS current mirror',description:'A matched transistor pair, reference resistor and loaded output, ready for a supply sweep.',kind:'circuit',pdk:'generic',provider:'Gnimula',goal:'Explore current-mirror behavior by tuning device ratios and the output load.'},
@@ -19,7 +21,8 @@ const skyAmplifier='SKY130 common-source amplifier\nVDD vdd 0 DC 1.8\nVIN in 0 D
 export function builtinCircuit(id:string):PreparedCircuit {
  const item=readyItems.find(x=>x.id===id&&x.kind==='circuit');if(!item)throw new Error('Circuit not found.');
  let content='',document:Circuit,notes:string[]=[];
- if(id==='amplifier'||id==='mirror'){document=starter(id);document.shapes=[];content=JSON.stringify(document,null,2);}
+ if(id==='xor'||id==='inverter'){document=logicCircuit(id);content=JSON.stringify(document,null,2);}
+ else if(id==='amplifier'||id==='mirror'){document=starter(id);document.shapes=[];content=JSON.stringify(document,null,2);}
  else {content=id==='rc'?rcExample:id==='highpass'?'RC high-pass filter\nVIN in 0 DC 0 AC 1\nC1 in out 10n\nR1 out 0 1k\n.ac dec 40 10 1meg\n.print ac v(out)\n.end':skyAmplifier;const imported=importDesign(id+'.cir',content,{sky130:id==='sky130-amplifier'});document=imported.document;notes=imported.notes;}
  document.name=item.name;assertReady(document);
  return {item,document,notes,reference:{name:id+(id==='amplifier'||id==='mirror'?'.json':'.cir'),content,url:'',provider:'example',metadata:{pdk:item.pdk,license:'Gnimula example',kind:'runnable circuit',preparation:notes}}};

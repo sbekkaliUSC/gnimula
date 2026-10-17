@@ -65,7 +65,7 @@ mobile panel access, and simultaneous visitors. Record results in the audit.
 
 ## Known boundaries
 
-No PDK signoff, native GDS import, extracted layout-to-schematic checking, arbitrary SPICE import,
+No PDK signoff, native GDS import, general hierarchical layout-to-schematic checking, arbitrary SPICE import,
 collaborative multi-user project editing, cross-device guest login, or live weight
 training. Browser tabs with the same guest cookie may view a project; optimistic
 revision checks reject conflicting saves instead of silently merging them.
@@ -79,3 +79,21 @@ job isolation and a real imported-source simulation, then deletes its sessions.
 Use `GNIMULA_QA_LOCAL_ASSETS=1` for the frontend-only pre-deployment check.
 Container updates are asynchronous after Worker deployment; wait for the new
 protocol and a successful real simulation before marking a rollout verified.
+
+
+## Logic demo deployment and verification
+
+Apply migration `0005_logic_workflow.sql` before deploying this release. The
+container now builds pinned Magic as well as installing SKY130 models; its health
+and response protocol is 3. The loaded technology file and its hash/provenance are
+under `backend/simulator/technology`. Magic extraction has a 30-second wall limit
+and separate bounded scratch directories; ngspice retains its 12-second limit.
+
+Run `python3 scripts/logic-demo-qa.py` against the hosted service with Playwright
+Chromium installed. It creates disposable guests, runs the real model/tool loop,
+checks reload recovery, downloads, ownership and page errors, and removes its
+sessions afterward. It writes screenshots and a report under ignored `runtime/`.
+The unit suite in `tests/logic_test.py` exercises real Magic/ngspice, including
+broken-geometry rejection and measured load sensitivity. README has the container
+command. Do not treat Worker deployment success as container readiness: check
+`wrangler containers list/info` and complete a real hosted loop.

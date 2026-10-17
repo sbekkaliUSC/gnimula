@@ -1,6 +1,6 @@
 # Gnimula
 
-A browser analog-design workbench with goal-aware chat, autocomplete, and a searchable public circuit library.
+A browser circuit-design workbench with an AI-driven schematic-to-layout demo, goal-aware chat, autocomplete, and a searchable public circuit library.
 
 **Try it: [gnimula.stream](https://gnimula.stream)**
 
@@ -8,6 +8,28 @@ Open a circuit, place and connect devices, measure its response, and continue
 edits with a previewed suggestion informed by your goal and attached references. The familiar dark workbench includes
 schematic, concept-layout, simulation, properties, history, and generated SPICE
 views. Nothing needs to be installed by visitors.
+
+## Run the XOR homework demo
+
+Open **[the Logic demo](https://gnimula.stream/?demo=xor)** and click **Start AI XOR demo**.
+The assistant builds a 12-transistor static CMOS XOR, runs the schematic,
+generates a SKY130 physical layout, checks/extracts it with Magic, then runs
+ngspice on the extracted devices and capacitances. A two-transistor inverter is
+available on the same start screen. Existing projects stay saved.
+
+Use **Run next AI step** to narrate each stage, or **Continue demo** to finish the
+sequence. **Stop after this step** pauses between tools. Reload retains completed
+stages; continue manually after reopening. Inspect Schematic, Layout, Waveforms,
+and Extracted SPICE, then zoom the first switching edge to compare measured delay.
+Generated GDS, Magic source and extracted SPICE are downloadable after extraction.
+
+The AI selects validated tools and explains its choices; deterministic code builds
+the chosen topology and physical rectangles. Simulation and checks supply the
+results. This is a bounded working design flow, not autonomous general-purpose
+analog synthesis. The fixed testbench uses 1.8 V, 160 ns and all truth combinations;
+transistor widths and output load can be changed. Geometry edits invalidate
+extraction; electrical edits invalidate the baseline. The layout prioritizes
+checkable connectivity, not optimized area or speed.
 
 ## What works
 
@@ -26,7 +48,7 @@ views. Nothing needs to be installed by visitors.
 - Preserve named subcircuit ports, hierarchy, model cards and pulse/PWL stimuli.
   An editable circuit can open while missing simulation setup remains visible.
   **Sources** shows originals, dependencies and setup; add public model files there.
-- Choose among nine starter circuits: five independent examples, an official
+- Choose among eleven starter circuits: seven independent examples, an official
   ngspice band-pass example from GitHub, and three public SKY130 op-amp records
   from Hugging Face. Search and filter these prepared designs by source or model.
 - Apply AC/DC testbenches, a sine input or concept-layout contact/via blocks directly
@@ -49,9 +71,13 @@ views. Nothing needs to be installed by visitors.
   holds the privacy explanation, preview terms and dependency notices.
 
 This is an early workbench, not a foundry signoff tool. Simulation supports generic Level-1 MOS and a pinned
-SKY130 typical MOS/BJT subset and supported source model cards; layout is an independent concept canvas with arbitrary grid units.
-There is no extracted connectivity between layout and schematic, PDK DRC/LVS,
-GDS export, or general-purpose analog synthesis. The founder's 80-hour-to-2-hour
+SKY130 typical MOS/BJT subset and supported source model cards. Ordinary layout
+projects use a concept canvas. Logic-demo projects instead use physical 10 nm
+coordinates, the public SKY130 Magic technology, DRC, exact flat MOS
+connectivity/type/dimension comparison, extraction and GDS export. Post-layout
+simulation includes geometric capacitances and junction geometry; distributed
+wire resistance, comprehensive signoff/LVS, corner sweeps and general-purpose
+analog synthesis are not implemented. The founder's 80-hour-to-2-hour
 ambition remains a target, not a measured result.
 
 ## Try the assistant and reference loop
@@ -71,17 +97,17 @@ ambition remains a target, not a measured result.
 The assistant is Llama 3.3 70B on Workers AI. It receives structured circuit data,
 connectivity, recent actions, messages, goals, preferences and reference excerpts.
 It does not receive a live screenshot, execute arbitrary tools, browse autonomously,
-or retrain its weights. The Library searches public circuit records and repository files. The preparation
+or retrain its weights. In Logic demo it selects from five bounded engineering tools and records their actual results. The Library searches public circuit records and repository files. The preparation
 agent may rank actual electrical-source candidates for unsupported native files;
 it does not invent a netlist or silently replace a design. Hierarchical SPICE is
 supported. Native GDS/Xschem geometry conversion and full PDK installation remain
 unimplemented; associated electrical files can be selected inside preparation.
-PDK context alone does not change device models or enable foundry checks.
+PDK context alone does not change device models or enable foundry checks; the logic flow explicitly installs and invokes its documented SKY130 toolchain.
 
 ## Development
 
 Node 22+, npm, Python 3.9+, and ngspice are required for the checks below.
-Docker is needed for container deployment. Dependencies are pinned in the lockfile.
+Docker is needed for container deployment and the physical-flow checks. Magic is built at a pinned revision in the simulator image. Dependencies are pinned in the lockfile.
 
 ```sh
 npm ci
@@ -90,6 +116,14 @@ python3 tests/simulator_test.py
 python3 backend/simulator/install_models.py runtime/models
 GNIMULA_MODELS_DIR="$PWD/runtime/models" python3 tests/sky130_test.py
 npm run build
+```
+
+For the actual Magic/ngspice regression suite:
+
+```sh
+docker build -f backend/simulator/Dockerfile -t gnimula-simulator .
+docker run --rm --entrypoint python -e PYTHONPATH=/app -e GNIMULA_MODELS_DIR=/app/models \
+  -v "$PWD/tests:/tests:ro" gnimula-simulator -m unittest discover -s /tests -p '*_test.py'
 ```
 
 For local API/editor development:
