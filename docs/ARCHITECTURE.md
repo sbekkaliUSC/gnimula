@@ -144,12 +144,13 @@ The Online circuits tab is a federated source browser, not a local copy of every
 The primary SKY130 collection additionally has a metadata-only D1 FTS5 index (`public_circuit_search`). `scripts/index-public-catalog.py` projects public Parquet identity/topology/PDK/source columns, preserves split-relative row positions, records file SHA-256 provenance, validates the generated SQL locally and publishes a completion manifest last. The 2026-10-17 snapshot indexes 130,409 records; no user project or netlist content enters this index. Queries match metadata, not the full source text. Matching source rows are still fetched and checked before offering a prepared circuit, with stale circuit-ID mismatches omitted. Other datasets use their provider's search. This avoids dependence on a cold/unavailable upstream full-text index for the main collection.
 
 
-## Proposed general source preparation service
+## General source preparation target
 
-**Planned, not implemented.** This is the broader library milestone in
+The broader library requirements are in
 [the product plan](PLAN.md#library-requirement-find-a-design-and-use-it).
-The existing catalog currently prepares a narrow subset synchronously; the
-current chat assistant does not perform autonomous source conversion.
+The first durable implementation is described below. These requirements also
+cover future native-format adapters and engineering validation; they do not imply
+that every public format can already be converted.
 
 A durable preparation job should resolve a selected source revision and its
 artifact/dependency manifest, detect supported views, invoke format adapters,
@@ -184,3 +185,31 @@ As an industry reference, Cadence's [Spice In documentation](https://support1.ca
 describes CDL/SPICE/Spectre/HSpice import and device/reference-library mappings.
 That illustrates the infrastructure behind a mature import experience, rather
 than a guarantee that arbitrary public files are directly runnable.
+
+## Implemented source preparation (2026-10-17)
+
+`Preparation` is a Durable Object with alarms for retrieval, dependencies,
+adaptation and publication. D1 owns per-session job state; R2 stores intermediate
+source bundles. The browser polls progress but is not the job scheduler. Each job
+has an idempotency key and deterministic project ID. A transaction publishes the
+project, revision, source reference, event and completed job together.
+
+The declarative adapter preserves named model-backed terminals, node aliases,
+subcircuits, model/parameter cards and source waveforms. Relative includes resolve
+inside the pinned public repository, with cycle, depth and size bounds. Public
+prepared artifacts are keyed by source/dependency contents and adapter version.
+The cache is never used for uploaded private projects. Unsupported native formats
+can offer actual associated electrical files. Workers AI ranks those file paths;
+selection still requires confirmation because file similarity is not equivalence.
+GDS/Xschem geometry conversion itself is not implemented.
+
+`Sources` groups original files and setup with the project. Model attachment is
+validated and saved through the normal revision/event path. Missing models or
+connections block simulation rather than replacing the selected design. Source
+control commands are never executed. ngspice independently validates generated
+declarative syntax inside its bounded container process. Installed SKY130 model
+files are pinned and checksum verified, including MOS/BJT typical dependencies.
+
+Worker activation precedes container image rollout. A simulator protocol header
+keeps new source projects from using an old image silently during that interval;
+the UI receives a retryable service response until the image supports them.

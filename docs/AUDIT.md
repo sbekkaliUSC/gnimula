@@ -391,3 +391,98 @@ matched the prepared development source tree. Development history remains in a
 private repository, with the workspace origin updated accordingly. The tracked
 publication script supports subsequent source updates without exposing that
 history. No application deployment change was needed.
+
+
+## 2026-10-17 — Workbench UI corrections
+
+Removed the generic-model advisory from circuit Problems; model identity remains
+in component properties and simulation context. All inspector tabs now retain the
+same responsive width. Replaced the assistant's native mode select with a dark,
+keyboard-accessible menu (selection, arrows, Home/End, Escape, outside click and
+focus return). These corrections are separate from the source-preparation work.
+
+### 2026-10-17 — Preserve source devices and hierarchy
+
+- Added a declarative source adapter with named model-backed terminals, original
+  node names, subcircuits, model/parameter cards, and PULSE/PWL/SIN/EXP sources.
+  Missing models remain explicit simulation issues; editable devices are retained.
+- Added generic block symbols and editable instance parameters. Source commands
+  never enter executable decks. ngspice independently validates accepted syntax.
+- Validation: TypeScript and 43 Node tests; seven ngspice tests, including numerical
+  equality of flat and hierarchical transient circuits and a model-backed BJT sweep.
+  Library integration and production rollout follow separately.
+
+### 2026-10-17 — SKY130 device-package expansion
+
+- Extended the existing pinned, checksum-verified SKY130 installation with NPN
+  and PNP model cards, their typical-corner coefficients and required parasitic
+  definitions. Preserved the fourth substrate terminal rather than treating
+  model-backed BJT instances as three-terminal devices.
+- Two public transient records (dataset rows 43969 and 43971) now produce 615 and
+  611 ngspice samples, respectively. This verifies import and simulation execution,
+  not the publisher's ADC topology label or adequate testbench stimulus.
+- Ten Python integration checks pass, including existing SKY130 width/body effects.
+
+### 2026-10-17 — Resumable library preparation
+
+- Added per-guest Durable Object preparation jobs and D1 job records. Source
+  retrieval, dependencies, adaptation and publication are separate durable stages;
+  refresh/restart resumes saved progress. Creation and publication are idempotent.
+- Resolve bounded relative includes at the source's pinned repository revision;
+  preserve originals, dependency hashes and adapter version. Public conversions
+  are reusable in R2; guest projects and activity remain separate.
+- Library now exposes Prepare & open, progress, recovery and completed projects.
+  A source-format failure searches actual repository electrical files. Workers AI
+  may recommend a candidate; the user chooses ambiguous native-file counterparts.
+  No inferred conversion is silently substituted for the selected circuit.
+- Added Sources with original files, model cards, unresolved setup, and in-app
+  public model attachment. The source's sweep and waveforms are preserved; source
+  quality warnings are separate from parser or simulation success.
+- Validation before deployment: 47 Node tests, TypeScript, Vite build, ten Python
+  ngspice tests; all five provisioned BJT models return finite DC sweep data.
+  Browser validation and hosted job checks are recorded separately below.
+
+### 2026-10-17 — Hosted rollout and assistant integration
+
+- Hosted durable jobs passed reload recovery, idempotent creation, separate-guest
+  access checks, source preservation and cached conversion reuse. First hosted
+  simulation reached the previous image during Cloudflare's gradual rollout.
+  Added an explicit simulator protocol response so this interval is a retryable
+  service state, not a misleading source-format error.
+- Extended validated assistant edits/context to model-backed instance parameters
+  and explicit waveforms. A source waveform hides inactive generated-sine controls.
+- Browser checks confirm stable Chat/Assist/Properties/Memory widths at 1440 and
+  1100 pixels, a dark keyboard-operable mode menu, and 80 rapid view/panel switches
+  without page errors. Final live simulation and publication checks follow.
+
+### 2026-10-17 — Source identity edge cases and live verification
+
+- The full hosted check now passes, including the imported 36-component public
+  circuit's real transient simulation, browser reload during preparation, cached
+  reuse, idempotent creation and cross-session isolation. Disposable QA sessions
+  were removed after the checks.
+- Final adapter review preserves optional BJT substrate terminals and the OFF
+  flag, selects a unique hierarchy root independently of definition order, and
+  requests an identifying testbench for ambiguous cell libraries. Duplicating an
+  imported device retains its SPICE reference prefix and avoids case-insensitive
+  reference collisions. Bumped the adapter cache version for these changes.
+- TypeScript and 52 Node tests pass. Updated operational, architecture and model
+  attribution documentation to distinguish delivered preparation from remaining
+  native-format interoperability work. Final adapter deployment and evidence
+  publication follow this commit.
+
+### 2026-10-17 — Source preparation release verification
+
+Deployed implementation `2b3bc23` as Worker version
+`e05bc9fc-bde6-4409-a100-2936e9a377a3`. The complete hosted browser check passed
+again on this deployment, including actual ngspice measurements for the imported
+public source and 80 rapid view/panel switches without page errors. The simulator
+image is on protocol 2; no additional image rollout was required for this final
+adapter update. Test sessions were deleted successfully.
+
+Saved reproducible checks, source simulation measurements and disposable-session
+screenshots in [release evidence](verification/source-preparation-2026-10-17/RESULTS.md).
+The release supports broader declarative electrical sources and associated-file
+recovery, not universal native-layout conversion. Development commits are pushed
+to the private origin; the inspected tracked tree is published separately using
+the source publication script.

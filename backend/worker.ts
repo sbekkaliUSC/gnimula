@@ -1,11 +1,14 @@
+import {prepareModels} from './source-service';
+import {Preparation,jobView,type PreparationRow} from './preparation';
+export {Preparation};
 import {catalog,prepareItem,prepareLink} from './ready-service';
 import {discoverCatalog,prepareCatalogSelection} from './catalog-service';
 import {FeatureError,libraryRequest} from './library-service';
 import {workspaceRoute,workspaceState,context} from './workspace-service';
 import { Container, getContainer } from '@cloudflare/containers';
-import { applyOperations, candidates, checkCircuit, netMap, spice, starter, uid, validateCircuit, type Circuit, type Memory, type ActionEvent } from './shared/circuit';
+import { applyOperations, candidates, checkCircuit, netMap,spiceReference, spice, starter, uid, validateCircuit, type Circuit, type Memory, type ActionEvent } from './shared/circuit';
 
-interface Env { DB:D1Database; ARTIFACTS:R2Bucket; ASSETS:Fetcher; AI:Ai; SIMULATOR:DurableObjectNamespace<Simulator>; LOCAL_SIMULATOR?:string }
+interface Env { DB:D1Database; ARTIFACTS:R2Bucket; ASSETS:Fetcher; AI:Ai; PREPARATION:DurableObjectNamespace; SIMULATOR:DurableObjectNamespace<Simulator>; LOCAL_SIMULATOR?:string }
 interface Session {id:string; training_opt_in:number; expires_at:number}
 interface ProjectRow {id:string; session_id:string; name:string; revision:number; document:string; updated_at:number; created_at:number}
 export class Simulator extends Container { defaultPort=8080; sleepAfter='1m'; enableInternet=false; }
@@ -35,9 +38,33 @@ async function api(r:Request,e:Env,ctx:ExecutionContext):Promise<Response>{
   return json({id,trainingOptIn:true,expiresAt:expires},201,{'Set-Cookie':`gnimula_session=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=2592000${u.protocol==='https:'?'; Secure':''}`});
  }
  const s=await session(r,e);
+ if(path==='/api/preparations'&&r.method==='GET'){
+  const jobs=await e.DB.prepare('SELECT * FROM preparation_jobs WHERE session_id=? ORDER BY updated_at DESC LIMIT 12').bind(s.id).all<PreparationRow>();return json({jobs:jobs.results.map(jobView)});
+ }
+ if(path==='/api/preparations'&&r.method==='POST'){
+  await quota(e,'preparation:'+s.id,20,60000);const b=await body(r),id=String(b.requestId||'');
+  if(!/^prep_[a-f0-9]{32}$/.test(id)||(!b.sourceUrl&&!b.catalogSelection))throw new HttpError(400,'Select a source to prepare.');
+  const now=Date.now();await e.DB.prepare('INSERT OR IGNORE INTO preparation_jobs(id,session_id,input,created_at,updated_at) VALUES(?,?,?,?,?)').bind(id,s.id,JSON.stringify({sourceUrl:b.sourceUrl,catalogSelection:b.catalogSelection}),now,now).run();
+  const job=await e.DB.prepare('SELECT * FROM preparation_jobs WHERE id=? AND session_id=?').bind(id,s.id).first<PreparationRow>();if(!job)throw new HttpError(404,'Preparation not found.');
+  await e.PREPARATION.get(e.PREPARATION.idFromName(id)).fetch(new Request('https://preparation/start',{method:'POST',body:JSON.stringify({id})}));return json(jobView(job),202);
+ }
+ const preparationMatch=path.match(/^\/api\/preparations\/(prep_[a-f0-9]{32})(?:\/(retry))?$/);
+ if(preparationMatch){
+  const id=preparationMatch[1],job=await e.DB.prepare('SELECT * FROM preparation_jobs WHERE id=? AND session_id=?').bind(id,s.id).first<PreparationRow>();if(!job)throw new HttpError(404,'Preparation not found.');
+  if(r.method==='GET')return json(jobView(job));
+  if(r.method==='POST'&&preparationMatch[2]==='retry'){
+   await quota(e,'preparation:'+s.id,20,60000);if(!['failed','needs_input'].includes(job.stage))throw new HttpError(409,'This preparation is already running or complete.');
+   const b=await body(r);let input=job.input;
+   if(b.sourceUrl){const choices=JSON.parse(job.detail).choices||[],url=String(b.sourceUrl);if(!choices.some((c:any)=>c.url===url))throw new HttpError(400,'Select a source from this preparation, or start a new preparation with your public link.');
+    const original=await e.ARTIFACTS.get(`${s.id}/preparations/${id}/source.json`);if(original)await e.ARTIFACTS.put(`${s.id}/preparations/${id}/original.json`,original.body);input=JSON.stringify({sourceUrl:url});}
+   await e.DB.prepare("UPDATE preparation_jobs SET input=?,stage='queued',detail='{}',updated_at=? WHERE id=? AND session_id=?").bind(input,Date.now(),id,s.id).run();
+   await e.PREPARATION.get(e.PREPARATION.idFromName(id)).fetch(new Request('https://preparation/start',{method:'POST',body:JSON.stringify({id})}));return json({id,stage:'queued'},202);
+  }throw new HttpError(405,'Unsupported preparation operation.');
+ }
  if(path==='/api/library/ready'&&r.method==='GET')return json({items:catalog});
  if(path.startsWith('/api/library/')&&r.method==='GET'){
   await quota(e,'library:'+s.id,60,60000);
+  if(path==='/api/library/models')return json(await prepareModels(u.searchParams.get('url')||''));
   if(path==='/api/library/discover')return json(await discoverCatalog(u,fetch,e.DB));
   if(path==='/api/library/prepare'){const selection:Record<string,unknown>=Object.fromEntries(u.searchParams);if(u.searchParams.has('row'))selection.row=Number(u.searchParams.get('row'));return json(await prepareCatalogSelection(selection));}
   return libraryRequest(u);
@@ -96,11 +123,12 @@ async function api(r:Request,e:Env,ctx:ExecutionContext):Promise<Response>{
  if(route==='simulate'&&r.method==='POST'){
   const b=await body<{revision:number}>(r);if(b.revision!==doc.revision)throw new HttpError(409,'Save the latest circuit before simulating.');const errors=checkCircuit(doc).filter(x=>x.level==='error');if(errors.length)throw new HttpError(422,errors.map(x=>x.message).join(' '));
   const map=netMap(doc),inputComponent=doc.components.find(c=>c.kind==='voltage'&&`${c.id}.p`===doc.analysis.input);if(!inputComponent)throw new HttpError(422,'Choose the positive terminal of a voltage source as the input.');
-  const payload={netlist:spice(doc),analysis:doc.analysis,output:map.get(doc.analysis.output),input:map.get(doc.analysis.input),source:'V'+inputComponent.id.replace(/[^a-zA-Z0-9]/g,'')};
+  const payload={netlist:spice(doc),analysis:doc.analysis,output:map.get(doc.analysis.output),input:map.get(doc.analysis.input),source:spiceReference(inputComponent,doc)};
   await serverEvent(e,s,id,'simulation.requested',doc.revision,{analysis:doc.analysis});
   const request=new Request('http://simulator/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
   let response:Response;
   try{response=e.LOCAL_SIMULATOR?await fetch(e.LOCAL_SIMULATOR,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}):await getContainer(e.SIMULATOR,s.id).fetch(request);}catch{await serverEvent(e,s,id,'simulation.failed',doc.revision,{reason:'worker_unavailable'});throw new HttpError(503,'The simulator is starting or temporarily unavailable. Try again shortly.');}
+  if(doc.nodeNames&&response.headers.get('X-Gnimula-Simulator-Protocol')!=='2')throw new HttpError(503,'The simulator update is still rolling out. Your prepared circuit is saved; retry simulation shortly.');
   const result=await response.json() as Record<string,unknown>;
   if(!response.ok){await serverEvent(e,s,id,'simulation.failed',doc.revision,{error:result.error});throw new HttpError(422,String(result.error||'Simulation failed.'));}
   const runId=uid('run'),record={...result,id:runId,revision:doc.revision,createdAt:Date.now()};await e.DB.prepare('INSERT INTO runs(id,session_id,project_id,revision,mode,data,created_at) VALUES(?,?,?,?,?,?,?)').bind(runId,s.id,id,doc.revision,doc.analysis.mode,JSON.stringify(record),Date.now()).run();

@@ -1,0 +1,16 @@
+[
+  {
+    "row": 43969,
+    "samples": 615,
+    "min": -0.0788369515,
+    "max": -0.0181485304,
+    "model": "SKY130 MOS/BJT models \u00b7 typical corner (generic models only for any untagged MOS)"
+  },
+  {
+    "row": 43971,
+    "samples": 611,
+    "min": 1.67841176,
+    "max": 1.68637865,
+    "model": "SKY130 MOS/BJT models \u00b7 typical corner (generic models only for any untagged MOS)"
+  }
+]

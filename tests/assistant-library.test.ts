@@ -4,11 +4,19 @@ import {normalizeOperations,parseAgentResult} from '../backend/shared/agent';
 import {applyOperations,checkCircuit,netMap,spice,starter} from '../backend/shared/circuit';
 import {importDesign,rcExample,spiceNumber} from '../backend/shared/imports';
 import {repoName,filePath,publicFile} from '../backend/library-service';
+import {importSource} from '../backend/shared/source-import';
 
 test('explicit parameter edits preserve connectivity; deletions remove attached wires',()=>{
  const d=starter();const ops=normalizeOperations(d,[{type:'update_component',id:'rd',changes:{value:22000}}]);const changed=applyOperations(d,ops);
  assert.equal(changed.components.find(c=>c.id==='rd')!.value,22000);assert.deepEqual(changed.wires,d.wires);
  const removed=applyOperations(d,normalizeOperations(d,[{type:'delete_component',id:'cl'}]));assert.ok(!removed.wires.some(w=>w.from.component==='cl'||w.to.component==='cl'));
+});
+test('source-aware assistant edits validate model-backed parameters and waveform data',()=>{
+ const d=importSource('cell.cir','Cell\nVIN in 0 PULSE(0 1 0 1n 1n 1u 2u)\nX1 in out 0 gain factor=2\n.subckt gain a b g params: factor=2\nE1 b g a g {factor}\n.ends gain\n.tran 1n 10u\n.print tran v(out)').document;
+ const device=d.components.find(c=>c.ref==='X1')!,v=d.components.find(c=>c.ref==='VIN')!;
+ const ops=normalizeOperations(d,[{type:'update_component',id:device.id,changes:{device:{...device.device,parameters:'gain factor=3'}}},{type:'update_component',id:v.id,changes:{waveform:'PULSE(0 1 0 1n 1n 2u 4u)'}}]);
+ const next=applyOperations(d,ops);assert.deepEqual(next.wires,d.wires);assert.match(spice(next),/gain factor=3/);assert.match(spice(next),/2u 4u/);
+ assert.throws(()=>normalizeOperations(d,[{type:'update_component',id:v.id,changes:{waveform:'PULSE(0 1); shell anything'}}]));
 });
 test('abstention and Ask mode cannot produce edits; unchanged edits collapse to abstention',()=>{
  const d=starter();assert.deepEqual(parseAgentResult(d,{response:{message:'No edit is needed.',operations:[]}},'autocomplete').operations,[]);

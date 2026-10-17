@@ -148,4 +148,15 @@ of selected results reaching an editable workspace and a valid simulation,
 preparation latency, manual interventions and preservation of circuit structure.
 Search result counts and permissive imports alone are not success measures.
 ADC samples may be regression fixtures within this broader effort. See the
-architecture's proposed preparation service and its current implementation boundary.
+architecture's preparation requirements and its current implementation boundary.
+
+
+### Delivered preparation milestone — 2026-10-17
+
+The first durable implementation is available: public source/dependency retrieval,
+named model-backed devices, hierarchical declarative SPICE, source waveforms,
+model cards, resumable progress, cached conversions and Sources/setup UI. The
+preparation agent ranks real associated electrical files for unsupported native
+sources. Direct native GDS/Xschem geometry adapters and broader PDK installation
+remain later interoperability work; associated SPICE selection is not a claim of
+native geometry conversion or verified equivalence.

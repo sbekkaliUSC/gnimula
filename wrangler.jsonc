@@ -43,11 +43,19 @@
       {
         "name": "SIMULATOR",
         "class_name": "Simulator"
+      },
+      {
+        "name": "PREPARATION",
+        "class_name": "Preparation"
       }
     ]
   },
   "exports": {
     "Simulator": {
+      "type": "durable-object",
+      "storage": "sqlite"
+    },
+    "Preparation": {
       "type": "durable-object",
       "storage": "sqlite"
     }

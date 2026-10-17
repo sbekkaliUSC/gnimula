@@ -27,5 +27,5 @@ class Sky130Tests(unittest.TestCase):
   self.assertGreater(abs(simulate(self.payload(base))['operatingOutput']-simulate(self.payload())['operatingOutput']),.01)
  def test_model_paths_and_uninstalled_devices_are_rejected(self):
   for changed in [NET.replace('.end','.include /etc/passwd\n.end'),NET.replace('sky130_fd_pr__nfet_01v8','anything_else')]:
-   with self.assertRaises(ValueError):validate_netlist(changed)
+   with self.assertRaises(ValueError):simulate(self.payload(changed))
 if __name__=='__main__':unittest.main()

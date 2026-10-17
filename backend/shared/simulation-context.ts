@@ -15,7 +15,7 @@ export function parameterDisplay(value:number,unit:string){
   siValue:unit==='µm'?value*1e-6:value,siUnit:unit==='µm'?'m':displayUnit,
   ...(unit==='F'?{farads:value,picofarads:Number((value/1e-12).toPrecision(12))}: {})};
 }
-export function componentReferenceMap(doc:Circuit){return Object.fromEntries(doc.components.map(c=>[c.id,{ref:c.ref,kind:c.kind,displayValues:Object.fromEntries(fields(c).map(([key,unit])=>[key,parameterDisplay(c[key] as number,unit)]))}]));}
+export function componentReferenceMap(doc:Circuit){return Object.fromEntries(doc.components.map(c=>[c.id,{ref:c.ref,kind:c.kind,...(c.device?{sourceDevice:c.device}:{}),...(c.waveform?{activeWaveform:c.waveform}:{}),displayValues:Object.fromEntries(fields(c).map(([key,unit])=>[key,parameterDisplay(c[key] as number,unit)]))}]));}
 
 function fields(c:Component):[keyof Component,string][]{
  if(c.kind==='resistor')return [['value','ohm']];if(c.kind==='capacitor')return [['value','F']];

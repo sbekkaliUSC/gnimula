@@ -1,4 +1,4 @@
-"""Install the pinned, checksum-verified public SKY130 1.8 V typical subset.
+"""Install the pinned, checksum-verified public SKY130 MOS/BJT typical subset.
 
 Only build-time downloads. Runtime visitors cannot supply model paths or code.
 Upstream license headers and LICENSE are retained with the installed model.
@@ -23,7 +23,7 @@ def install(destination):
         contents[name] = data.decode()
     # all.spice supplies scale and common parameters; its unrelated device includes
     # are omitted. The two selected corner wrappers include pm3 files explicitly below.
-    parts = ['* Gnimula packaged SKY130 1.8 V typical subset. See manifest.json and LICENSE.']
+    parts = ['* Gnimula packaged SKY130 MOS/BJT typical subset. See manifest.json and LICENSE.']
     for name in lock['order']:
         content = contents[name]
         lines = [line for line in content.splitlines() if not line.lower().startswith('.include')]
@@ -31,7 +31,7 @@ def install(destination):
     (destination/'sky130-tt.spice').write_text('\n'.join(parts)+'\n')
     (destination/'LICENSE').write_text(contents['LICENSE'])
     (destination/'manifest.json').write_text(json.dumps(lock, indent=2)+'\n')
-    print('Installed checksum-verified SKY130 1.8 V typical NFET/PFET models.')
+    print('Installed checksum-verified SKY130 MOS/BJT typical models.')
 
 
 if __name__ == '__main__':

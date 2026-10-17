@@ -1,0 +1,11 @@
+{
+  "checks": [
+    "Chat/Assist/Properties/Memory keep the same panel widths at 1440 and 1100 px",
+    "Dark custom mode menu supports selection, keyboard and Escape without sending chat",
+    "Durable preparation survives browser reload and opens 14 original model-backed BJTs with PWL/PULSE testbench",
+    "Validated conversion cache is reused; retries are idempotent; guests cannot read or restart each other\u2019s jobs",
+    "Hosted ngspice returns measured transient samples for the imported source",
+    "80 rapid view/panel switches leave the workbench responsive with no page errors"
+  ],
+  "pageErrors": []
+}

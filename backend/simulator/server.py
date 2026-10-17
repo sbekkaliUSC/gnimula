@@ -12,8 +12,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 SLOTS = threading.BoundedSemaphore(2)
-SAFE_NODE = re.compile(r'^(?:0|in|out|n\d+)$')
-SAFE_SOURCE = re.compile(r'^V[a-zA-Z0-9]+$')
+SAFE_NODE = re.compile(r'^[a-zA-Z0-9_]{1,80}$')
+SAFE_SOURCE = re.compile(r'^[Vv][a-zA-Z0-9_]{0,79}$')
 
 
 def limits():
@@ -23,22 +23,33 @@ def limits():
 
 
 def validate_netlist(netlist):
-    if not isinstance(netlist, str) or len(netlist) > 50000:
+    if not isinstance(netlist, str) or len(netlist) > 150000:
         raise ValueError('Circuit is too large.')
     lines = netlist.splitlines()
     if not lines or lines[0] != 'Gnimula generated circuit':
         raise ValueError('Expected a generated circuit.')
-    allowed_models = {'.model GN NMOS (LEVEL=1 VTO=0.7 KP=120u LAMBDA=0.01)', '.model GP PMOS (LEVEL=1 VTO=-0.7 KP=50u LAMBDA=0.01)'}
+    depth = 0
     for line in lines[1:]:
-        if line.startswith('*') or not line.strip() or line == '.end' or line in allowed_models:
+        if line.startswith('*') or not line.strip() or line == '.end':
             continue
-        if not re.fullmatch(r'[RMCVIX][a-zA-Z0-9]+ [a-zA-Z0-9_ .+\-=()]+', line) or len(line) > 600:
-            raise ValueError('Unsupported netlist syntax.')
-        if line.startswith('X') and not re.fullmatch(r'X[a-zA-Z0-9]+ (?:0|in|out|n\d+) (?:0|in|out|n\d+) (?:0|in|out|n\d+) (?:0|in|out|n\d+) sky130_fd_pr__(?:nfet|pfet)_01v8 W=[0-9.eE+\-]+ L=[0-9.eE+\-]+', line):
-            raise ValueError('Unsupported foundry device.')
-        # Excludes directives, shell escapes, paths, quotes, semicolons and control blocks.
-    if len(lines) > 150:
-        raise ValueError('Too many circuit elements.')
+        if len(line) > 8000 or not re.fullmatch(r'[A-Za-z0-9_ .,+\-=(){}*/:^<>!?&|%\[\]]+', line):
+            raise ValueError('Unsupported declarative netlist syntax.')
+        if re.match(r'\.subckt\s+[A-Za-z0-9_]+\s', line, re.I):
+            if depth:
+                raise ValueError('Nested subcircuits are unsupported.')
+            depth += 1
+        elif re.fullmatch(r'\.ends(?:\s+[A-Za-z0-9_]+)?', line, re.I):
+            if not depth:
+                raise ValueError('Unmatched subcircuit end.')
+            depth -= 1
+        elif re.match(r'\.(model|param|func|global)\s', line, re.I):
+            pass
+        elif re.match(r'[RCLDQMXJZEGFHVBIS][a-zA-Z0-9_]*\s', line, re.I):
+            pass
+        else:
+            raise ValueError('Only devices, model cards and subcircuits are executable.')
+    if depth or len(lines) > 1300:
+        raise ValueError('Unclosed subcircuit or too many circuit elements.')
     return '\n'.join(line for line in lines if line != '.end')
 
 
@@ -65,7 +76,7 @@ def read_table(path):
 def simulate(payload):
     start = time.monotonic()
     base = validate_netlist(payload.get('netlist'))
-    sky = any(line.startswith('X') for line in base.splitlines())
+    sky = bool(re.search(r'\bsky130_fd_pr__(?:(?:nfet|pfet)_01v8|(?:npn|pnp)_(?:05v5|11v0)_W[0-9p]+L[0-9p]+)\b', base, re.I))
     if sky:
         model_path = Path(os.environ.get('GNIMULA_MODELS_DIR', '/app/models'))/'sky130-tt.spice'
         if not model_path.is_file():
@@ -119,7 +130,7 @@ quit
         log = (result.stdout + result.stderr)[-10000:]
         if not rows:
             raise ValueError('Simulation did not produce data. ' + log[-1800:])
-        return {'engine':'ngspice','mode':mode,'labels':labels,'rows':rows,'operatingOutput':operating[0][-1] if operating else None,'elapsedMs':round((time.monotonic()-start)*1000),'log':log,'model':'SKY130 1.8 V NFET/PFET · typical corner (generic models only for any untagged MOS)' if sky else 'Generic Level-1 MOS (educational; no foundry PDK)'}
+        return {'engine':'ngspice','mode':mode,'labels':labels,'rows':rows,'operatingOutput':operating[0][-1] if operating else None,'elapsedMs':round((time.monotonic()-start)*1000),'log':log,'model':'SKY130 MOS/BJT models · typical corner (generic models only for any untagged MOS)' if sky else 'Source model definitions' if re.search(r'\.(?:subckt|model)\s+(?!GN\b|GP\b)', base, re.I) else 'Generic Level-1 MOS (educational; no foundry PDK)'}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -127,8 +138,8 @@ class Handler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
-        body = json.dumps({'ok':True,'engine':'ngspice'}).encode()
-        self.send_response(200); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
+        body = json.dumps({'ok':True,'engine':'ngspice','protocol':2}).encode()
+        self.send_response(200); self.send_header('X-Gnimula-Simulator-Protocol','2'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
 
     def do_POST(self):
         acquired = SLOTS.acquire(blocking=False)
@@ -136,7 +147,7 @@ class Handler(BaseHTTPRequestHandler):
             self.send_response(429); self.end_headers(); return
         try:
             length = int(self.headers.get('Content-Length', '0'))
-            if length < 1 or length > 70000:
+            if length < 1 or length > 180000:
                 raise ValueError('Invalid request size.')
             payload = json.loads(self.rfile.read(length))
             result = simulate(payload)
@@ -150,7 +161,7 @@ class Handler(BaseHTTPRequestHandler):
         finally:
             SLOTS.release()
         body = json.dumps(result, allow_nan=False).encode()
-        self.send_response(status); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
+        self.send_response(status); self.send_header('X-Gnimula-Simulator-Protocol','2'); self.send_header('Content-Type','application/json'); self.send_header('Content-Length',str(len(body))); self.end_headers(); self.wfile.write(body)
 
 
 if __name__ == '__main__':

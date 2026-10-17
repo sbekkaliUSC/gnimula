@@ -149,3 +149,13 @@ coalesced after 250 ms idle; pointer release flushes the gesture. Navigation doe
 not create a design revision or trigger edit autocomplete. Delayed records for a
 project that has already been closed are discarded instead of attached to the new
 project. These records describe viewport changes, not full pointer trajectories.
+
+Source preparations record the requested public locator and completed stages in
+session-owned job records. Publication emits `project.prepared` with source,
+preparation notes, simulation issues and cache reuse; opening emits
+`library.preparation.opened`. The initial revision retains the full imported
+structure and original source reference. Model attachments use
+`source.models.attached`; source-definition changes are marked in the event and
+recovered from the saved revision, rather than truncating a large model deck into
+an event. Public conversion caches contain only fetched public source material,
+not guest goals, chat, private projects or behavioral records.

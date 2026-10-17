@@ -9,3 +9,14 @@
 .catalog-card .catalog-setup-warning{display:block;color:#e4c096;background:#3b3228;border-left:2px solid #a97e45;padding:8px 10px;font-size:10px;line-height:1.65}
 
 .simulation-setup{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}.simulation-setup button{font-size:11px}.simulation-setup small{font-size:10px}
+.preparation-list {margin:16px 0;border:1px solid #383838;border-radius:5px;background:#202020;padding:12px}
+.preparation-list>details>summary {cursor:pointer;color:#ddd;font-weight:600}
+.preparation-list summary span {color:#999;margin-left:8px}
+.preparation-job {padding:12px 0;border-top:1px solid #383838;margin-top:10px}
+.preparation-title {display:flex;align-items:center;gap:8px;color:#d7e5cd}
+.preparation-title small {margin-left:auto;color:#9a9a9a}
+.preparation-job p,.preparation-job li {font-size:12px;line-height:1.5;color:#c4c4c4;overflow-wrap:anywhere}
+.preparation-job details {margin:12px 0}.preparation-job summary {cursor:pointer;font-size:12px;color:#b8c7d7}
+.preparation-choice {display:flex;width:100%;justify-content:space-between;margin:8px 0;text-align:left;gap:12px}.preparation-choice span {overflow-wrap:anywhere}
+.spinning {animation:preparation-spin 1.4s linear infinite}@keyframes preparation-spin {to{transform:rotate(360deg)}}
+.source-workspace {overflow:auto;padding:24px;flex:1;min-height:0}.source-workspace h2 {font-size:22px}.source-readiness {border:1px solid #414141;background:#202020;padding:16px;margin-bottom:20px}.source-readiness h3 {margin:0}.source-workspace p,.source-workspace li {font-size:12px;line-height:1.6;overflow-wrap:anywhere}.source-file {border:1px solid #3c3c3c;padding:12px;margin:12px 0}.source-file summary {cursor:pointer;font-size:13px}.source-file summary small {color:#999;margin-left:8px}.source-file pre {overflow:auto;max-height:420px;background:#181818;padding:12px;font:11px/1.6 monospace}.model-link label {display:block;font-size:12px;margin-bottom:8px}.model-link>div {display:flex;align-items:center;gap:8px}.model-link input {min-width:0;flex:1}.source-setup-link {font-size:11px;margin-left:auto}

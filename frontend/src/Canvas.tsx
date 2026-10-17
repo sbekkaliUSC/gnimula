@@ -14,9 +14,10 @@ export function Symbol({c,selected,ghost,onDown,onPin}:{c:Component;selected?:bo
    {c.kind==='resistor'?<path d="M0 -40V-25L-9 -20L9 -12L-9 -4L9 4L-9 12L9 20L0 25V40"/>:null}
    {c.kind==='capacitor'?<path d="M0 -40V-7 M-17 -7H17 M-17 7H17 M0 7V40"/>:null}
    {c.kind==='voltage'?<><path d="M0 -40V-23 M0 23V40 M-6 -9H6 M0 -15V-3 M-6 10H6"/><circle r="23"/></>:null}
+   {c.kind==='device'&&c.device?<><rect x={-60} y={-Math.max(40,Math.ceil(c.device.terminals.length/2)*10+10)} width={120} height={Math.max(80,Math.ceil(c.device.terminals.length/2)*20+20)} rx={3}/>{c.device.terminals.map((name,i,ps)=>{const left=i<Math.ceil(ps.length/2),y=(i%Math.ceil(ps.length/2)-(Math.ceil(ps.length/2)-1)/2)*20;return <g key={name}><path d={`M${left?-70:60} ${y}h10`}/><text x={left?-55:55} y={y+4} textAnchor={left?'start':'end'} stroke="none" fill={color} fontSize={10}>{name}</text></g>})}</>:null}
    {c.kind==='ground'?<path d="M0 -20V0 M-18 0H18 M-11 7H11 M-4 14H4"/>:null}
   </g>
-  {c.kind!=='ground'&&<><text x={c.x+(c.bulk?50:25)} y={c.y-10} fill={color} className="symbol-name">{c.ref}</text><text x={c.x+(c.bulk?50:25)} y={c.y+8} fill="#8391a1" className="symbol-value">{c.kind.includes('mos')?`${c.w}/${c.l} µm`:c.kind==='voltage'?`${c.dc} V`:c.kind==='current'?formatValue(c.dc,'A'):formatValue(c.value,c.kind==='resistor'?'Ω':'F')}</text></>}
+  {c.kind!=='ground'&&<><text x={c.x+(c.kind==='device'?80:c.bulk?50:25)} y={c.y-10} fill={color} className="symbol-name">{c.ref}</text><text x={c.x+(c.kind==='device'?80:c.bulk?50:25)} y={c.y+8} fill="#8391a1" className="symbol-value">{c.kind==='device'?c.device?.model||c.device?.prefix:c.kind.includes('mos')?`${c.w}/${c.l} µm`:c.kind==='voltage'?`${c.dc} V`:c.kind==='current'?formatValue(c.dc,'A'):formatValue(c.value,c.kind==='resistor'?'Ω':'F')}</text></>}
   {pins(c).map(p=><g key={p.name} onPointerDown={e=>onPin?.({component:c.id,pin:p.name},e)} className="pin"><circle cx={p.x} cy={p.y} r="8" fill="transparent"/><circle cx={p.x} cy={p.y} r="3" fill={ghost?'#b3df89':'#8ab6ec'} stroke="#15191f"/></g>)}
  </g>
 }

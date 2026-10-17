@@ -38,6 +38,13 @@ export async function publicFile(provider:string,repo:string,path:string,ref:str
  if(content.includes('\u0000')||content.includes('\uFFFD'))throw new FeatureError(422,'Binary files cannot be used as text context. Attach their source link instead.');
  return {name:path.split('/').at(-1)!,content,url,provider,metadata:{repo,path,revision:resolvedRef,requestedRef:ref,kind:fileKind(path),license:'See upstream file and repository'}};
 }
+export async function publicRepositoryTree(provider:string,repo:string,ref:string):Promise<{revision:string;paths:string[]}>{
+ repoName(repo);if(!/^[\w.\/-]{1,100}$/.test(ref)||ref.includes('..'))throw new FeatureError(400,'Invalid revision.');
+ if(provider!=='github')return {revision:ref,paths:[] as string[]};
+ const data=await remote(`https://api.github.com/repos/${repo}/git/trees/${encodeURIComponent(ref)}?recursive=1`,false,7500000);
+ if(!Array.isArray(data.tree))throw new FeatureError(502,'The source file list is unavailable.');
+ return {revision:String(data.sha),paths:data.tree.filter((f:any)=>f.type==='blob'&&f.mode!=='120000'&&f.size<=150000).map((f:any)=>String(f.path)).slice(0,30000)};
+}
 export async function libraryRequest(u:URL):Promise<Response>{
  const route=u.pathname.split('/').at(-1),q=(u.searchParams.get('q')||'').slice(0,150),provider=u.searchParams.get('provider')||'catalog';
  if(route==='search'){

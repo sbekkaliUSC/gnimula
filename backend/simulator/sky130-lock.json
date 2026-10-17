@@ -10,7 +10,15 @@
     "cells/nfet_01v8/sky130_fd_pr__nfet_01v8__tt.pm3.spice",
     "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.corner.spice",
     "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__mismatch.corner.spice",
-    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.pm3.spice"
+    "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.pm3.spice",
+    "cells/npn_05v5/sky130_fd_pr__npn_05v5__t.corner.spice",
+    "cells/npn_05v5/sky130_fd_pr__npn_05v5_W1p00L1p00.model.spice",
+    "cells/npn_05v5/sky130_fd_pr__npn_05v5_W1p00L2p00.model.spice",
+    "cells/npn_11v0/sky130_fd_pr__npn_11v0_W1p00L1p00.model.spice",
+    "cells/pnp_05v5/sky130_fd_pr__pnp_05v5_W3p40L3p40.model.spice",
+    "cells/pnp_05v5/sky130_fd_pr__pnp_05v5_W0p68L0p68.model.spice",
+    "models/corners/tt/nonfet.spice",
+    "models/parasitics/sky130_fd_pr__model__parasitic__diode_ps2dn.model.spice"
   ],
   "files": {
     "models/all.spice": "5739aa5c696842bff5e4cd2774fb27a25dc64c92a7086632763e06647bccb0de",
@@ -21,6 +29,14 @@
     "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.corner.spice": "641d251a08bf9ddcfc67ba4bd4698ae1978d09447eb6ebf90055fdf3d21917ab",
     "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__mismatch.corner.spice": "f4d560668712678ea60641de923fce7691e64acda951949f840986837c31741a",
     "cells/pfet_01v8/sky130_fd_pr__pfet_01v8__tt.pm3.spice": "bf40d8c358fc11998f60f3734208dce44c206b0007a51c7bb5680f55d41a5c55",
-    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    "LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "cells/npn_05v5/sky130_fd_pr__npn_05v5__t.corner.spice": "69583cf1827826ed0f91f9e775e17dc3d23d70caa6e4a4c766bb433f47d6d8e0",
+    "cells/npn_05v5/sky130_fd_pr__npn_05v5_W1p00L1p00.model.spice": "576c67d4b0966926a36531033e01ec1049f61cfce754e0f08a7e4b4ca0e5cad2",
+    "cells/npn_05v5/sky130_fd_pr__npn_05v5_W1p00L2p00.model.spice": "3263f5585abd00131564ab65a33da1f20660619a81aceb4e3212b62d95adcc33",
+    "cells/npn_11v0/sky130_fd_pr__npn_11v0_W1p00L1p00.model.spice": "077a35d3b789b1376e87f29257456b90fa6d215bb933746b729491375c9d5b1b",
+    "cells/pnp_05v5/sky130_fd_pr__pnp_05v5_W3p40L3p40.model.spice": "05cfa2aca6665fdf7b90f4aa11604ccf70b966e96bc3035c5f7c8fb52223cb9d",
+    "cells/pnp_05v5/sky130_fd_pr__pnp_05v5_W0p68L0p68.model.spice": "881b884920cc176a8d62f731bcd4aafe982fb37559e1a1251a81ec5211cfeb46",
+    "models/corners/tt/nonfet.spice": "63fdbb8e8fee2a45bf91dd5a56748a00874b741e66beec8649b024859d4dd755",
+    "models/parasitics/sky130_fd_pr__model__parasitic__diode_ps2dn.model.spice": "53b6a8dd585b53914a1e38bfde715caaf75041ca2dcae8d5b298e1475af2bbc2"
   }
 }

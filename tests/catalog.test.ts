@@ -48,7 +48,7 @@ test('only circuits that strict preparation can preserve are offered as ready',a
  const prepared=await prepareCatalogSelection({...s,fingerprint:item.selection.fingerprint},fixture({row}).fetcher);
  assert.equal(prepared.document.components.filter(c=>c.kind==='voltage').length,1);assert.equal(prepared.reference.metadata.repo,'public/circuits');
  for(const netlist of [row.netlist+'\n.include /private/model',row.netlist+'\nB1 out 0 V=secret',row.netlist.replace('R1 in out 1k','D1 in out unknown')]){
-  const unsupported=await catalogRowItem({netlist},s);assert.equal(unsupported.availability,'reference');assert.ok(unsupported.reason);
+  const unsupported=await catalogRowItem({netlist},s);assert.equal(unsupported.availability,'prepare');assert.ok(unsupported.reason);
  }
 });
 test('GitHub lists nested circuit files, excludes symlinks and marks native artifacts honestly',async()=>{

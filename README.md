@@ -20,13 +20,19 @@ views. Nothing needs to be installed by visitors.
 - Open a wired circuit from **Library** with one click, or choose **Open & run** to
   launch its testbench. The previous project stays saved. Models, connections,
   source attribution and assistant context are prepared automatically.
-- Choose among nine runnable circuits: five independent examples, an official
+- Search public GitHub/Hugging Face sources, then **Prepare & open**. Preparation
+  runs durably through retrieval, dependency resolution, conversion and publication.
+  Reloads retain progress; completed projects remain in Library.
+- Preserve named subcircuit ports, hierarchy, model cards and pulse/PWL stimuli.
+  An editable circuit can open while missing simulation setup remains visible.
+  **Sources** shows originals, dependencies and setup; add public model files there.
+- Choose among nine starter circuits: five independent examples, an official
   ngspice band-pass example from GitHub, and three public SKY130 op-amp records
   from Hugging Face. Search and filter these prepared designs by source or model.
 - Apply AC/DC testbenches, a sine input or concept-layout contact/via blocks directly
   to the current design. These edits support undo. Paste a supported public circuit
   file link to let Gnimula fetch and prepare it without a download/upload workflow.
-- Use installed SKY130 1.8 V typical NFET/PFET models, including separate body
+- Use installed SKY130 typical NFET/PFET and selected NPN/PNP models, including separate body
   connections and current sources. Source records and preparation notes stay with
   the project; original dataset metrics are not substituted for fresh measurements.
 - Accept, dismiss, undo, and redo edits. Stale proposals cannot overwrite a newer
@@ -43,7 +49,7 @@ views. Nothing needs to be installed by visitors.
   holds the privacy explanation, preview terms and dependency notices.
 
 This is an early workbench, not a foundry signoff tool. Simulation supports generic Level-1 MOS and a pinned
-SKY130 1.8 V typical NFET/PFET subset; layout is an independent concept canvas with arbitrary grid units.
+SKY130 typical MOS/BJT subset and supported source model cards; layout is an independent concept canvas with arbitrary grid units.
 There is no extracted connectivity between layout and schematic, PDK DRC/LVS,
 GDS export, or general-purpose analog synthesis. The founder's 80-hour-to-2-hour
 ambition remains a target, not a measured result.
@@ -65,8 +71,11 @@ ambition remains a target, not a measured result.
 The assistant is Llama 3.3 70B on Workers AI. It receives structured circuit data,
 connectivity, recent actions, messages, goals, preferences and reference excerpts.
 It does not receive a live screenshot, execute arbitrary tools, browse autonomously,
-or retrain its weights. The Library lists prepared designs, not millions of unconverted upstream records.
-Arbitrary native GDS/Xschem archives, hierarchy and full PDKs are not converted yet.
+or retrain its weights. The Library searches public circuit records and repository files. The preparation
+agent may rank actual electrical-source candidates for unsupported native files;
+it does not invent a netlist or silently replace a design. Hierarchical SPICE is
+supported. Native GDS/Xschem geometry conversion and full PDK installation remain
+unimplemented; associated electrical files can be selected inside preparation.
 PDK context alone does not change device models or enable foundry checks.
 
 ## Development
@@ -132,7 +141,7 @@ This app is implemented independently from new source and public dependencies.
 
 ### Search public circuits
 
-Library → Online circuits searches Hugging Face dataset records and GitHub circuit files. The default SKY130 source has 130,409 records across its partitions, including parameter variants; the app shows source counts and checks each displayed record for supported models and a usable testbench. Open supported results directly, run them, or open an assistant explanation grounded in the imported source. Starter circuits and Circuit tools remain available separately. Unsupported formats show the adapter limitation instead of pretending to be runnable. Public supply is not an exclusive dataset, and the preview does not provide manufacturing tapeout/signoff.
+Library → Online circuits searches Hugging Face dataset records and GitHub circuit files. The default SKY130 source has 130,409 records across its partitions, including parameter variants; the app shows source counts and checks each displayed record for supported models and a usable testbench. Open supported results directly, run them, or open an assistant explanation grounded in the imported source. Starter circuits and Circuit tools remain available separately. Sources needing conversion enter preparation, with associated electrical-file choices where available and specific setup diagnostics. Public supply is not an exclusive dataset, and the preview does not provide manufacturing tapeout/signoff.
 
 ### Navigate the editors
 

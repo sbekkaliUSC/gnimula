@@ -40,7 +40,7 @@ Public integration references:
 
 ## Prepared public circuits and installed SKY130 models
 
-- SkyWater `google/skywater-pdk-libs-sky130_fd_pr`, Apache-2.0: the simulator build installs a pinned, checksum-verified 1.8 V typical NFET/PFET subset. `backend/simulator/sky130-lock.json` records exact paths, revision and hashes. The image retains the upstream headers, LICENSE and manifest. No model code is copied from another private application.
+- SkyWater `google/skywater-pdk-libs-sky130_fd_pr`, Apache-2.0: the simulator build installs a pinned, checksum-verified typical NFET/PFET and selected four-terminal NPN/PNP subset. `backend/simulator/sky130-lock.json` records exact paths, revision and hashes. The image retains the upstream headers, LICENSE and manifest. No model code is copied from another private application.
 - `pphilip/analog-circuits-sky130`, Apache-2.0 according to its public dataset card: three public source records and attribution are retained in `backend/data/sky130-circuits.json`. The prepared circuit uses the supplied testbench, with single-input AC adaptation documented separately.
 - `ngspice/ngspice` official `examples/measure/rc-meas-ac.sp`: pinned source, content hash and origin retained in `backend/data/ngspice-bandpass.json`; the pinned upstream COPYING is retained in `backend/data/licenses/ngspice-COPYING.txt`. Apache-2.0 text for the public dataset/model integration is also retained in that directory.
 

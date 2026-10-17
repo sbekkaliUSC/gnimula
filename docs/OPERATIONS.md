@@ -70,4 +70,12 @@ collaborative multi-user project editing, cross-device guest login, or live weig
 training. Browser tabs with the same guest cookie may view a project; optimistic
 revision checks reject conflicting saves instead of silently merging them.
 
-Public provider APIs are anonymous and may rate-limit this service. No GitHub or Hugging Face user accounts/tokens are requested. Remote source files are read as bounded text, never executed. The visitor Library serves a small prepared set. It does not claim the upstream corpus is fully converted or hosted. The simulator image builds its pinned SKY130 model subset automatically; keep the checksum lock and upstream license with deployments. For local SKY130 checks, run `python3 backend/simulator/install_models.py runtime/models` and set `GNIMULA_MODELS_DIR` to that absolute directory.
+Public provider APIs are anonymous and may rate-limit this service. No GitHub or Hugging Face user accounts/tokens are requested. Remote source files are read as bounded text, never executed. The Library searches public records and files, with a small starter set and durable per-source preparation. It does not claim the upstream corpus is fully converted or hosted. Apply all D1 migrations and provision the PREPARATION Durable Object binding with deploys. Public conversion cache keys require an adapter-version bump when conversion semantics or provisioned model capabilities change. The simulator image builds its pinned SKY130 model subset automatically; keep the checksum lock and upstream license with deployments. For local SKY130 checks, run `python3 backend/simulator/install_models.py runtime/models` and set `GNIMULA_MODELS_DIR` to that absolute directory.
+
+
+Preparation checks: `python3 scripts/preparation-qa.py` uses disposable hosted
+sessions, checks panel geometry/menu behavior, reload recovery, cache reuse,
+job isolation and a real imported-source simulation, then deletes its sessions.
+Use `GNIMULA_QA_LOCAL_ASSETS=1` for the frontend-only pre-deployment check.
+Container updates are asynchronous after Worker deployment; wait for the new
+protocol and a successful real simulation before marking a rollout verified.

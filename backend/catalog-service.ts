@@ -1,9 +1,11 @@
-import {FeatureError,repoName,filePath} from './library-service';
+import {FeatureError,repoName,filePath,publicFile} from './library-service';
 import {prepareLink} from './ready-service';
 import {prepareSky130Record,preparePublicSpice,type PreparedCircuit} from './shared/ready-library';
 import {fileKind} from './shared/library';
 import {type CatalogSelection,type CatalogItem,type CatalogResult} from './shared/catalog';
 import {sourceSetupWarnings} from './shared/source-checks';
+import {importSource} from './shared/source-import';
+import {checkCircuit} from './shared/circuit';
 
 type Fetcher=typeof fetch;
 const SKY='pphilip/analog-circuits-sky130',VIEWER='https://datasets-server.huggingface.co/';
@@ -84,7 +86,10 @@ export async function catalogRowItem(row:Record<string,unknown>,s:CatalogSelecti
  const token={...s,fingerprint:await fingerprint(row)},item:CatalogItem={id:`hf:${s.repo}:${s.config}:${s.split}:${s.row}`,name:rowName(row,s.row!),description:text(row.description||row.topology||row.source_dataset,250).replaceAll('_',' '),kind:'circuit',pdk:text(row.pdk,40)||'unspecified',provider:'huggingface',sourceUrl:rowUrl(s),selection:token,availability:'reference',metadata:{row:s.row,upstreamConverged:row.converged,topology:row.topology,baseCircuitId:row.base_circuit_id,license:s.repo===SKY?'Apache-2.0 + upstream licenses':'See dataset card'}};
  if(truncated){item.reason='The provider truncated this record. A complete source is required to prepare it.';return item;}
  try {const p=rowPrepared(row,token);item.availability='ready';item.reason='Circuit and testbench prepared; topology is not verified and electrical performance needs a fresh simulation.';item.pdk=p.item.pdk;item.description=p.item.description;item.metadata.componentCount=p.document.components.filter(c=>c.kind!=='ground').length;item.metadata.setupWarnings=p.reference.metadata.setupWarnings;}
- catch(error){item.reason=errorText(error).slice(0,320);}
+ catch(error){
+  try{const p=importSource('record.json',JSON.stringify(row)),issues=checkCircuit(p.document).filter(i=>i.level==='error');item.availability='prepare';item.reason=issues.length?'Editable circuit. Preparation will resolve available dependencies; remaining simulation setup stays visible.':'Prepare the source circuit and its testbench.';item.metadata.componentCount=p.document.components.length;}
+  catch{item.reason=errorText(error).slice(0,320);}
+ }
  return item;
 }
 async function sources(provider:'github'|'huggingface',q:string,offset:number,length:number,fetcher:Fetcher){
@@ -200,4 +205,15 @@ export async function prepareCatalogSelection(value:unknown,fetcher:Fetcher=fetc
  const current=await fingerprint(row.row);if(s.fingerprint&&s.fingerprint!==current)throw new FeatureError(409,'The source record changed after your search. Refresh the results before opening it.');
  try {const prepared=rowPrepared(row.row,{...s,fingerprint:current});prepared.reference.metadata.retrievedAt=new Date().toISOString();return prepared;}
  catch(error){throw new FeatureError(422,`This source needs another circuit adapter: ${errorText(error)} Your current design is unchanged.`);}
+}
+
+/** Fetch an immutable source snapshot without requiring a runnable testbench. */
+export async function resolveCatalogSource(value:unknown,fetcher:Fetcher=fetch){
+ const s=selection(value);
+ if(s.provider==='github')return publicFile(s.provider,s.repo,s.path!,s.ref!);
+ const data=await remote(VIEWER+'rows?'+new URLSearchParams({dataset:s.repo,config:s.config!,split:s.split!,offset:String(s.row),length:'1'}),fetcher);
+ const row=data.rows?.find((r:any)=>r.row_idx===s.row);
+ if(!row||row.truncated_cells?.length)throw new FeatureError(422,'A complete source record could not be retrieved. Retry the source.');
+ const current=await fingerprint(row.row);if(s.fingerprint&&s.fingerprint!==current)throw new FeatureError(409,'The source record changed. Refresh the search before preparing it.');
+ return {name:rowName(row.row,s.row!)+'.json',content:JSON.stringify(row.row,null,2),provider:'huggingface',url:rowUrl(s),metadata:{...s,rowFingerprint:current,pdk:row.row.pdk,license:s.repo===SKY?'Apache-2.0 + upstream source licenses':'See dataset card',retrievedAt:new Date().toISOString()}};
 }
