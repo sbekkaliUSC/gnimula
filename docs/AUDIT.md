@@ -383,3 +383,11 @@ none were flagged. Runtime directories, credentials and real user records are
 not tracked. Added a repeatable tracked-source publication script and documented
 the public URL. Source publication does not itself select a project license.
 Final public visibility and anonymous access are verified after publication.
+
+Publication verified: `https://github.com/sbekkaliUSC/gnimula` is PUBLIC, and
+unauthenticated GitHub API and raw README requests both returned HTTP 200. The
+public source started from an independent root commit; its 258 tracked files
+matched the prepared development source tree. Development history remains in a
+private repository, with the workspace origin updated accordingly. The tracked
+publication script supports subsequent source updates without exposing that
+history. No application deployment change was needed.
